@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AggregateRoots\SysAreaGroup.cs" />
+    <Compile Remove="AggregateRoots\SysAreaGroupContact.cs" />
+    <Compile Remove="AggregateRoots\SysAreaGroupUserContact.cs" />
+    <Compile Remove="AggregateRoots\SysDepartment.cs" />
+    <Compile Remove="AggregateRoots\SysJob.cs" />
+    <Compile Remove="AggregateRoots\SysJobRoleContact.cs" />
+    <Compile Remove="AggregateRoots\SysJobUserContact.cs" />
+    <Compile Remove="BaseAreaGroupManager.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupManager.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupMemberManager.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupPermissionManager.cs" />
+    <Compile Remove="Interfaces\ISysDepartmentManager.cs" />
+    <Compile Remove="Interfaces\ISysJobManager.cs" />
+    <Compile Remove="Repositorys\ISysAreaGroupRepository.cs" />
+    <Compile Remove="Repositorys\ISysDepartmentRepository.cs" />
+    <Compile Remove="Repositorys\ISysJobRepository.cs" />
+    <Compile Remove="Repositorys\ISysJobRoleContactRepository.cs" />
+    <Compile Remove="Repositorys\ISysJobUserContactRepository.cs" />
+    <Compile Remove="SysAreaGroupManager.cs" />
+    <Compile Remove="SysAreaGroupMemberManager.cs" />
+    <Compile Remove="SysAreaGroupPermissionManager.cs" />
+    <Compile Remove="SysDepartmentManager.cs" />
+    <Compile Remove="SysJobManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OneForAll.Core" Version="1.2.0.3" />
+    <PackageReference Include="OneForAll.EFCore" Version="1.2.2.4" />
+    <PackageReference Include="OneForAll.File" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Base.HttpSevice\Sys.HttpService.csproj" />
+    <ProjectReference Include="..\Base.Public\Sys.Public.csproj" />
+  </ItemGroup>
+
+</Project>
