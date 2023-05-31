@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
-using Sys.Domain.Repositorys;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
+using Base.Domain.Repositorys;
 using OneForAll.Core;
 using OneForAll.Core.DDD;
 using OneForAll.Core.Extension;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain
+namespace Base.Domain
 {
     /// <summary>
     /// 领域服务：地区

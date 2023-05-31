@@ -1,12 +1,12 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Models;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Models;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Interfaces
+namespace Base.Domain.Interfaces
 {
     /// <summary>
     /// 领域服务：角色权限

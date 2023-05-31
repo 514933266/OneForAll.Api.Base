@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sys.Application.Dtos
+namespace Base.Application.Dtos
 {
     /// <summary>
     /// 实体：菜单树

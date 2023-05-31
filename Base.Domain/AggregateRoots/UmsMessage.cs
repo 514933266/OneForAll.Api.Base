@@ -1,6 +1,6 @@
 ﻿using OneForAll.Core;
 using OneForAll.Core.DDD;
-using Sys.Domain.Enums;
+using Base.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 系统消息

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using OneForAll.Core.Extension;
-using Sys.Public.Models;
+using Base.Public.Models;
 
-namespace Sys.HttpService
+namespace Base.HttpService
 {
     /// <summary>
     /// Http基类

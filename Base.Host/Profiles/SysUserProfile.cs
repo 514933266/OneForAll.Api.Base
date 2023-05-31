@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Domain;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Aggregates;
-using Sys.Domain.Models;
+using Base.Application.Dtos;
+using Base.Domain;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Aggregates;
+using Base.Domain.Models;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Utility;
 using System;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sys.Host.Profiles
+namespace Base.Host.Profiles
 {
     public class SysUserProfile : Profile
     {
@@ -29,13 +29,13 @@ namespace Sys.Host.Profiles
             CreateMap<SysUser, SysTenantUserDto>();
 
             CreateMap<SysUserForm, SysUser>();
+            CreateMap<SysUserUpdateForm, SysUser>();
             CreateMap<SysPersonalForm, SysUser>();
 
             CreateMap<SysUser, SysRoleMemberDto>();
             CreateMap<SysUser, SysRoleSelectionMemberDto>();
             CreateMap<SysUser, SysAreaGroupMemberDto>();
             CreateMap<SysUser, SysAreaGroupSelectionMemberDto>();
-            CreateMap<SysUser, SysJobUserSelectionDto>();
         }
     }
 }

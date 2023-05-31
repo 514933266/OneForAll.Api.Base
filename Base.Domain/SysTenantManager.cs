@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
-using Sys.Domain.Repositorys;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
+using Base.Domain.Repositorys;
 using OneForAll.Core;
 using OneForAll.Core.DDD;
 using System;
@@ -15,7 +15,7 @@ using OneForAll.Core.Utility;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Security;
 
-namespace Sys.Domain
+namespace Base.Domain
 {
     /// <summary>
     /// 领域服务：机构（租户）

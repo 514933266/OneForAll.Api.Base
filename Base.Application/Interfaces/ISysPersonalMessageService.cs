@@ -1,7 +1,7 @@
-﻿using Sys.Application.Dtos;
-using Sys.Domain.Enums;
-using Sys.Domain.Models;
-using Sys.Domain.ValueObjects;
+﻿using Base.Application.Dtos;
+using Base.Domain.Enums;
+using Base.Domain.Models;
+using Base.Domain.ValueObjects;
 using OneForAll.Core;
 using OneForAll.Core.Upload;
 using System;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Application.Interfaces
+namespace Base.Application.Interfaces
 {
     /// <summary>
     /// 个人消息中心

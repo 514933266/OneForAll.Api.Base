@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Application.Interfaces;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Aggregates;
-using Sys.Domain.Enums;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
-using Sys.Domain.ValueObjects;
+using Base.Application.Dtos;
+using Base.Application.Interfaces;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Aggregates;
+using Base.Domain.Enums;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
+using Base.Domain.ValueObjects;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Upload;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Application
+namespace Base.Application
 {
     /// <summary>
     /// 个人中心

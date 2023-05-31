@@ -8,7 +8,6 @@
   <ItemGroup>
     <Compile Remove="BaseAreagroupRepository.cs" />
     <Compile Remove="SysAreagroupRepository.cs" />
-    <Compile Remove="SysDepartmentRepository.cs" />
     <Compile Remove="SysJobRepository.cs" />
     <Compile Remove="SysJobRoleContactRepository.cs" />
     <Compile Remove="SysJobUserContactRepository.cs" />
@@ -23,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Base.Domain\Sys.Domain.csproj" />
+    <ProjectReference Include="..\Base.Domain\Base.Domain.csproj" />
   </ItemGroup>
 
 </Project>

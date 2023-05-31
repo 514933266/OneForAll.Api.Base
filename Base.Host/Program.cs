@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Sys.Host
+namespace Base.Host
 {
 #pragma warning disable CS1591
     public class Program

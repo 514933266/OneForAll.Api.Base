@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using Sys.Application;
-using Sys.Application.Dtos;
-using Sys.Domain.AggregateRoots;
+using Base.Application;
+using Base.Application.Dtos;
+using Base.Domain.AggregateRoots;
 using System.Threading.Tasks;
-using Sys.Host.Models;
-using Sys.Domain.Models;
-using Sys.Application.Interfaces;
-using Sys.Public.Models;
-using static Sys.Host.Filters.AuthorizationFilter;
+using Base.Host.Models;
+using Base.Domain.Models;
+using Base.Application.Interfaces;
+using Base.Public.Models;
+using static Base.Host.Filters.AuthorizationFilter;
 
-namespace Sys.Host.Controllers.Core
+namespace Base.Host.Controllers.Core
 {
     /// <summary>
     /// 角色

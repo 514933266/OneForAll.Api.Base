@@ -10,9 +10,7 @@
   <ItemGroup>
     <Compile Remove="BaseAreaGroupService.cs" />
     <Compile Remove="Interfaces\ISysAreaGroupService.cs" />
-    <Compile Remove="Interfaces\ISysDepartmentService.cs" />
     <Compile Remove="SysAreaGroupService.cs" />
-    <Compile Remove="SysDepartmentService.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Base.Domain\Sys.Domain.csproj" />
+    <ProjectReference Include="..\Base.Domain\Base.Domain.csproj" />
   </ItemGroup>
 
 </Project>

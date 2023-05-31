@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 
-namespace Sys.Host.Filters
+namespace Base.Host.Filters
 {
     /// <summary>
     /// 过滤器：全局异常

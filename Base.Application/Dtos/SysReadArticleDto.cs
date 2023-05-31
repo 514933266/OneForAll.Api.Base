@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Application.Dtos
+namespace Base.Application.Dtos
 {
     /// <summary>
     /// 机构文章

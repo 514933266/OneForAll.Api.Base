@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Domain;
-using Sys.Domain.AggregateRoots;
+using Base.Application.Dtos;
+using Base.Domain;
+using Base.Domain.AggregateRoots;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Sys.Domain.Models;
+using Base.Domain.Models;
 
-namespace Sys.Host.Profiles
+namespace Base.Host.Profiles
 {
     public class UmsMessageProfile : Profile
     {

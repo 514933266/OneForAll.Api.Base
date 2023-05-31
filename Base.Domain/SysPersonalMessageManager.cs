@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Aggregates;
-using Sys.Domain.Enums;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
-using Sys.Domain.Repositorys;
-using Sys.Domain.ValueObjects;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Aggregates;
+using Base.Domain.Enums;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
+using Base.Domain.Repositorys;
+using Base.Domain.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using OneForAll.Core;
@@ -19,7 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.Domain
+namespace Base.Domain
 {
     /// <summary>
     /// 站内信
@@ -43,7 +43,15 @@ namespace Sys.Domain
         public async Task<IEnumerable<UmsMessage>> GetListAsync(int top)
         {
             if (top > 10) top = 10;
-            return await _messageRepository.GetListAsync(LoginUser.Id, top);
+            try
+            {
+                return await _messageRepository.GetListAsync(LoginUser.Id, top);
+            }
+            catch
+            {
+                // 没有安装Mongodb
+                return new List<UmsMessage>();
+            }
         }
 
         /// <summary>

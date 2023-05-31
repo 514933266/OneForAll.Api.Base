@@ -1,8 +1,8 @@
-﻿using Sys.Application.Dtos;
-using Sys.Application.Interfaces;
-using Sys.Domain.Models;
-using Sys.Host.Models;
-using Sys.Public.Models;
+﻿using Base.Application.Dtos;
+using Base.Application.Interfaces;
+using Base.Domain.Models;
+using Base.Host.Models;
+using Base.Public.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.Host.Controllers
+namespace Base.Host.Controllers
 {
     /// <summary>
     /// 文章类型

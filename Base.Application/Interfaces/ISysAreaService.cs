@@ -1,12 +1,12 @@
-﻿using Sys.Application.Dtos;
-using Sys.Domain.Models;
+﻿using Base.Application.Dtos;
+using Base.Domain.Models;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Application.Interfaces
+namespace Base.Application.Interfaces
 {
     /// <summary>
     /// 地区

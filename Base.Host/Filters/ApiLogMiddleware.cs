@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Sys.HttpService.Interfaces;
-using Sys.HttpService.Models;
-using Sys.Public.Models;
+using Base.HttpService.Interfaces;
+using Base.HttpService.Models;
+using Base.Public.Models;
 using OneForAll.Core.Extension;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Host.Filters
+namespace Base.Host.Filters
 {
     /// <summary>
     /// Api日志

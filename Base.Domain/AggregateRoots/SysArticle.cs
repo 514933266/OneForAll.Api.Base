@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 基础表：文章

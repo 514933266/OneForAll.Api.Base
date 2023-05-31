@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Sys.Public.Models;
+using Base.Public.Models;
 using Microsoft.AspNetCore.Http;
 using OneForAll.Core.DDD;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain
+namespace Base.Domain
 {
     /// <summary>
     /// 基类

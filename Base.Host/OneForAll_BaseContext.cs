@@ -1,10 +1,10 @@
 ﻿using System;
-using Sys.Domain;
-using Sys.Domain.AggregateRoots;
+using Base.Domain;
+using Base.Domain.AggregateRoots;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Sys.Host
+namespace Base.Host
 {
     public partial class OneForAll_BaseContext : DbContext
     {

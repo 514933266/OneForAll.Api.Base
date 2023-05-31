@@ -1,10 +1,10 @@
-﻿using Sys.Host.Models;
-using Sys.Public.Models;
+﻿using Base.Host.Models;
+using Base.Public.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
 
-namespace Sys.Host
+namespace Base.Host
 {
     public class TenantProvider : ITenantProvider
     {

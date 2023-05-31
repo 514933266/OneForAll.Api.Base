@@ -1,11 +1,11 @@
-﻿using Sys.Domain.ValueObjects;
+﻿using Base.Domain.ValueObjects;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Interfaces
+namespace Base.Domain.Interfaces
 {
     /// <summary>
     /// 领域服务：权限校验

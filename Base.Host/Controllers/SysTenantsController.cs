@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using OneForAll.Core;
-using Sys.Application.Dtos;
+using Base.Application.Dtos;
 using System.Threading.Tasks;
-using Sys.Host.Models;
-using Sys.Domain.Models;
-using Sys.Application.Interfaces;
-using Sys.Public.Models;
+using Base.Host.Models;
+using Base.Domain.Models;
+using Base.Application.Interfaces;
+using Base.Public.Models;
 
-namespace Sys.Host.Controllers
+namespace Base.Host.Controllers
 {
     /// <summary>
     /// 子租户（机构）

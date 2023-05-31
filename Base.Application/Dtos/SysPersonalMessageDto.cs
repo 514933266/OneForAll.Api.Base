@@ -1,11 +1,11 @@
-﻿using Sys.Domain.Enums;
+﻿using Base.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Application.Dtos
+namespace Base.Application.Dtos
 {
     /// <summary>
     /// 系统通知

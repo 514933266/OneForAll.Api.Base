@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Application.Dtos
+namespace Base.Application.Dtos
 {
     /// <summary>
     /// 实体：用户

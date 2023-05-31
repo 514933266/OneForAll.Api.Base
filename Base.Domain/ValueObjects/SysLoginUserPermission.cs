@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Domain.ValueObjects
+namespace Base.Domain.ValueObjects
 {
     /// <summary>
     /// 值对象：登录用户权限

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Public.Models
+namespace Base.Public.Models
 {
     /// <summary>
     /// 客户端身份类型

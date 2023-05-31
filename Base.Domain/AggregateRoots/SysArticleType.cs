@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 基础表：文章类型

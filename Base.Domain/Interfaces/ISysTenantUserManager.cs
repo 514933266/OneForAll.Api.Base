@@ -1,13 +1,13 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Models;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Models;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Sys.Domain.Aggregates;
+using Base.Domain.Aggregates;
 
-namespace Sys.Domain.Interfaces
+namespace Base.Domain.Interfaces
 {
     /// <summary>
     /// 领域服务：子机构用户

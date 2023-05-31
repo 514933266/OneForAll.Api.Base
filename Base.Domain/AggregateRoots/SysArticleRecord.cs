@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 子表：文章阅读记录

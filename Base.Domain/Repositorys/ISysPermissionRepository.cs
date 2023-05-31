@@ -1,12 +1,12 @@
-﻿using Sys.Domain.AggregateRoots;
+﻿using Base.Domain.AggregateRoots;
 using OneForAll.Core;
 using OneForAll.EFCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sys.Domain.Aggregates;
+using Base.Domain.Aggregates;
 
-namespace Sys.Domain.Repositorys
+namespace Base.Domain.Repositorys
 {
     /// <summary>
     /// 系统权限领域

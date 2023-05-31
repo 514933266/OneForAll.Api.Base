@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 租户权限

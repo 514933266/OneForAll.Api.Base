@@ -1,12 +1,12 @@
-﻿using Sys.Domain.ValueObjects;
+﻿using Base.Domain.ValueObjects;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sys.Domain.Enums;
+using Base.Domain.Enums;
 
-namespace Sys.Domain.ValueObjects
+namespace Base.Domain.ValueObjects
 {
     /// <summary>
     /// 值对象：登录用户菜单

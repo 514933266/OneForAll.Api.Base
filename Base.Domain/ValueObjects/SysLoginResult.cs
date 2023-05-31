@@ -1,10 +1,10 @@
-﻿using Sys.Domain.AggregateRoots;
+﻿using Base.Domain.AggregateRoots;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Domain.ValueObjects
+namespace Base.Domain.ValueObjects
 {
     public class SysLoginResult
     {

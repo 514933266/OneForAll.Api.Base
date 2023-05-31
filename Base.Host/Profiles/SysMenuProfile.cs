@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Aggregates;
-using Sys.Domain.ValueObjects;
+using Base.Application.Dtos;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Aggregates;
+using Base.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sys.Host.Profiles
+namespace Base.Host.Profiles
 {
     public class SysMenuProfile : Profile
     {

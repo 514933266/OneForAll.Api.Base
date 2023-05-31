@@ -1,10 +1,10 @@
-﻿using Sys.Domain.AggregateRoots;
+﻿using Base.Domain.AggregateRoots;
 using OneForAll.EFCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Domain.Repositorys
+namespace Base.Domain.Repositorys
 {
     /// <summary>
     /// 机构文章分类仓储

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.Host.Models
+namespace Base.Host.Models
 {
     public enum ApiVersion
     {

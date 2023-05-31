@@ -1,6 +1,6 @@
-﻿using Sys.Domain;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Repositorys;
+﻿using Base.Domain;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Repositorys;
 using Microsoft.EntityFrameworkCore;
 using OneForAll.Core;
 using OneForAll.EFCore;
@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sys.Domain.Aggregates;
+using Base.Domain.Aggregates;
 
-namespace Sys.Repository
+namespace Base.Repository
 {
     /// <summary>
     /// 系统菜单

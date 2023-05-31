@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Sys.Domain.AggregateRoots;
-using Sys.Application.Dtos;
-using Sys.Domain.Models;
-using Sys.Domain.Aggregates;
+using Base.Domain.AggregateRoots;
+using Base.Application.Dtos;
+using Base.Domain.Models;
+using Base.Domain.Aggregates;
 
-namespace Sys.Host.Profiles
+namespace Base.Host.Profiles
 {
     public class SysRoleProfile : Profile
     {
@@ -17,7 +17,6 @@ namespace Sys.Host.Profiles
             CreateMap<SysRole, SysRoleDto>();
             CreateMap<SysRole, SysRoleAggr>();
             CreateMap<SysRoleAggr, SysRoleDto>();
-            CreateMap<SysRole, SysJobRoleSelectionDto>();
 
             CreateMap<SysRoleForm, SysRole>();
         }

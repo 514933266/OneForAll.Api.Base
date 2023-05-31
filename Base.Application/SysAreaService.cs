@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Application.Interfaces;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
+using Base.Application.Dtos;
+using Base.Application.Interfaces;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using System;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Application
+namespace Base.Application
 {
     /// <summary>
     /// 地区

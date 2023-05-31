@@ -1,5 +1,5 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Repositorys;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Repositorys;
 using Microsoft.EntityFrameworkCore;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.Repository
+namespace Base.Repository
 {
     /// <summary>
     /// 角色

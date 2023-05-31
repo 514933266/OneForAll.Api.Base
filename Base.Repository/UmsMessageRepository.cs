@@ -1,6 +1,6 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Enums;
-using Sys.Domain.Repositorys;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Enums;
+using Base.Domain.Repositorys;
 using MongoDB.Driver;
 using OneForAll.Core;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Repository
+namespace Base.Repository
 {
     /// <summary>
     /// 系统消息

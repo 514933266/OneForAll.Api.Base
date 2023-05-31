@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sys.Application;
-using Sys.Application.Dtos;
-using Sys.Application.Interfaces;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Enums;
-using Sys.Domain.Models;
-using Sys.Domain.ValueObjects;
-using Sys.Host.Models;
-using Sys.Public.Models;
+using Base.Application;
+using Base.Application.Dtos;
+using Base.Application.Interfaces;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Enums;
+using Base.Domain.Models;
+using Base.Domain.ValueObjects;
+using Base.Host.Models;
+using Base.Public.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
 using OneForAll.Core.Upload;
 
-namespace Sys.Host.Controllers
+namespace Base.Host.Controllers
 {
     /// <summary>
     /// 个人中心

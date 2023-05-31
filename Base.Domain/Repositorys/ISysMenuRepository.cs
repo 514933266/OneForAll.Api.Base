@@ -1,11 +1,11 @@
-﻿using Sys.Domain.AggregateRoots;
+﻿using Base.Domain.AggregateRoots;
 using OneForAll.Core.ORM;
 using OneForAll.EFCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Repositorys
+namespace Base.Domain.Repositorys
 {
     /// <summary>
     /// 系统菜单

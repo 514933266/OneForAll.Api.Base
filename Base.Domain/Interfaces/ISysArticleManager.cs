@@ -1,6 +1,6 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Aggregates;
-using Sys.Domain.Models;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Aggregates;
+using Base.Domain.Models;
 using OneForAll.Core;
 using OneForAll.Core.Upload;
 using System;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Interfaces
+namespace Base.Domain.Interfaces
 {
     /// <summary>
     /// 机构文章领域

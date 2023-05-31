@@ -1,5 +1,5 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Enums;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Enums;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Interfaces
+namespace Base.Domain.Interfaces
 {
     /// <summary>
     /// 站内信

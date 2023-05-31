@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.Host.Filters
+namespace Base.Host.Filters
 {
     /// <summary>
     /// 过滤器：接口参数校验

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Sys.Domain.Aggregates;
-using Sys.Domain.Models;
-using Sys.Host.Models;
-using Sys.Public.Models;
+using Base.Domain.Aggregates;
+using Base.Domain.Models;
+using Base.Host.Models;
+using Base.Public.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OneForAll.Core.Extension;
 
-namespace Sys.Host.Controllers
+namespace Base.Host.Controllers
 {
     public class BaseController : Controller
     {

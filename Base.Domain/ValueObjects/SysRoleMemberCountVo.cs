@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.ValueObjects
+namespace Base.Domain.ValueObjects
 {
     /// <summary>
     /// 角色成员数量

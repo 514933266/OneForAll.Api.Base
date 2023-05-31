@@ -1,6 +1,6 @@
-﻿using Sys.Application.Dtos;
-using Sys.Domain.Aggregates;
-using Sys.Domain.Models;
+﻿using Base.Application.Dtos;
+using Base.Domain.Aggregates;
+using Base.Domain.Models;
 using OneForAll.Core;
 using OneForAll.Core.Upload;
 using System;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Application.Interfaces
+namespace Base.Application.Interfaces
 {
     /// <summary>
     /// 机构文章应用服务

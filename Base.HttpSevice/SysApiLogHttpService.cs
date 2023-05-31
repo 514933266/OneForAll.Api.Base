@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Sys.HttpService.Interfaces;
-using Sys.HttpService.Models;
-using Sys.Public.Models;
+using Base.HttpService.Interfaces;
+using Base.HttpService.Models;
+using Base.Public.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.HttpService
+namespace Base.HttpService
 {
     /// <summary>
     /// Api日志

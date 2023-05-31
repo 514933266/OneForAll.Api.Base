@@ -1,11 +1,11 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Aggregates;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Aggregates;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Interfaces
+namespace Base.Domain.Interfaces
 {
     /// <summary>
     /// 领域服务：机构菜单

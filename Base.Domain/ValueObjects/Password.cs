@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Sys.Domain.ValueObjects
+namespace Base.Domain.ValueObjects
 {
     public class Password
     {

@@ -1,12 +1,12 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Repositorys;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Repositorys;
 using Microsoft.EntityFrameworkCore;
 using OneForAll.EFCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Repository
+namespace Base.Repository
 {
     public class SysArticleTypeRepository : Repository<SysArticleType>, ISysArticleTypeRepository
     {

@@ -1,11 +1,11 @@
-﻿using Sys.Domain;
-using Sys.Domain.AggregateRoots;
+﻿using Base.Domain;
+using Base.Domain.AggregateRoots;
 using OneForAll.Core.DDD;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Application.Dtos
+namespace Base.Application.Dtos
 {
     /// <summary>
     /// 实体：角色

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Models
+namespace Base.Domain.Models
 {
     /// <summary>
     /// 菜单权限

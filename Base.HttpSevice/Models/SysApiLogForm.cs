@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.HttpService.Models
+namespace Base.HttpService.Models
 {
     /// <summary>
     /// API日志

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Sys.Domain.Models
+namespace Base.Domain.Models
 {
     /// <summary>
     /// 表单：地区组

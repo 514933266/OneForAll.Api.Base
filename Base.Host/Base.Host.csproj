@@ -39,10 +39,8 @@
     <Compile Remove="Controllers\DepartmentsController.cs" />
     <Compile Remove="Controllers\OrgUsersController.cs" />
     <Compile Remove="Controllers\SysAreaGroupsController.cs" />
-    <Compile Remove="Controllers\SysDepartmentsController.cs" />
     <Compile Remove="Controllers\UsergroupsController.cs" />
     <Compile Remove="Profiles\SysAreaGroupProfile.cs" />
-    <Compile Remove="Profiles\SysDepartmentProfile.cs" />
     <Compile Remove="Profiles\SysJobProfile.cs" />
     <Compile Remove="Profiles\SysJobRoleContactProfile.cs" />
     <Compile Remove="Profiles\SysJobUserContactProfile.cs" />
@@ -80,11 +78,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Base.Application\Sys.Application.csproj" />
-    <ProjectReference Include="..\Base.Domain\Sys.Domain.csproj" />
-    <ProjectReference Include="..\Base.HttpSevice\Sys.HttpService.csproj" />
-    <ProjectReference Include="..\Base.Public\Sys.Public.csproj" />
-    <ProjectReference Include="..\Base.Repository\Sys.Repository.csproj" />
+    <ProjectReference Include="..\Base.Application\Base.Application.csproj" />
+    <ProjectReference Include="..\Base.Domain\Base.Domain.csproj" />
+    <ProjectReference Include="..\Base.HttpSevice\Base.HttpService.csproj" />
+    <ProjectReference Include="..\Base.Public\Base.Public.csproj" />
+    <ProjectReference Include="..\Base.Repository\Base.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>

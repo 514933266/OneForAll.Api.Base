@@ -1,4 +1,4 @@
-﻿using Sys.Domain.AggregateRoots;
+﻿using Base.Domain.AggregateRoots;
 using OneForAll.Core;
 using OneForAll.Core.ORM;
 using OneForAll.EFCore;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Repositorys
+namespace Base.Domain.Repositorys
 {
     /// <summary>
     /// 地区

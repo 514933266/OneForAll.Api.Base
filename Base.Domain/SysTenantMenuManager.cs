@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Repositorys;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Interfaces;
+using Base.Domain.Repositorys;
 using OneForAll.Core.DDD;
 using OneForAll.Core.Extension;
 using System;
@@ -9,11 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sys.Domain.Aggregates;
+using Base.Domain.Aggregates;
 using Microsoft.AspNetCore.Http;
 using NPOI.SS.Formula.Functions;
 
-namespace Sys.Domain
+namespace Base.Domain
 {
     /// <summary>
     /// 领域服务：机构菜单

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
-using Sys.Domain.Repositorys;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
+using Base.Domain.Repositorys;
 using OneForAll.Core;
 using OneForAll.Core.DDD;
 using System;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 using NPOI.SS.Formula.Functions;
 using OneForAll.Core.Upload;
 
-namespace Sys.Domain
+namespace Base.Domain
 {
     /// <summary>
     /// 领域服务：角色权限

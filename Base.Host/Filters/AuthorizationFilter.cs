@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sys.Domain;
-using Sys.Host.Models;
-using Sys.Domain.Interfaces;
-using Sys.Domain.ValueObjects;
+using Base.Domain;
+using Base.Host.Models;
+using Base.Domain.Interfaces;
+using Base.Domain.ValueObjects;
 using OneForAll.Core.Security;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Utility;
-using Sys.Public.Models;
+using Base.Public.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Sys.Host.Filters
+namespace Base.Host.Filters
 {
     public class AuthorizationFilter : IAuthorizationFilter
     {

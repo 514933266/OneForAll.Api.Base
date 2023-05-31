@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.HttpService.Models
+namespace Base.HttpService.Models
 {
     /// <summary>
     /// 数据资源服务配置

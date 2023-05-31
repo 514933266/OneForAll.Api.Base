@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sys.Domain.Models;
+using Base.Domain.Models;
 using System.Linq;
-using Sys.Domain.Enums;
+using Base.Domain.Enums;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 基础表：菜单

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sys.Host
+namespace Base.Host
 {
     public interface ITenantProvider
     {

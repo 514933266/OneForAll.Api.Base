@@ -20,30 +20,30 @@ using OneForAll.EFCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
 using OneForAll.Core.Extension;
-using Sys.Host.Model;
-using Sys.Host.Models;
+using Base.Host.Model;
+using Base.Host.Models;
 using Autofac.Core;
 using Microsoft.AspNetCore.Mvc;
-using Sys.Host.Filters;
+using Base.Host.Filters;
 using OneForAll.Core.Upload;
 using OneForAll.File;
-using Sys.Host.Hubs;
-using Sys.HttpService.Models;
-using Sys.Public.Models;
+using Base.Host.Hubs;
+using Base.HttpService.Models;
+using Base.Public.Models;
 using MongoDB.Driver;
 
-namespace Sys.Host
+namespace Base.Host
 {
     public class Startup
     {
         const string CORS = "Cors";
         const string AUTH = "Auth";
-        const string BASE_HOST = "Sys.Host";
-        const string BASE_APPLICATION = "Sys.Application";
-        const string BASE_DOMAIN = "Sys.Domain";
-        const string BASE_REPOSITORY = "Sys.Repository";
+        const string BASE_HOST = "Base.Host";
+        const string BASE_APPLICATION = "Base.Application";
+        const string BASE_DOMAIN = "Base.Domain";
+        const string BASE_REPOSITORY = "Base.Repository";
         private readonly string HTTP_SERVICE_KEY = "HttpService";
-        private readonly string HTTP_SERVICE = "Sys.HttpService";
+        private readonly string HTTP_SERVICE = "Base.HttpService";
 
         public IConfiguration Configuration { get; }
 

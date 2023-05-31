@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Domain.Enums
+namespace Base.Domain.Enums
 {
     /// <summary>
     /// 消息状态

@@ -1,5 +1,5 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.Repositorys;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.Repositorys;
 using Microsoft.EntityFrameworkCore;
 using OneForAll.EFCore;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Repository
+namespace Base.Repository
 {
     public class SysArticleRecordRepository : Repository<SysArticleRecord>, ISysArticleRecordRepository
     {

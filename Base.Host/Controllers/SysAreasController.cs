@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Sys.Host.Models;
-using Sys.Application.Dtos;
-using Sys.Application.Interfaces;
-using Sys.Public.Models;
+using Base.Host.Models;
+using Base.Application.Dtos;
+using Base.Application.Interfaces;
+using Base.Public.Models;
 
-namespace Sys.Host.Controllers.Core
+namespace Base.Host.Controllers.Core
 {
     /// <summary>
     /// 地区

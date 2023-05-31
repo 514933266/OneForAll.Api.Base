@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sys.Host.Model
+namespace Base.Host.Model
 {
     /// <summary>
     /// 跨域配置模型

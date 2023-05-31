@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.Public.Models
+namespace Base.Public.Models
 {
     /// <summary>
     /// 登录用户

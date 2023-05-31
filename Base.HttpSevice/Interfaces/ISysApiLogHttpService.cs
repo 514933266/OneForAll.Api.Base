@@ -1,11 +1,11 @@
-﻿using Sys.HttpService.Models;
+﻿using Base.HttpService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sys.HttpService.Interfaces
+namespace Base.HttpService.Interfaces
 {
     /// <summary>
     /// Api日志

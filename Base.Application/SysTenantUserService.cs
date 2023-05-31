@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Application.Interfaces;
-using Sys.Domain;
-using Sys.Domain.AggregateRoots;
-using Sys.Domain.Interfaces;
-using Sys.Domain.Models;
-using Sys.Domain.Repositorys;
+using Base.Application.Dtos;
+using Base.Application.Interfaces;
+using Base.Domain;
+using Base.Domain.AggregateRoots;
+using Base.Domain.Interfaces;
+using Base.Domain.Models;
+using Base.Domain.Repositorys;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sys.Domain.Aggregates;
+using Base.Domain.Aggregates;
 
-namespace Sys.Application
+namespace Base.Application
 {
     /// <summary>
     /// 用户

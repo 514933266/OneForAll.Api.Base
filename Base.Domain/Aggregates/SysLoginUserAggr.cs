@@ -1,5 +1,5 @@
-﻿using Sys.Domain.AggregateRoots;
-using Sys.Domain.ValueObjects;
+﻿using Base.Domain.AggregateRoots;
+using Base.Domain.ValueObjects;
 using OneForAll.Core;
 using OneForAll.Core.DDD;
 using OneForAll.Core.Extension;
@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sys.Domain.Enums;
+using Base.Domain.Enums;
 
-namespace Sys.Domain.Aggregates
+namespace Base.Domain.Aggregates
 {
     /// <summary>
     /// 实体：登录用户

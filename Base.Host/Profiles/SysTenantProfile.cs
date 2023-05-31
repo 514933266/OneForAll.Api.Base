@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using Sys.Application.Dtos;
-using Sys.Domain.AggregateRoots;
+using Base.Application.Dtos;
+using Base.Domain.AggregateRoots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sys.Domain.Models;
+using Base.Domain.Models;
 
-namespace Sys.Host.Profiles
+namespace Base.Host.Profiles
 {
     public class SysTenantProfile : Profile
     {

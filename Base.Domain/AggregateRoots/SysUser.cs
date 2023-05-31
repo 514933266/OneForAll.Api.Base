@@ -2,14 +2,14 @@
 using OneForAll.Core.DDD;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Security;
-using Sys.Domain.ValueObjects;
+using Base.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace Sys.Domain.AggregateRoots
+namespace Base.Domain.AggregateRoots
 {
     /// <summary>
     /// 基础表：租户用户
