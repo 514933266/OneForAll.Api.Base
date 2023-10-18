@@ -23,15 +23,15 @@ namespace Base.Host.Controllers
     /// 个人中心
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize(Roles = UserRoleType.PUBLIC)]
+    [Authorize(Roles = UserRoleType.ADMIN)]
     public class SysPersonalController : BaseController
     {
-        private readonly ISysPersonalService _personalService;
+        private readonly ISysPersonalService _service;
 
         public SysPersonalController(
             ISysPersonalService personalService)
         {
-            _personalService = personalService;
+            _service = personalService;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Base.Host.Controllers
         [HttpGet]
         public async Task<SysPersonalDto> GetAsync()
         {
-            return await _personalService.GetAsync();
+            return await _service.GetAsync();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Base.Host.Controllers
         [Route("Menus")]
         public async Task<IEnumerable<SysMenuTreeDto>> GetListMenuTreeAsync()
         {
-            return await _personalService.GetListMenuTreeAsync();
+            return await _service.GetListMenuTreeAsync();
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Base.Host.Controllers
         [Route("SubMenus")]
         public async Task<IEnumerable<SysMenuDto>> GetListSubMenuAsync()
         {
-            return await _personalService.GetListMenuAsync();
+            return await _service.GetListMenuAsync();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Base.Host.Controllers
         public async Task<BaseMessage> UpdateAsync([FromBody] SysPersonalForm form)
         {
             var msg = new BaseMessage();
-            var errType = await _personalService.UpdateAsync(form);
+            var errType = await _service.UpdateAsync(form);
 
             switch (errType)
             {
@@ -93,7 +93,7 @@ namespace Base.Host.Controllers
             {
                 var file = form.Files[0];
 
-                var callbacks = await _personalService.UploadHeaderAsync(file.FileName, file.OpenReadStream());
+                var callbacks = await _service.UploadHeaderAsync(file.FileName, file.OpenReadStream());
 
                 msg.Data = new { Username = UserName, Result = callbacks };
 
@@ -116,7 +116,7 @@ namespace Base.Host.Controllers
         public async Task<BaseMessage> UpdatePasswordAsync([FromBody] Password password)
         {
             var msg = new BaseMessage();
-            msg.ErrType = await _personalService.ChangePasswordAsync(password);
+            msg.ErrType = await _service.ChangePasswordAsync(password);
 
             switch (msg.ErrType)
             {
@@ -129,12 +129,21 @@ namespace Base.Host.Controllers
         }
 
         /// <summary>
+        /// 登录记录
+        /// </summary>
+        [HttpPost]
+        public async Task<BaseErrType> LoginAsync([FromBody] SysPersonalLoginLogForm form)
+        {
+            return await _service.LoginAsync(form);
+        }
+
+        /// <summary>
         /// 退出登录
         /// </summary>
         [HttpDelete]
         public async Task<BaseErrType> LoginoutAsync()
         {
-            return await _personalService.LoginoutAsync();
+            return await _service.LoginoutAsync();
         }
     }
 }

@@ -19,12 +19,17 @@ namespace Base.Public.Models
         /// <summary>
         /// 所属机构id
         /// </summary>
-        public Guid TenantId { get; set; }
+        public Guid SysTenantId { get; set; }
 
         /// <summary>
         /// 名称
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 账号
+        /// </summary>
+        public string UserName { get; set; }
 
         /// <summary>
         /// 是否默认

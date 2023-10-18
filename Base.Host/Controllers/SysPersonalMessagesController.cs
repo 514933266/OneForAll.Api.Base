@@ -22,7 +22,7 @@ namespace Base.Host.Controllers
     /// 消息中心
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize(Roles = UserRoleType.PUBLIC)]
+    [Authorize(Roles = UserRoleType.ADMIN)]
     public class SysPersonalMessagesController : BaseController
     {
         private readonly ISysPersonalMessageService _service;

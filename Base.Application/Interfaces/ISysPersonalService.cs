@@ -58,6 +58,13 @@ namespace Base.Application.Interfaces
         Task<IEnumerable<SysMenuDto>> GetListMenuAsync();
 
         /// <summary>
+        /// 登录日志
+        /// </summary>
+        /// <param name="form">表单</param>
+        /// <returns>结果</returns>
+        Task<BaseErrType> LoginAsync(SysPersonalLoginLogForm form);
+
+        /// <summary>
         /// 退出登录
         /// </summary>
         /// <returns>结果</returns>

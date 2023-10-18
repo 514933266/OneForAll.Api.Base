@@ -90,8 +90,8 @@ namespace Base.Domain
         private async Task<SysLoginUserAggr> GetLoginAsync(Guid id)
         {
             var user = await _userRepository.GetAsync(id);
-            var pids = await _roleUserRepository.GetListPermissionIdByUserAsync(id);
-            var pids2 = await _userPermRepository.GetListPermissionIdByUserAsync(id);
+            var pids = await _roleUserRepository.GetListPermIdByUserAsync(id);
+            var pids2 = await _userPermRepository.GetListPermIdByUserAsync(id);
             pids = pids.Concat(pids2);
 
             var permissions = await _permRepository.GetListAsync(pids);
@@ -116,7 +116,7 @@ namespace Base.Domain
                 return BaseErrType.DataNotMatch;
 
             data = _mapper.Map<SysUserForm, SysUser>(form);
-            data.SysTenantId = LoginUser.TenantId;
+            data.SysTenantId = LoginUser.SysTenantId;
             return await ResultAsync(() => _userRepository.AddAsync(data));
         }
 

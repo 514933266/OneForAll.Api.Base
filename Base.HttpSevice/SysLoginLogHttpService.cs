@@ -1,25 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
-using Base.HttpService.Interfaces;
+﻿using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
-using Base.Public.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Base.HttpService
 {
     /// <summary>
-    /// Api日志
+    /// 登录日志
     /// </summary>
-    public class SysApiLogHttpService : BaseHttpService, ISysApiLogHttpService
+    public class SysLoginLogHttpService : BaseHttpService, ISysLoginLogHttpService
     {
         private readonly HttpServiceConfig _config;
 
-        public SysApiLogHttpService(
+        public SysLoginLogHttpService(
             HttpServiceConfig config,
             IHttpContextAccessor httpContext,
             IHttpClientFactory httpClientFactory) : base(httpContext, httpClientFactory)
@@ -32,14 +31,16 @@ namespace Base.HttpService
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns></returns>
-        public async Task AddAsync(SysApiLogForm form)
+        public async Task AddAsync(SysLoginLogForm form)
         {
+            form.UserName = LoginUser.UserName;
             form.CreatorId = LoginUser.Id;
             form.CreatorName = LoginUser.Name;
             form.TenantId = LoginUser.SysTenantId;
             form.CreateTime = DateTime.Now;
+            form.IPAddress = _httpContext.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            var client = GetHttpClient(_config.SysApiLog);
+            var client = GetHttpClient(_config.SysLoginLog);
             if (client != null && client.BaseAddress != null)
             {
                 await client.PostAsync(client.BaseAddress, form, new JsonMediaTypeFormatter());
@@ -47,4 +48,3 @@ namespace Base.HttpService
         }
     }
 }
-

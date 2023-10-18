@@ -41,11 +41,11 @@ namespace Base.Domain
         /// <returns>列表</returns>
         public async Task<IEnumerable<SysMenuPermissionAggr>> GetListAsync()
         {
-            var pids = await _tenantPermRepository.GetListPermissionIdAsync(LoginUser.TenantId);
-            var data = await _menuRepository.GetListByTenantAsync(LoginUser.TenantId);
+            var pids = await _tenantPermRepository.GetListPermissionIdAsync(LoginUser.SysTenantId);
+            var data = await _menuRepository.GetListByTenantAsync(LoginUser.SysTenantId);
             var result = _mapper.Map<IEnumerable<SysMenu>, IEnumerable<SysMenuPermissionAggr>>(data);
             // 查询带权限时，只显示启用的菜单
-            result = result.Where(w => w.IsEnabled).ToList();
+            result = result.DistinctBy(d => d.Id).Where(w => w.IsEnabled).ToList();
             var ids = data.Select(s => s.Id).ToList();
             var perms = await _permRepository.GetListByMenuAsync(ids);
             result.ForEach(e =>

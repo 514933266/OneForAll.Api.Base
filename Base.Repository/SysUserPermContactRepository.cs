@@ -26,7 +26,7 @@ namespace Base.Repository
         /// </summary>
         /// <param name="userId">用户id</param>
         /// <returns>列表</returns>
-        public async Task<IEnumerable<Guid>> GetListPermissionIdByUserAsync(Guid userId)
+        public async Task<IEnumerable<Guid>> GetListPermIdByUserAsync(Guid userId)
         {
             return await DbSet.Where(w => w.SysUserId == userId).Select(s => s.SysPermissionId).ToListAsync();
         }

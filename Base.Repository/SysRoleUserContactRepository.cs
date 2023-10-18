@@ -72,7 +72,7 @@ namespace Base.Repository
         /// </summary>
         /// <param name="userId">用户id</param>
         /// <returns>列表</returns>
-        public async Task<IEnumerable<Guid>> GetListPermissionIdByUserAsync(Guid userId)
+        public async Task<IEnumerable<Guid>> GetListPermIdByUserAsync(Guid userId)
         {
             var roleDbSet = Context.Set<SysRole>();
             var rolePermDbSet = Context.Set<SysRolePermContact>();

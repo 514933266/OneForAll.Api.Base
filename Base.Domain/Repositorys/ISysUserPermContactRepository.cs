@@ -18,6 +18,6 @@ namespace Base.Domain.Repositorys
         /// </summary>
         /// <param name="userId">用户id</param>
         /// <returns>列表</returns>
-        Task<IEnumerable<Guid>> GetListPermissionIdByUserAsync(Guid userId);
+        Task<IEnumerable<Guid>> GetListPermIdByUserAsync(Guid userId);
     }
 }

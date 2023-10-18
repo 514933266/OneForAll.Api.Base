@@ -71,7 +71,7 @@ namespace Base.Domain
                     if (loginUser.SysLoginUserMenus == null)
                     {
                         loginUser = await GetLoginUserAsync();
-                        await _cacheRepository.SetStringAsync(cacheKey, loginUser.ToJson());
+                        await _cacheRepository.SetStringAsync(cacheKey, loginUser.ToJson(), new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromMinutes(30) });
                     }
                 }
             }
@@ -86,8 +86,8 @@ namespace Base.Domain
         private async Task<SysLoginUserAggr> GetLoginUserAsync()
         {
             var user = await _userRepository.GetAsync(LoginUser.Id);
-            var pids = await _roleUserRepository.GetListPermissionIdByUserAsync(LoginUser.Id);
-            var pids2 = await _userPermRepository.GetListPermissionIdByUserAsync(LoginUser.Id);
+            var pids = await _roleUserRepository.GetListPermIdByUserAsync(LoginUser.Id);
+            var pids2 = await _userPermRepository.GetListPermIdByUserAsync(LoginUser.Id);
             pids = pids.Concat(pids2);
 
             var permissions = await _permRepository.GetListAsync(pids);

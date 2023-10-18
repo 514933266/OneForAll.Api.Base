@@ -17,7 +17,7 @@ namespace Base.Host.Controllers
     /// 用户
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize(Roles = UserRoleType.PUBLIC)]
+    [Authorize(Roles = UserRoleType.ADMIN)]
     public class SysTenantUsersController : BaseController
     {
         private readonly ISysTenantUserService _userService;

@@ -78,7 +78,7 @@ namespace Base.HttpService
             }
         }
 
-        protected Guid TenantId
+        protected Guid SysTenantId
         {
             get
             {
@@ -113,7 +113,8 @@ namespace Base.HttpService
                 {
                     Id = UserId,
                     Name = name?.Value,
-                    TenantId = TenantId
+                    UserName = UserName,
+                    SysTenantId = SysTenantId
                 };
             }
         }

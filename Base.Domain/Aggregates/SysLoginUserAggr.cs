@@ -29,6 +29,9 @@ namespace Base.Domain.Aggregates
         {
             permissions.ForEach(permission =>
             {
+                // 不加载未启用的菜单
+                if (!permission.SysMenu.IsEnabled) return;
+
                 var menu = SysLoginUserMenus.FirstOrDefault(w => w.Id == permission.SysMenuId);
                 if (menu == null)
                 {

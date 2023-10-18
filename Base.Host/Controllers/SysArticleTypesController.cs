@@ -17,7 +17,7 @@ namespace Base.Host.Controllers
     /// 文章类型
     /// </summary>
     [Route("api/[controller]")]
-    [Authorize(Roles = UserRoleType.PUBLIC)]
+    [Authorize(Roles = UserRoleType.ADMIN)]
     public class SysArticleTypesController: BaseController
     {
         private readonly ISysArticleTypeService _typeService;

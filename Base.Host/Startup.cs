@@ -60,11 +60,24 @@ namespace Base.Host
 
             var corsConfig = new CorsConfig();
             Configuration.GetSection(CORS).Bind(corsConfig);
-            services.AddCors(option => option.AddPolicy(CORS, policy => policy
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-            ));
+            if (corsConfig.Origins.Contains("*") || !corsConfig.Origins.Any())
+            {
+                // 不限制跨域
+                services.AddCors(option => option.AddPolicy(CORS, policy => policy
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                ));
+            }
+            else
+            {
+                services.AddCors(option => option.AddPolicy(CORS, policy => policy
+                    .WithOrigins(corsConfig.Origins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod().
+                    AllowCredentials()
+                ));
+            }
 
             #endregion
 
@@ -154,7 +167,7 @@ namespace Base.Host
             #endregion
 
             #region Redis
-            services.AddDistributedRedisCache(options =>
+            services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration["Redis:ConnectionString"];
                 options.InstanceName = Configuration["Redis:InstanceName"];
@@ -249,6 +262,7 @@ namespace Base.Host
             app.UseAuthorization();
 
             app.UseMiddleware<ApiLogMiddleware>();
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

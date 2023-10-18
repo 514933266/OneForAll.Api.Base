@@ -17,7 +17,7 @@ namespace Base.Public.Models
         /// <summary>
         /// 系统使用者
         /// </summary>
-        public const string ADMIN = "admin";
+        public const string ADMIN = "ruler,admin";
 
         /// <summary>
         /// 公共

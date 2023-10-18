@@ -60,7 +60,7 @@ namespace Base.Domain
             }
         }
 
-        protected Guid TenantId
+        protected Guid SysTenantId
         {
             get
             {
@@ -95,7 +95,7 @@ namespace Base.Domain
                 {
                     Id = UserId,
                     Name = name.Value,
-                    TenantId = TenantId
+                    SysTenantId = SysTenantId
                 };
             }
         }

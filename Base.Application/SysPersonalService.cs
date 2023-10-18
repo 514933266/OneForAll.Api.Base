@@ -7,6 +7,8 @@ using Base.Domain.Enums;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
 using Base.Domain.ValueObjects;
+using Base.HttpService.Interfaces;
+using Base.HttpService.Models;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Upload;
@@ -25,11 +27,13 @@ namespace Base.Application
     public class SysPersonalService : ISysPersonalService
     {
         private readonly IMapper _mapper;
+        private readonly ISysLoginLogHttpService _logHttpService;
         private readonly ISysPersonalManager _manager;
 
-        public SysPersonalService(IMapper mapper, ISysPersonalManager manager)
+        public SysPersonalService(IMapper mapper, ISysLoginLogHttpService logHttpService, ISysPersonalManager manager)
         {
             _mapper = mapper;
+            _logHttpService = logHttpService;
             _manager = manager;
         }
 
@@ -93,6 +97,18 @@ namespace Base.Application
         {
             var data = await _manager.GetListMenuAsync();
             return _mapper.Map<IEnumerable<SysMenu>, IEnumerable<SysMenuDto>>(data);
+        }
+
+        /// <summary>
+        /// 登录日志
+        /// </summary>
+        /// <param name="form">表单</param>
+        /// <returns>结果</returns>
+        public async Task<BaseErrType> LoginAsync(SysPersonalLoginLogForm form)
+        {
+            var data = _mapper.Map<SysLoginLogForm>(form);
+            await _logHttpService.AddAsync(data);
+            return BaseErrType.Success;
         }
 
         /// <summary>

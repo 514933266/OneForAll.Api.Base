@@ -23,6 +23,8 @@ using System.Threading.Tasks;
 using OneForAll.Core.Utility;
 using System.Security.Cryptography;
 using OneForAll.Core.Security;
+using Base.HttpService.Interfaces;
+using Base.HttpService.Models;
 
 namespace Base.Domain
 {
@@ -43,6 +45,7 @@ namespace Base.Domain
         private readonly ISysRoleUserContactRepository _roleUserRepository;
         private readonly ISysUserPermContactRepository _userPermRepository;
 
+        private readonly ISysGlobalExceptionLogHttpService _exceptionHttpService;
         public SysPersonalManager(
             IMapper mapper,
             IUploader uploader,
@@ -50,10 +53,10 @@ namespace Base.Domain
             ISysUserRepository userRepository,
             ISysMenuRepository menuRepository,
             IDistributedCache cacheRepository,
-            IUmsMessageRepository messageRepository,
             ISysPermissionRepository permRepository,
             ISysRoleUserContactRepository roleUserRepository,
-            ISysUserPermContactRepository userPermRepository) : base(mapper, httpContextAccessor)
+            ISysUserPermContactRepository userPermRepository,
+            ISysGlobalExceptionLogHttpService exceptionHttpService) : base(mapper, httpContextAccessor)
         {
             _uploader = uploader;
             _userRepository = userRepository;
@@ -62,6 +65,8 @@ namespace Base.Domain
             _permRepository = permRepository;
             _roleUserRepository = roleUserRepository;
             _userPermRepository = userPermRepository;
+
+            _exceptionHttpService = exceptionHttpService;
         }
 
         /// <summary>
@@ -71,8 +76,8 @@ namespace Base.Domain
         public async Task<SysLoginUserAggr> GetAsync()
         {
             var user = await _userRepository.GetAsync(LoginUser.Id);
-            var pids = await _roleUserRepository.GetListPermissionIdByUserAsync(LoginUser.Id);
-            var pids2 = await _userPermRepository.GetListPermissionIdByUserAsync(LoginUser.Id);
+            var pids = await _roleUserRepository.GetListPermIdByUserAsync(LoginUser.Id);
+            var pids2 = await _userPermRepository.GetListPermIdByUserAsync(LoginUser.Id);
             pids = pids.Concat(pids2);
 
             var permissions = await _permRepository.GetListAsync(pids);
@@ -84,10 +89,17 @@ namespace Base.Domain
                 await _cacheRepository.SetStringAsync(cacheKey, loginUser.ToJson());
                 return loginUser;
             }
-            catch
+            catch (Exception ex)
             {
                 // redis服务没有启动，发送日志
-
+                await _exceptionHttpService.AddAsync(new SysGlobalExceptionLogRequest()
+                {
+                    MoudleName = "系统管理-用户信息",
+                    MoudleCode = "OneForAll.Base",
+                    Name = "redis服务异常：",
+                    Content = ex.StackTrace,
+                    CreateTime = DateTime.Now,
+                });
             }
             return loginUser;
         }
@@ -123,8 +135,8 @@ namespace Base.Domain
                 return result;
 
             var newfileName = data.UserName + extension;
-            var uploadPath = AppDomain.CurrentDomain.BaseDirectory + UPLOAD_PATH.Fmt(LoginUser.TenantId);
-            var virtualPath = VIRTUAL_PATH.Fmt(LoginUser.TenantId);
+            var uploadPath = AppDomain.CurrentDomain.BaseDirectory + UPLOAD_PATH.Fmt(LoginUser.SysTenantId);
+            var virtualPath = VIRTUAL_PATH.Fmt(LoginUser.SysTenantId);
 
             if (new ValidateImageType().Validate(filename, file))
             {
@@ -182,7 +194,7 @@ namespace Base.Domain
                     menus.AddRange(userMenus);
                 });
             }
-            return menus.Distinct();
+            return menus.OrderBy(o => o.SortNumber).Distinct();
         }
 
         // 获取菜单以及上级

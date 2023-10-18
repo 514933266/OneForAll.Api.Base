@@ -21,6 +21,16 @@ namespace Base.Host.Models
         public string ClientSecret { get; set; }
 
         /// <summary>
+        /// 客户端名称
+        /// </summary>
+        public string ClientName { get; set; }
+
+        /// <summary>
+        /// 客户端代码
+        /// </summary>
+        public string ClientCode { get; set; }
+
+        /// <summary>
         /// 类型 Bearer
         /// </summary>
         public string Type { get; set; }

@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Base.Host.Models;
 
 namespace Base.Host.Filters
 {
@@ -22,11 +23,13 @@ namespace Base.Host.Filters
         private readonly ISysApiLogHttpService _httpService;
 
         private Stopwatch _stopWatch;
+        private readonly AuthConfig _authConfig;
         private readonly RequestDelegate _next;
 
-        public ApiLogMiddleware(RequestDelegate request, ISysApiLogHttpService httpService)
+        public ApiLogMiddleware(RequestDelegate request, AuthConfig authConfig, ISysApiLogHttpService httpService)
         {
             _next = request;
+            _authConfig = authConfig;
             _httpService = httpService;
             _stopWatch = new Stopwatch();
         }
@@ -41,11 +44,11 @@ namespace Base.Host.Filters
 
             var data = new SysApiLogForm()
             {
-                MoudleName = "蜂窝云办公-系统管理",
-                MoudleCode = "OneForAll.Base",
+                MoudleName = _authConfig.ClientName,
+                MoudleCode = _authConfig.ClientCode,
                 CreatorId = loginUser.Id,
                 CreatorName = loginUser.Name,
-                TenantId = loginUser.TenantId,
+                TenantId = loginUser.SysTenantId,
                 Host = request.Host.ToString(),
                 Url = request.Path.ToString(),
                 Method = request.Method.ToUpper(),
@@ -137,7 +140,7 @@ namespace Base.Host.Filters
             {
                 Id = userId == null ? Guid.Empty : new Guid(userId.Value),
                 Name = name == null ? "" : name?.Value,
-                TenantId = tenantId == null ? Guid.Empty : new Guid(tenantId?.Value),
+                SysTenantId = tenantId == null ? Guid.Empty : new Guid(tenantId?.Value),
                 IsDefault = role == null ? false : role.Value.Equals(UserRoleType.RULER)
             };
         }
