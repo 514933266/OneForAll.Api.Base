@@ -42,7 +42,7 @@ namespace Base.Domain
         /// <returns>分页列表</returns>
         public async Task<IEnumerable<UmsMessage>> GetListAsync(int top)
         {
-            if (top > 10) top = 10;
+            if (top > 100) top = 100;
             try
             {
                 return await _messageRepository.GetListAsync(LoginUser.Id, top);

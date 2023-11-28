@@ -19,21 +19,17 @@ namespace Base.Domain.AggregateRoots
         [Required]
         public Guid SysTenantId { get; set; }
 
-        public virtual SysTenant SysTenant { get; set; }
-
         /// <summary>
         /// 所属分类Id
         /// </summary>
         [Required]
         public Guid SysArticleTypeId { get; set; }
 
-        public virtual SysArticleType SysArticleType { get; set; }
-
         /// <summary>
         /// 标题
         /// </summary>
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Title { get; set; }
 
         /// <summary>
@@ -46,7 +42,7 @@ namespace Base.Domain.AggregateRoots
         /// 封面图路径
         /// </summary>
         [Required]
-        [MaxLength(300)]
+        [StringLength(300)]
         public string IconUrl { get; set; } = "";
 
         /// <summary>
@@ -59,7 +55,7 @@ namespace Base.Domain.AggregateRoots
         /// 来源
         /// </summary>
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Source { get; set; } = "";
 
         /// <summary>

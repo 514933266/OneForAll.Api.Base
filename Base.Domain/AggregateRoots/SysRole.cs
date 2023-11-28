@@ -23,14 +23,14 @@ namespace Base.Domain.AggregateRoots
         /// 名称
         /// </summary>
         [Required]
-        [MaxLength(20)]
+        [StringLength(20)]
         public string Name { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Remark { get; set; } = "";
     }
 }

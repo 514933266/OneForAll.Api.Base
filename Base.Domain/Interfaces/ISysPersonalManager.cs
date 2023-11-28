@@ -47,6 +47,13 @@ namespace Base.Domain.Interfaces
         Task<BaseErrType> ChangePasswordAsync(Password password);
 
         /// <summary>
+        /// 更换所属租户
+        /// </summary>
+        /// <param name="tenantId"></param>
+        /// <returns></returns>
+        Task<BaseErrType> UpdateTenantAsync(Guid tenantId);
+
+        /// <summary>
         /// 获取菜单
         /// </summary>
         /// <returns>结果</returns>

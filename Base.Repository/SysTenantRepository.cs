@@ -80,6 +80,16 @@ namespace Base.Repository
         }
 
         /// <summary>
+        /// 查询指定租户
+        /// </summary>
+        /// <param name="id">租户id</param>
+        /// <returns>实体</returns>
+        public async Task<SysTenant> GetIQFAsync(Guid id)
+        {
+            return await DbSet.IgnoreQueryFilters().FirstOrDefaultAsync(w => w.Id == id);
+        }
+
+        /// <summary>
         /// 查询机构（含权限、菜单关联）
         /// </summary>
         /// <param name="id">机构id</param>

@@ -26,35 +26,35 @@ namespace Base.Domain.AggregateRoots
         /// 账号
         /// </summary>
         [Required]
-        [MaxLength(20)]
+        [StringLength(20)]
         public string UserName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
         [Required]
-        [MaxLength(32)]
+        [StringLength(32)]
         public string Password { get; set; }
 
         /// <summary>
         /// 名称
         /// </summary>
         [Required]
-        [MaxLength(20)]
+        [StringLength(20)]
         public string Name { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
         [Required]
-        [MaxLength(300)]
+        [StringLength(300)]
         public string IconUrl { get; set; } = "";
 
         /// <summary>
         /// 个性签名
         /// </summary>
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Signature { get; set; } = "";
 
         /// <summary>

@@ -14,6 +14,13 @@ namespace Base.Domain.Repositorys
     /// </summary>
     public interface ISysUserRepository : IEFCoreRepository<SysUser>
     {
+        /// <summary>
+        /// 查询指定用户
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <returns>实体</returns>
+        Task<SysUser> GetIQFAsync(Guid id);
+
         #region 当前机构
 
         /// <summary>

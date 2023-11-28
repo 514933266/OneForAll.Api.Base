@@ -29,14 +29,14 @@ namespace Base.Domain.AggregateRoots
         /// 名称
         /// </summary>
         [Required]
-        [MaxLength(50)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         /// <summary>
         /// 简称
         /// </summary>
         [Required]
-        [MaxLength(4)]
+        [StringLength(4)]
         public string ShortName { get; set; } = "";
 
         /// <summary>

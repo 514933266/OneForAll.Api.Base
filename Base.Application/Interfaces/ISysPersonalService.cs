@@ -39,11 +39,18 @@ namespace Base.Application.Interfaces
         Task<IUploadResult> UploadHeaderAsync(string filename, Stream file);
 
         /// <summary>
-        /// 修改
+        /// 修改密码
         /// </summary>
         /// <param name="password">密码</param>
         /// <returns>结果</returns>
         Task<BaseErrType> ChangePasswordAsync(Password password);
+
+        /// <summary>
+        /// 修改绑定所属机构
+        /// </summary>
+        /// <param name="tenantId">要新绑定的租户id</param>
+        /// <returns>结果</returns>
+        Task<BaseErrType> UpdateTenantAsync(Guid tenantId);
 
         /// <summary>
         /// 获取菜单
@@ -69,5 +76,22 @@ namespace Base.Application.Interfaces
         /// </summary>
         /// <returns>结果</returns>
         Task<BaseErrType> LoginoutAsync();
+
+        #region 微信相关
+
+        /// <summary>
+        /// 获取微信access_token
+        /// </summary>
+        /// <param name="userId">登录用户id</param>
+        /// <returns></returns>
+        Task<SysWechatUserAccessTokenDto> GetWxAccessTokenAsync(Guid userId);
+
+        /// <summary>
+        /// 获取关注微信公众号信息
+        /// </summary>
+        /// <returns></returns>
+        Task<SysWxgzhSubscribeUserDto> GetWxgzhSubscribeUserAsync(Guid userId);
+
+        #endregion
     }
 }

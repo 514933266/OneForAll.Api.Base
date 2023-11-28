@@ -17,8 +17,6 @@ namespace Base.Domain.AggregateRoots
         [Required]
         public Guid SysTenantId { get; set; }
 
-        public virtual SysTenant SysTenant { get; set; }
-
         /// <summary>
         /// 父级Id
         /// </summary>
@@ -29,16 +27,14 @@ namespace Base.Domain.AggregateRoots
         /// 名称
         /// </summary>
         [Required]
-        [MaxLength(10)]
+        [StringLength(10)]
         public string Name { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Remark { get; set; } = "";
-
-        public ICollection<SysArticle> SysArticles { get; set; } = new HashSet<SysArticle>();
     }
 }

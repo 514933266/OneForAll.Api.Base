@@ -15,11 +15,9 @@ namespace Base.Host.Profiles
         {
             CreateMap<SysArticle, SysArticleDto>()
                 .ForMember(e => e.TypeId, a => a.MapFrom(e => e.SysArticleTypeId))
-                .ForMember(e => e.TypeName, a => a.MapFrom(e => e.SysArticleType.Name))
                 .ForMember(e => e.CreateTime, a => a.MapFrom(e => GetCreateTimeStr(e.CreateTime)));
 
             CreateMap<SysArticle, SysReadArticleDto>()
-                .ForMember(e => e.TypeName, a => a.MapFrom(e => e.SysArticleType.Name))
                 .ForMember(e => e.CreateTime, a => a.MapFrom(e => GetCreateTimeStr(e.CreateTime)));
 
             CreateMap<SysArticleForm, SysArticle>()

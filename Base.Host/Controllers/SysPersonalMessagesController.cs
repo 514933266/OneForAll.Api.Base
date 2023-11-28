@@ -76,8 +76,8 @@ namespace Base.Host.Controllers
         /// <param name="ids">消息id，为空时将全部已读</param>
         /// <param name="isQuiet">是否不带返回提示</param>
         /// <returns>结果</returns>
-        [HttpPatch]
-        [Route("IsRead")]
+        [HttpPatch, HttpPost]
+        [Route("Batch/IsRead")]
         public async Task<object> ReadAsync([FromBody] IEnumerable<Guid> ids, [FromQuery] bool isQuiet = false)
         {
             var msg = new BaseMessage();
@@ -101,7 +101,8 @@ namespace Base.Host.Controllers
         /// </summary>
         /// <param name="ids">消息id，为空时将全部删除</param>
         /// <returns>结果</returns>
-        [HttpDelete]
+        [HttpPatch, HttpPost]
+        [Route("Batch/IsDeleted")]
         public async Task<BaseMessage> DeleteAsync([FromBody] IEnumerable<Guid> ids)
         {
             var msg = new BaseMessage();

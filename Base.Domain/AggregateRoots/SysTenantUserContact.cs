@@ -1,31 +1,38 @@
-﻿using OneForAll.Core.DDD;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Base.Domain.AggregateRoots
 {
     /// <summary>
-    /// 子表：文章阅读记录
+    /// 多租户用户关联表
     /// </summary>
-    public class SysArticleRecord : AggregateRoot<Guid>
+    public class SysTenantUserContact
     {
         /// <summary>
-        /// 文章Id
+        /// id
         /// </summary>
         [Required]
-        public Guid SysArticleId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// 浏览用户Id
+        /// 租户id
+        /// </summary>
+        [Required]
+        public Guid SysTenantId { get; set; }
+
+        /// <summary>
+        /// 用户id
         /// </summary>
         [Required]
         public Guid SysUserId { get; set; }
 
         /// <summary>
-        /// 阅读时间
+        /// 加入时间
         /// </summary>
         [Required]
         [Column(TypeName = "datetime")]

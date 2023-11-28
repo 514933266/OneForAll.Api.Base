@@ -26,6 +26,16 @@ namespace Base.Repository
         }
 
         /// <summary>
+        /// 查询指定用户
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <returns>实体</returns>
+        public async Task<SysUser> GetIQFAsync(Guid id)
+        {
+            return await DbSet.IgnoreQueryFilters().FirstOrDefaultAsync(w => w.Id == id);
+        }
+
+        /// <summary>
         /// 查询机构用户
         /// </summary>
         /// <param name="id">用户id</param>

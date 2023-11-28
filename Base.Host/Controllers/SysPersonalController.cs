@@ -28,8 +28,7 @@ namespace Base.Host.Controllers
     {
         private readonly ISysPersonalService _service;
 
-        public SysPersonalController(
-            ISysPersonalService personalService)
+        public SysPersonalController(ISysPersonalService personalService)
         {
             _service = personalService;
         }
@@ -129,6 +128,26 @@ namespace Base.Host.Controllers
         }
 
         /// <summary>
+        /// 修改绑定所属机构
+        /// </summary>
+        /// <param name="tenantId">要新绑定的租户id</param>
+        /// <returns>结果</returns>
+        [HttpPatch]
+        [Route("TenantId")]
+        public async Task<BaseMessage> UpdateTenantAsync([FromQuery] Guid tenantId)
+        {
+            var msg = new BaseMessage();
+            msg.ErrType = await _service.UpdateTenantAsync(tenantId);
+
+            switch (msg.ErrType)
+            {
+                case BaseErrType.Success: return msg.Success("修改成功");
+                case BaseErrType.DataNotFound: return msg.Fail("用户不存在");
+                default: return msg.Fail("修改失败");
+            }
+        }
+
+        /// <summary>
         /// 登录记录
         /// </summary>
         [HttpPost]
@@ -145,5 +164,35 @@ namespace Base.Host.Controllers
         {
             return await _service.LoginoutAsync();
         }
+
+        #region 微信相关
+
+        /// <summary>
+        /// 获取微信access_token
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Wechat/AccessToken")]
+        public async Task<BaseMessage> GetWxAccessTokenAsync()
+        {
+            var msg = new BaseMessage();
+            msg.Data = await _service.GetWxAccessTokenAsync(LoginUser.Id);
+            return msg.Success();
+        }
+
+        /// <summary>
+        /// 获取微信access_token
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Wechat/SubscribeInfo")]
+        public async Task<BaseMessage> GetWxgzhSubscribeUserAsync()
+        {
+            var msg = new BaseMessage();
+            msg.Data = await _service.GetWxgzhSubscribeUserAsync(LoginUser.Id);
+            return msg.Success();
+        }
+
+        #endregion
     }
 }

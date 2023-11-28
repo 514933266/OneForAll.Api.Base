@@ -27,7 +27,7 @@ namespace Base.Domain.AggregateRoots
         /// 名称
         /// </summary>
         [Required]
-        [MaxLength(20)]
+        [StringLength(20)]
         public string Name { get; set; }
 
         /// <summary>
@@ -53,14 +53,14 @@ namespace Base.Domain.AggregateRoots
         /// 页面路由
         /// </summary>
         [Required]
-        [MaxLength(300)]
+        [StringLength(300)]
         public string Url { get; set; } = "";
 
         /// <summary>
         /// Api地址
         /// </summary>
         [Required]
-        [MaxLength(300)]
+        [StringLength(300)]
         public string ApiUrl { get; set; } = "";
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Base.Domain.AggregateRoots
         /// 备注
         /// </summary>
         [Required]
-        [MaxLength(300)]
+        [StringLength(300)]
         public string Remark { get; set; } = "";
 
 

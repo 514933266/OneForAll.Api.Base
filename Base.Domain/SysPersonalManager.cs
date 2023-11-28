@@ -25,6 +25,7 @@ using System.Security.Cryptography;
 using OneForAll.Core.Security;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
+using OneForAll.EFCore;
 
 namespace Base.Domain
 {
@@ -41,9 +42,11 @@ namespace Base.Domain
         private readonly ISysUserRepository _userRepository;
         private readonly ISysMenuRepository _menuRepository;
         private readonly IDistributedCache _cacheRepository;
+        private readonly ISysTenantRepository _tenantRepository;
         private readonly ISysPermissionRepository _permRepository;
         private readonly ISysRoleUserContactRepository _roleUserRepository;
         private readonly ISysUserPermContactRepository _userPermRepository;
+        private readonly ISysTenantUserContactRepository _tenantUserRepository;
 
         private readonly ISysGlobalExceptionLogHttpService _exceptionHttpService;
         public SysPersonalManager(
@@ -53,18 +56,22 @@ namespace Base.Domain
             ISysUserRepository userRepository,
             ISysMenuRepository menuRepository,
             IDistributedCache cacheRepository,
+            ISysTenantRepository tenantRepository,
             ISysPermissionRepository permRepository,
             ISysRoleUserContactRepository roleUserRepository,
             ISysUserPermContactRepository userPermRepository,
+            ISysTenantUserContactRepository tenantUserRepository,
             ISysGlobalExceptionLogHttpService exceptionHttpService) : base(mapper, httpContextAccessor)
         {
             _uploader = uploader;
             _userRepository = userRepository;
             _menuRepository = menuRepository;
             _cacheRepository = cacheRepository;
+            _tenantRepository = tenantRepository;
             _permRepository = permRepository;
             _roleUserRepository = roleUserRepository;
             _userPermRepository = userPermRepository;
+            _tenantUserRepository = tenantUserRepository;
 
             _exceptionHttpService = exceptionHttpService;
         }
@@ -112,7 +119,8 @@ namespace Base.Domain
         public async Task<BaseErrType> UpdateAsync(SysPersonalForm form)
         {
             var data = await _userRepository.FindAsync(LoginUser.Id);
-            if (data == null) return BaseErrType.DataNotFound;
+            if (data == null) 
+                return BaseErrType.DataNotFound;
 
             _mapper.Map(form, data);
             return await ResultAsync(() => _userRepository.UpdateAsync(data));
@@ -165,7 +173,8 @@ namespace Base.Domain
         public async Task<BaseErrType> ChangePasswordAsync(Password password)
         {
             var data = await _userRepository.FindAsync(LoginUser.Id);
-            if (data == null) return BaseErrType.DataNotFound;
+            if (data == null) 
+                return BaseErrType.DataNotFound;
 
             var errType = data.ChangePassword(password);
             if (errType == BaseErrType.Success)
@@ -173,6 +182,29 @@ namespace Base.Domain
                 return await ResultAsync(() => _userRepository.UpdateAsync(data));
             }
             return errType;
+        }
+
+        /// <summary>
+        /// 更换所属租户
+        /// </summary>
+        /// <param name="tenantId"></param>
+        /// <returns></returns>
+        public async Task<BaseErrType> UpdateTenantAsync(Guid tenantId)
+        {
+            var data = await _userRepository.GetIQFAsync(LoginUser.Id);
+            if (data == null)
+                return BaseErrType.DataError;
+
+            var tenant = await _tenantRepository.GetIQFAsync(tenantId);
+            if (tenant == null)
+                return BaseErrType.DataNotFound;
+
+            if (data.SysTenantId == Guid.Empty || (data.SysTenantId != tenantId && tenantId != Guid.Empty))
+            {
+                data.SysTenantId = tenantId;
+                return await ResultAsync(_userRepository.SaveChangesAsync);
+            }
+            return BaseErrType.Fail;
         }
 
         /// <summary>

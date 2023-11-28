@@ -40,6 +40,13 @@ namespace Base.Domain.Repositorys
         Task<IEnumerable<SysTenant>> GetListAsync(IEnumerable<Guid> ids);
 
         /// <summary>
+        /// 查询指定租户
+        /// </summary>
+        /// <param name="id">租户id</param>
+        /// <returns>实体</returns>
+        Task<SysTenant> GetIQFAsync(Guid id);
+
+        /// <summary>
         /// 查询机构（含权限、菜单关联）
         /// </summary>
         /// <param name="id">机构id</param>
@@ -59,6 +66,7 @@ namespace Base.Domain.Repositorys
         /// <param name="code">机构信用代码</param>
         /// <returns>结果</returns>
         Task<SysTenant> GetByCodeAsync(string code);
+
 
     }
 }

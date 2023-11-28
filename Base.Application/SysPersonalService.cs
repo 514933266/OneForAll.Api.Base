@@ -6,6 +6,7 @@ using Base.Domain.Aggregates;
 using Base.Domain.Enums;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
+using Base.Domain.Repositorys;
 using Base.Domain.ValueObjects;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
@@ -29,12 +30,20 @@ namespace Base.Application
         private readonly IMapper _mapper;
         private readonly ISysLoginLogHttpService _logHttpService;
         private readonly ISysPersonalManager _manager;
-
-        public SysPersonalService(IMapper mapper, ISysLoginLogHttpService logHttpService, ISysPersonalManager manager)
+        private readonly ISysWechatUserRepository _wxUserRepository;
+        private readonly ISysWxgzhSubscribeUserRepository _wxgzhUserRepository;
+        public SysPersonalService(
+            IMapper mapper,
+            ISysLoginLogHttpService logHttpService,
+            ISysPersonalManager manager,
+            ISysWechatUserRepository wxUserRepository,
+            ISysWxgzhSubscribeUserRepository wxgzhUserRepository)
         {
             _mapper = mapper;
             _logHttpService = logHttpService;
             _manager = manager;
+            _wxUserRepository = wxUserRepository;
+            _wxgzhUserRepository = wxgzhUserRepository;
         }
 
         /// <summary>
@@ -79,6 +88,16 @@ namespace Base.Application
         }
 
         /// <summary>
+        /// 修改绑定所属机构
+        /// </summary>
+        /// <param name="tenantId">要新绑定的租户id</param>
+        /// <returns>结果</returns>
+        public async Task<BaseErrType> UpdateTenantAsync(Guid tenantId)
+        {
+            return await _manager.UpdateTenantAsync(tenantId);
+        }
+
+        /// <summary>
         /// 获取菜单
         /// </summary>
         /// <returns>结果</returns>
@@ -119,5 +138,34 @@ namespace Base.Application
         {
             return await _manager.LoginoutAsync();
         }
+
+        #region 微信相关
+
+        /// <summary>
+        /// 获取微信access_token
+        /// </summary>
+        /// <param name="userId">登录用户id</param>
+        /// <returns></returns>
+        public async Task<SysWechatUserAccessTokenDto> GetWxAccessTokenAsync(Guid userId)
+        {
+            var data = await _wxUserRepository.GetAsync(w => w.SysUserId == userId);
+            return new SysWechatUserAccessTokenDto()
+            {
+                AccessToken = data.AccessToken,
+                ExpiresIn = data.AccessTokenExpiresIn,
+                CreateTime = data.AccessTokenCreateTime
+            };
+        }
+
+        /// <summary>
+        /// 获取关注微信公众号信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SysWxgzhSubscribeUserDto> GetWxgzhSubscribeUserAsync(Guid userId)
+        {
+            var data = await _wxgzhUserRepository.GetAsync(w => w.SysUserId == userId);
+            return _mapper.Map<SysWxgzhSubscribeUserDto>(data);
+        }
+        #endregion
     }
 }

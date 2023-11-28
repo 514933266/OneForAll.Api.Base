@@ -29,7 +29,6 @@ namespace Base.Repository
                 .AsNoTracking()
                 .Where(predicate)
                 .OrderByDescending(e => e.CreateTime)
-                .Include(p => p.SysArticleType)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -48,7 +47,6 @@ namespace Base.Repository
                 .AsNoTracking()
                 .Where(predicate)
                 .OrderByDescending(e => e.CreateTime)
-                .Include(p => p.SysArticleType)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
