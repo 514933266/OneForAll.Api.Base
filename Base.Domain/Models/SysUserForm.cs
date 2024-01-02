@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Base.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -39,8 +40,14 @@ namespace Base.Domain.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// 用户状态（关联BaseErrType，1正常 0异常 -20006禁止登录)
+        /// 手机号码
         /// </summary>
-        public int Status { get; set; }
+        [StringLength(20)]
+        public string Mobile { get; set; }
+
+        /// <summary>
+        /// 用户状态
+        /// </summary>
+        public SysUserStatusEnum Status { get; set; }
     }
 }

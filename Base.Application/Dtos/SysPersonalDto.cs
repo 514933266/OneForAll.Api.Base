@@ -46,6 +46,11 @@ namespace Base.Application.Dtos
         public string Signature { get; set; }
 
         /// <summary>
+        /// 是否默认用户（管理员）
+        /// </summary>
+        public bool IsDefault { get; set; }
+
+        /// <summary>
         /// 菜单权限
         /// </summary>
         public virtual IEnumerable<SysPersonalMenuDto> Menus { get; set; }

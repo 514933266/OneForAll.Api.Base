@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Base.Domain.AggregateRoots
 {
@@ -50,6 +51,7 @@ namespace Base.Domain.AggregateRoots
         /// 创建时间
         /// </summary>
         [Required]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateTime { get; set; } = DateTime.Now;
     }
 }

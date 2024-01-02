@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Base.Domain.Aggregates;
 using OneForAll.Core.OAuth;
 using Microsoft.AspNetCore.Http;
-using NPOI.SS.Formula;
+using OneForAll.Core.Security;
 
 namespace Base.Domain
 {
@@ -117,6 +117,11 @@ namespace Base.Domain
 
             data = _mapper.Map<SysUserForm, SysUser>(form);
             data.SysTenantId = LoginUser.SysTenantId;
+            if (data.Password.IsNullOrEmpty())
+                data.Password = data.UserName.ToMd5();
+            if (form.UserName.IsMobile() && form.Mobile.IsNullOrEmpty())
+                form.Mobile = form.UserName;
+
             return await ResultAsync(() => _userRepository.AddAsync(data));
         }
 

@@ -46,8 +46,7 @@ namespace Base.Host.Controllers
         /// <param name="ids">关键字</param>
         /// <returns>用户列表</returns>
         [HttpGet]
-        public async Task<IEnumerable<SysTenantUserDto>> GetListAsync(
-            [FromQuery] IEnumerable<Guid> ids = default)
+        public async Task<IEnumerable<SysTenantUserDto>> GetListAsync([FromQuery] IEnumerable<Guid> ids = default)
         {
             return await _userService.GetListAsync(ids);
         }

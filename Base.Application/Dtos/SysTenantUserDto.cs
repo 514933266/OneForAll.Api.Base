@@ -1,6 +1,7 @@
 ﻿using OneForAll.Core.DDD;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Base.Application.Dtos
@@ -23,6 +24,13 @@ namespace Base.Application.Dtos
         public string Name { get; set; }
 
         /// <summary>
+        /// 手机号码
+        /// </summary>
+        [Required]
+        [StringLength(20)]
+        public string Mobile { get; set; } = "";
+
+        /// <summary>
         /// 头像路径
         /// </summary>
         public string IconUrl { get; set; }
@@ -33,7 +41,7 @@ namespace Base.Application.Dtos
         public DateTime? LastLoginTime { get; set; }
 
         /// <summary>
-        /// 用户状态（关联BaseErrType，1正常 0异常 -20006禁止登录)
+        /// 用户状态
         /// </summary>
         public int Status { get; set; }
 

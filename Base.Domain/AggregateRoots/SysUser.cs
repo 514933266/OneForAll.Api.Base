@@ -44,6 +44,13 @@ namespace Base.Domain.AggregateRoots
         public string Name { get; set; }
 
         /// <summary>
+        /// 手机号码
+        /// </summary>
+        [Required]
+        [StringLength(20)]
+        public string Mobile { get; set; } = "";
+
+        /// <summary>
         /// 头像
         /// </summary>
         [Required]
@@ -58,7 +65,7 @@ namespace Base.Domain.AggregateRoots
         public string Signature { get; set; } = "";
 
         /// <summary>
-        /// 用户状态（关联BaseErrType，1正常 0异常 -20006禁止登录)
+        /// 用户状态
         /// </summary>
         [Required]
         public int Status { get; set; }
