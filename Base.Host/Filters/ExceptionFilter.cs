@@ -44,7 +44,7 @@ namespace Base.Host.Filters
                 #region 记录日志
                 var controller = context.ActionDescriptor.RouteValues["controller"];
                 var action = context.ActionDescriptor.RouteValues["action"];
-                _httpService.AddAsync(new SysExceptionLogForm()
+                _httpService.AddAsync(new SysExceptionLogRequest()
                 {
                     MoudleName = _authConfig.ClientName,
                     MoudleCode = _authConfig.ClientCode,

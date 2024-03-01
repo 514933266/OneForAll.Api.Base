@@ -96,16 +96,16 @@ namespace Base.Host.Filters
             }
             return msg;
         }
+    }
 
-        /// <summary>
-        /// 权限检测
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-        public class CheckPermissionAttribute : AuthorizeAttribute
-        {
-            public string Controller { get; set; }
-            public string Action { get; set; }
+    /// <summary>
+    /// 权限检测
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class CheckPermissionAttribute : AuthorizeAttribute
+    {
+        public string Controller { get; set; }
+        public string Action { get; set; }
 
-        }
     }
 }

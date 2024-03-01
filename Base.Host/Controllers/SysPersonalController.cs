@@ -94,7 +94,7 @@ namespace Base.Host.Controllers
 
                 var callbacks = await _service.UploadHeaderAsync(file.FileName, file.OpenReadStream());
 
-                msg.Data = new { Username = UserName, Result = callbacks };
+                msg.Data = new { Username = LoginUser.UserName, Result = callbacks };
 
                 switch (callbacks.State)
                 {

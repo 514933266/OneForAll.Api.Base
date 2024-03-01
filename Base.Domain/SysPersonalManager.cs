@@ -255,7 +255,11 @@ namespace Base.Domain
             try
             {
                 var cacheKey = CACHE_KEY.Fmt(LoginUser.Id);
-                await _cacheRepository.RemoveAsync(cacheKey);
+                var data = await _cacheRepository.GetAsync(cacheKey);
+                if (data != null)
+                {
+                    await _cacheRepository.RemoveAsync(cacheKey);
+                }
             }
             catch
             {

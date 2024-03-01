@@ -10,7 +10,7 @@ namespace Base.Host.Profiles
     {
         public SysPersonalProfile()
         {
-            CreateMap<SysPersonalLoginLogForm, SysLoginLogForm>();
+            CreateMap<SysPersonalLoginLogForm, SysLoginLogRequest>();
         }
     }
 }

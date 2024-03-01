@@ -31,7 +31,7 @@ namespace Base.HttpService
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns></returns>
-        public async Task AddAsync(SysExceptionLogForm form)
+        public async Task AddAsync(SysExceptionLogRequest form)
         {
             form.CreatorId = LoginUser.Id;
             form.CreatorName = LoginUser.Name;

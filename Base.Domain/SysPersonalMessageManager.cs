@@ -26,12 +26,12 @@ namespace Base.Domain
     /// </summary>
     public class SysPersonalMessageManager : SysBaseManager, ISysPersonalMessageManager
     {
-        private readonly IUmsMessageRepository _messageRepository;
+        private readonly IUmsMessageMongoRepository _messageRepository;
 
         public SysPersonalMessageManager(
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
-            IUmsMessageRepository messageRepository) : base(mapper, httpContextAccessor)
+            IUmsMessageMongoRepository messageRepository) : base(mapper, httpContextAccessor)
         {
             _messageRepository = messageRepository;
         }

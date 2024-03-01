@@ -17,6 +17,6 @@ namespace Base.HttpService.Interfaces
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns></returns>
-        Task AddAsync(SysLoginLogForm form);
+        Task AddAsync(SysLoginLogRequest form);
     }
 }

@@ -2,6 +2,7 @@
 using Base.Domain.Aggregates;
 using Base.Domain.Models;
 using OneForAll.Core;
+using OneForAll.Core.OAuth;
 using OneForAll.Core.Upload;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Base.Application.Interfaces
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">页数</param>
         /// <returns>分页列表</returns>
-        Task<PageList<SysReadArticleDto>> GetPagePublishedAsync(SysLoginUserAggr user, int pageIndex, int pageSize);
+        Task<PageList<SysReadArticleDto>> GetPagePublishedAsync(LoginUser user, int pageIndex, int pageSize);
 
         /// <summary>
         /// 添加
@@ -32,7 +33,7 @@ namespace Base.Application.Interfaces
         /// <param name="tenantId">租户id</param>
         /// <param name="form">实体</param>
         /// <returns>结果</returns>
-        Task<BaseErrType> AddAsync(SysLoginUserAggr user, Guid tenantId, SysArticleForm form);
+        Task<BaseErrType> AddAsync(LoginUser user, Guid tenantId, SysArticleForm form);
 
         /// <summary>
         /// 修改
@@ -81,6 +82,6 @@ namespace Base.Application.Interfaces
         /// <param name="user">当前登录用户</param>
         /// <param name="id">文章id</param>
         /// <returns>结果</returns>
-        Task<BaseErrType> ReadAsync(SysLoginUserAggr user, Guid id);
+        Task<BaseErrType> ReadAsync(LoginUser user, Guid id);
     }
 }

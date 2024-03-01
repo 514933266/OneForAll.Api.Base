@@ -59,7 +59,7 @@ namespace Base.Application
         public async Task<IEnumerable<SysTenantUserDto>> GetListAsync(IEnumerable<Guid> ids)
         {
             var data = new List<SysUser>();
-            if (ids.Any())
+            if (ids != null && ids.Any())
             {
                 data = await _userRepository.GetListAsync(w => ids.Contains(w.Id)) as List<SysUser>;
             }

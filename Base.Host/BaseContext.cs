@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Base.Host
 {
-    public partial class OneForAll_BaseContext : DbContext
+    public partial class BaseContext : DbContext
     {
         private Guid _tenantId;
 
-        public OneForAll_BaseContext(DbContextOptions<OneForAll_BaseContext> options)
+        public BaseContext(DbContextOptions<BaseContext> options)
             : base(options)
         {
 
         }
 
-        public OneForAll_BaseContext(
-            DbContextOptions<OneForAll_BaseContext> options,
+        public BaseContext(
+            DbContextOptions<BaseContext> options,
             ITenantProvider tenantProvider)
             : base(options)
         {

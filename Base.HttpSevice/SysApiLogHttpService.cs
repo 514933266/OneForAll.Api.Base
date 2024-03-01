@@ -32,7 +32,7 @@ namespace Base.HttpService
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns></returns>
-        public async Task AddAsync(SysApiLogForm form)
+        public async Task AddAsync(SysApiLogRequest form)
         {
             form.CreatorId = LoginUser.Id;
             form.CreatorName = LoginUser.Name;

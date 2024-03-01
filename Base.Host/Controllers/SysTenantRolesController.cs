@@ -12,6 +12,7 @@ using Base.Domain.Models;
 using Base.Application.Interfaces;
 using Base.Public.Models;
 using static Base.Host.Filters.AuthorizationFilter;
+using Base.Host.Filters;
 
 namespace Base.Host.Controllers.Core
 {
@@ -56,7 +57,7 @@ namespace Base.Host.Controllers.Core
         public async Task<BaseMessage> AddAsync([FromBody] SysRoleForm form)
         {
             var msg = new BaseMessage();
-            msg.ErrType = await _service.AddAsync(TenantId, form);
+            msg.ErrType = await _service.AddAsync(LoginUser.SysTenantId, form);
 
             switch (msg.ErrType)
             {

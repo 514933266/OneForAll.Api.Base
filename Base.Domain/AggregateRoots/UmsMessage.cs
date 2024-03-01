@@ -51,7 +51,7 @@ namespace Base.Domain.AggregateRoots
         /// 创建时间
         /// </summary>
         [Required]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        [Column(TypeName = "datetime")]
         public DateTime CreateTime { get; set; } = DateTime.Now;
     }
 }

@@ -17,6 +17,6 @@ namespace Base.HttpService.Interfaces
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns></returns>
-        Task AddAsync(SysOperationLogForm entity);
+        Task AddAsync(SysOperationLogRequest entity);
     }
 }

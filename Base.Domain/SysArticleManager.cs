@@ -7,6 +7,7 @@ using Base.Domain.Repositorys;
 using OneForAll.Core;
 using OneForAll.Core.DDD;
 using OneForAll.Core.Extension;
+using OneForAll.Core.OAuth;
 using OneForAll.Core.Upload;
 using OneForAll.File;
 using System;
@@ -51,7 +52,7 @@ namespace Base.Domain
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">页数</param>
         /// <returns>分页列表</returns>
-        public async Task<PageList<SysArticle>> GetPagePublishedAsync(SysLoginUserAggr user, int pageIndex, int pageSize)
+        public async Task<PageList<SysArticle>> GetPagePublishedAsync(LoginUser user, int pageIndex, int pageSize)
         {
             if (pageIndex < 1)  pageIndex = 1;
             if (pageSize < 1)   pageSize = 10;
@@ -113,7 +114,7 @@ namespace Base.Domain
         /// <param name="tenantId">租户id</param>
         /// <param name="form">实体</param>
         /// <returns>结果</returns>
-        public async Task<BaseErrType> AddAsync(SysLoginUserAggr user, Guid tenantId, SysArticleForm form)
+        public async Task<BaseErrType> AddAsync(LoginUser user, Guid tenantId, SysArticleForm form)
         {
             var type = await _typeRepository.FindAsync(form.TypeId);
             if (type == null) return BaseErrType.DataNotFound;
@@ -232,7 +233,7 @@ namespace Base.Domain
         /// <param name="user">当前登录用户</param>
         /// <param name="id">文章id</param>
         /// <returns>结果</returns>
-        public async Task<BaseErrType> ReadAsync(SysLoginUserAggr user, Guid id)
+        public async Task<BaseErrType> ReadAsync(LoginUser user, Guid id)
         {
             var article = await _articleRepository.FindAsync(id);
             if (article == null) return BaseErrType.DataNotFound;

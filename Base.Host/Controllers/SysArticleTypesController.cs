@@ -44,7 +44,7 @@ namespace Base.Host.Controllers
         public async Task<BaseMessage> AddAsync([FromBody]SysArticleTypeForm form)
         {
             var msg = new BaseMessage();
-            msg.ErrType = await _typeService.AddAsync(TenantId, form);
+            msg.ErrType = await _typeService.AddAsync(LoginUser.SysTenantId, form);
 
             switch (msg.ErrType)
             {

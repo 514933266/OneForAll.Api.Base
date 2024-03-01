@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
-    <PackageReference Include="MongoDB.Driver" Version="2.22.0" />
-    <PackageReference Include="OneForAll.Core" Version="1.2.0.4" />
-    <PackageReference Include="OneForAll.EFCore" Version="1.2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
+    <PackageReference Include="OneForAll.Core" Version="2.0.0-net8" />
+    <PackageReference Include="OneForAll.EFCore" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

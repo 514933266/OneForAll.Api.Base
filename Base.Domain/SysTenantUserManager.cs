@@ -111,7 +111,10 @@ namespace Base.Domain
         {
             var data = await _userRepository.GetAsync(form.UserName);
             if (data != null)
+            {
+                form.Id = data.Id;// 返回id以便部分业务场景使用
                 return BaseErrType.DataExist;
+            }
             if (form.Password != form.RePassword)
                 return BaseErrType.DataNotMatch;
 
@@ -122,7 +125,10 @@ namespace Base.Domain
             if (form.UserName.IsMobile() && form.Mobile.IsNullOrEmpty())
                 form.Mobile = form.UserName;
 
-            return await ResultAsync(() => _userRepository.AddAsync(data));
+            var effected = await _userRepository.AddAsync(data);
+            form.Id = data.Id;// 返回id以便部分业务场景使用
+
+            return effected > 0 ? BaseErrType.Success : BaseErrType.Fail;
         }
 
         /// <summary>

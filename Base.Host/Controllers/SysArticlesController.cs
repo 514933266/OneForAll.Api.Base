@@ -1,7 +1,7 @@
 ﻿using Base.Application.Dtos;
 using Base.Application.Interfaces;
 using Base.Domain.Models;
-using Base.Host.Models;
+using Base.Host.Filters;
 using Base.Public.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Base.Host.Filters.AuthorizationFilter;
 
 namespace Base.Host.Controllers
 {
@@ -48,7 +47,7 @@ namespace Base.Host.Controllers
         public async Task<BaseMessage> AddAsync([FromBody]SysArticleForm form)
         {
             var msg = new BaseMessage();
-            msg.ErrType = await _articleService.AddAsync(LoginUser, TenantId, form);
+            msg.ErrType = await _articleService.AddAsync(LoginUser, LoginUser.SysTenantId, form);
 
             switch (msg.ErrType)
             {
@@ -109,7 +108,7 @@ namespace Base.Host.Controllers
             {
                 var file = form.Files[0];
                 if (id.Equals(Guid.Empty)) id = Guid.NewGuid(); // 实现先传图再创建对象
-                var callbacks = await _articleService.UploadCoverAsync(TenantId, id, file.FileName, file.OpenReadStream());
+                var callbacks = await _articleService.UploadCoverAsync(LoginUser.SysTenantId, id, file.FileName, file.OpenReadStream());
 
                 msg.Data = new { Id = id, Result = callbacks };
 
@@ -138,7 +137,7 @@ namespace Base.Host.Controllers
             {
                 var file = form.Files[0];
                 if (id.Equals(Guid.Empty)) id = Guid.NewGuid(); // 实现先传图再创建对象
-                var callbacks = await _articleService.UploadImageAsync(TenantId, id, file.FileName, file.OpenReadStream());
+                var callbacks = await _articleService.UploadImageAsync(LoginUser.SysTenantId, id, file.FileName, file.OpenReadStream());
 
                 msg.Data = new { Id = id, Result = callbacks };
 

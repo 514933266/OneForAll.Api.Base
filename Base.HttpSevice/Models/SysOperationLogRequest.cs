@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Base.HttpService.Models
 {
     /// <summary>
-    /// 登录日志
+    /// 操作日志
     /// </summary>
-    public class SysLoginLogForm
+    public class SysOperationLogRequest
     {
         /// <summary>
         /// 租户id
@@ -19,32 +19,51 @@ namespace Base.HttpService.Models
         public Guid TenantId { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 所属模块名称
         /// </summary>
         [Required]
-        [StringLength(20)]
-        public string UserName { get; set; }
+        [StringLength(50)]
+        public string MoudleName { get; set; }
 
         /// <summary>
-        /// 来源
+        /// 模块代码
         /// </summary>
         [Required]
-        [StringLength(20)]
-        public string Source { get; set; }
+        [StringLength(50)]
+        public string MoudleCode { get; set; }
 
         /// <summary>
-        /// 登录方式
+        /// 控制器
         /// </summary>
         [Required]
-        [StringLength(20)]
-        public string LoginType { get; set; }
+        [StringLength(50)]
+        public string Controller { get; set; }
 
         /// <summary>
-        /// Ip地址
+        /// 控制器方法
         /// </summary>
         [Required]
-        [StringLength(20)]
-        public string IPAddress { get; set; }
+        [StringLength(50)]
+        public string Action { get; set; }
+
+        /// <summary>
+        /// 操作类型
+        /// </summary>
+        [Required]
+        [StringLength(50)]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// 详细内容
+        /// </summary>
+        [Required]
+        public string Content { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        [StringLength(300)]
+        public string Remark { get; set; }
 
         /// <summary>
         /// 创建人id
@@ -63,6 +82,6 @@ namespace Base.HttpService.Models
         /// 创建时间
         /// </summary>
         [Required]
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
     }
 }

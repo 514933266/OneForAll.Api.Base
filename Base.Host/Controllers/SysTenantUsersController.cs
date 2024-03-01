@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Base.Application.Dtos;
 using Base.Application.Interfaces;
 using Base.Domain.Models;
+using Base.Host.Filters;
 using Base.Host.Models;
 using Base.Public.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,7 @@ namespace Base.Host.Controllers
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="ids">关键字</param>
+        /// <param name="ids">实体id</param>
         /// <returns>用户列表</returns>
         [HttpGet]
         public async Task<IEnumerable<SysTenantUserDto>> GetListAsync([FromQuery] IEnumerable<Guid> ids = default)
@@ -65,8 +66,12 @@ namespace Base.Host.Controllers
 
             switch (msg.ErrType)
             {
-                case BaseErrType.Success: return msg.Success("添加成功");
-                case BaseErrType.DataExist: return msg.Fail("用户名已被使用");
+                case BaseErrType.Success:
+                    msg.Data = form.Id.ToString();
+                    return msg.Success("添加成功");
+                case BaseErrType.DataExist:
+                    msg.Data = form.Id.ToString();
+                    return msg.Fail("用户名已被使用");
                 default: return msg.Fail("添加失败");
             }
         }

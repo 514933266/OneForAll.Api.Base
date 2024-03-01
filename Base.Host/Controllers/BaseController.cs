@@ -1,88 +1,33 @@
 ﻿using System;
 using System.Linq;
-using Base.Domain.Aggregates;
-using Base.Domain.Models;
-using Base.Host.Models;
-using Base.Public.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OneForAll.Core.Extension;
+using OneForAll.Core.OAuth;
 
 namespace Base.Host.Controllers
 {
     public class BaseController : Controller
     {
-        protected Guid UserId
+        protected LoginUser LoginUser
         {
             get
             {
-                var userId = HttpContext
-                .User
-                .Claims
-                .FirstOrDefault(e => e.Type == UserClaimType.USER_ID);
-
-                if (userId != null)
+                var claims = HttpContext?.User.Claims;
+                if (claims.Any())
                 {
-                    return new Guid(userId.Value);
+                    return new LoginUser()
+                    {
+                        Name = claims.FirstOrDefault(e => e.Type == UserClaimType.USER_NICKNAME)?.Value ?? "",
+                        UserName = claims.FirstOrDefault(e => e.Type == UserClaimType.USERNAME)?.Value ?? "",
+                        WxAppId = claims.FirstOrDefault(e => e.Type == UserClaimType.WX_APPID)?.Value ?? "",
+                        WxOpenId = claims.FirstOrDefault(e => e.Type == UserClaimType.WX_OPENID)?.Value ?? "",
+                        WxUnionId = claims.FirstOrDefault(e => e.Type == UserClaimType.WX_UNIONID)?.Value ?? "",
+                        Id = claims.FirstOrDefault(e => e.Type == UserClaimType.USER_ID).Value.TryGuid(),
+                        SysTenantId = claims.FirstOrDefault(e => e.Type == UserClaimType.TENANT_ID).Value.TryGuid(),
+                        IsDefault = claims.FirstOrDefault(e => e.Type == UserClaimType.IS_DEFAULT).Value.TryBoolean()
+                    };
                 }
-                return Guid.Empty;
-            }
-        }
-
-        protected string UserName
-        {
-            get
-            {
-                var username = HttpContext
-                .User
-                .Claims
-                .FirstOrDefault(e => e.Type == UserClaimType.USERNAME);
-
-                if (username != null)
-                {
-                    return username.Value;
-                }
-                return null;
-            }
-        }
-
-        protected Guid TenantId
-        {
-            get
-            {
-                var tenantId = HttpContext
-                .User
-                .Claims
-                .FirstOrDefault(e => e.Type == UserClaimType.TENANT_ID);
-
-                if (tenantId != null)
-                {
-                    return new Guid(tenantId.Value);
-                }
-                return Guid.Empty;
-            }
-        }
-
-        protected SysLoginUserAggr LoginUser
-        {
-            get
-            {
-                var name = HttpContext
-                .User
-                .Claims
-                .FirstOrDefault(e => e.Type == UserClaimType.USER_NICKNAME);
-
-                var role = HttpContext
-                .User
-                .Claims
-                .FirstOrDefault(e => e.Type == UserClaimType.ROLE);
-
-                return new SysLoginUserAggr()
-                {
-                    Id = UserId,
-                    Name = name?.Value,
-                    IsDefault = role.Value.Equals(UserRoleType.RULER)
-                };
+                return new LoginUser();
             }
         }
     }

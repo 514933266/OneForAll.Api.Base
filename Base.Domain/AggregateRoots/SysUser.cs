@@ -102,6 +102,13 @@ namespace Base.Domain.AggregateRoots
         public byte PwdErrCount { get; set; }
 
         /// <summary>
+        /// 创建时间
+        /// </summary>
+        [Required]
+        [Column(TypeName = "datetime")]
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+
+        /// <summary>
         /// 上传头像
         /// </summary>
         /// <param name="url">头像地址</param>

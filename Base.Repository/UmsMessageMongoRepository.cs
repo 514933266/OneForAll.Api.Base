@@ -14,11 +14,11 @@ namespace Base.Repository
     /// <summary>
     /// 系统消息
     /// </summary>
-    public class UmsMessageRepository : IUmsMessageRepository
+    public class UmsMessageMongoRepository : IUmsMessageMongoRepository
     {
         private readonly string _name = "Ums_Message";
         private readonly IMongoDatabase _dbSet;
-        public UmsMessageRepository(IMongoDatabase dbSet)
+        public UmsMessageMongoRepository(IMongoDatabase dbSet)
         {
             _dbSet = dbSet;
         }

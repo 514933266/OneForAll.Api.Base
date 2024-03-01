@@ -1,6 +1,8 @@
 ﻿using Base.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Base.Application.Dtos
@@ -49,6 +51,11 @@ namespace Base.Application.Dtos
         /// 是否默认用户（管理员）
         /// </summary>
         public bool IsDefault { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 菜单权限

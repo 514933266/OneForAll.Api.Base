@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +8,9 @@ using System.Threading.Tasks;
 namespace Base.HttpService.Models
 {
     /// <summary>
-    /// 异常日志
+    /// 登录日志
     /// </summary>
-    public class SysExceptionLogForm
+    public class SysLoginLogRequest
     {
         /// <summary>
         /// 租户id
@@ -20,45 +19,32 @@ namespace Base.HttpService.Models
         public Guid TenantId { get; set; }
 
         /// <summary>
-        /// 所属模块名称
+        /// 用户名
         /// </summary>
         [Required]
-        [StringLength(50)]
-        public string MoudleName { get; set; }
+        [StringLength(20)]
+        public string UserName { get; set; }
 
         /// <summary>
-        /// 模块代码
+        /// 来源
         /// </summary>
         [Required]
-        [StringLength(50)]
-        public string MoudleCode { get; set; }
+        [StringLength(20)]
+        public string Source { get; set; }
 
         /// <summary>
-        /// 控制器
+        /// 登录方式
         /// </summary>
         [Required]
-        [StringLength(50)]
-        public string Controller { get; set; }
+        [StringLength(20)]
+        public string LoginType { get; set; }
 
         /// <summary>
-        /// 控制器方法
+        /// Ip地址
         /// </summary>
         [Required]
-        [StringLength(50)]
-        public string Action { get; set; }
-
-        /// <summary>
-        /// 异常名称
-        /// </summary>
-        [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 详细内容
-        /// </summary>
-        [Required]
-        public string Content { get; set; }
+        [StringLength(20)]
+        public string IPAddress { get; set; }
 
         /// <summary>
         /// 创建人id
@@ -77,6 +63,6 @@ namespace Base.HttpService.Models
         /// 创建时间
         /// </summary>
         [Required]
-        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime CreateTime { get; set; }
     }
 }

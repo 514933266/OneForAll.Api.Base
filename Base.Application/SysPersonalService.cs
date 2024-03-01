@@ -125,7 +125,7 @@ namespace Base.Application
         /// <returns>结果</returns>
         public async Task<BaseErrType> LoginAsync(SysPersonalLoginLogForm form)
         {
-            var data = _mapper.Map<SysLoginLogForm>(form);
+            var data = _mapper.Map<SysLoginLogRequest>(form);
             await _logHttpService.AddAsync(data);
             return BaseErrType.Success;
         }
@@ -164,7 +164,10 @@ namespace Base.Application
         public async Task<SysWxgzhSubscribeUserDto> GetWxgzhSubscribeUserAsync(Guid userId)
         {
             var data = await _wxgzhUserRepository.GetAsync(w => w.SysUserId == userId);
-            return _mapper.Map<SysWxgzhSubscribeUserDto>(data);
+            var item = _mapper.Map<SysWxgzhSubscribeUserDto>(data);
+            if (data == null)
+                item.IsUnSubscribed = true;
+            return item;
         }
         #endregion
     }

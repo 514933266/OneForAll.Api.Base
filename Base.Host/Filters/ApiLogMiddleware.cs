@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Base.Host.Models;
+using Microsoft.IdentityModel.Tokens;
+using OneForAll.Core.OAuth;
 
 namespace Base.Host.Filters
 {
@@ -39,10 +41,14 @@ namespace Base.Host.Filters
             _stopWatch.Restart();
 
             var request = context.Request;
-            var loginUser = GetLoginUser(context);
             var descriptor = context.GetEndpoint()?.Metadata.GetMetadata<ControllerActionDescriptor>();
 
-            var data = new SysApiLogForm()
+            if (descriptor == null)
+                return;
+
+            var loginUser = GetLoginUser(context);
+            var userAgent = request.Headers["User-Agent"];
+            var data = new SysApiLogRequest()
             {
                 MoudleName = _authConfig.ClientName,
                 MoudleCode = _authConfig.ClientCode,
@@ -53,10 +59,10 @@ namespace Base.Host.Filters
                 Url = request.Path.ToString(),
                 Method = request.Method.ToUpper(),
                 ContentType = request.ContentType ?? "application/json",
-                UserAgent = request.Headers["User-Agent"],
+                UserAgent = userAgent.IsNullOrEmpty() ? "无" : userAgent.ToString(),
                 IPAddress = request.HttpContext.Connection.RemoteIpAddress.ToString(),
-                Action = descriptor == null ? "" : descriptor.ActionName,
-                Controller = descriptor == null ? "" : descriptor.ControllerName
+                Action = descriptor.ActionName,
+                Controller = descriptor.ControllerName
             };
 
             data.RequestBody = await GetRequestBody(context);
@@ -70,8 +76,7 @@ namespace Base.Host.Filters
                 data.TimeSpan = _stopWatch.Elapsed.ToString();
                 data.StatusCode = context.Response.StatusCode.ToString();
 
-                if (data.CreatorId != Guid.Empty && !data.RequestBody.IsNullOrEmpty() && !data.ReponseBody.IsNullOrEmpty())
-                    _httpService.AddAsync(data);
+                _httpService.AddAsync(data);
 
                 return Task.CompletedTask;
             });
@@ -139,7 +144,7 @@ namespace Base.Host.Filters
             return new LoginUser()
             {
                 Id = userId == null ? Guid.Empty : new Guid(userId.Value),
-                Name = name == null ? "" : name?.Value,
+                Name = name == null ? "无" : name?.Value,
                 SysTenantId = tenantId == null ? Guid.Empty : new Guid(tenantId?.Value),
                 IsDefault = role == null ? false : role.Value.Equals(UserRoleType.RULER)
             };

@@ -31,7 +31,7 @@ namespace Base.HttpService
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns></returns>
-        public async Task AddAsync(SysLoginLogForm form)
+        public async Task AddAsync(SysLoginLogRequest form)
         {
             form.UserName = LoginUser.UserName;
             form.CreatorId = LoginUser.Id;

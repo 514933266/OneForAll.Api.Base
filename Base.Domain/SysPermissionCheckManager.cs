@@ -63,12 +63,12 @@ namespace Base.Domain
                 {
                     // 没有缓存，直接读库
                     loginUser = await GetLoginUserAsync();
-                    await _cacheRepository.SetStringAsync(cacheKey, loginUser.ToJson());
+                    await _cacheRepository.SetStringAsync(cacheKey, loginUser.ToJson(), new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromMinutes(30) });
                 }
                 else
                 {
                     loginUser = cache.FromJson<SysLoginUserAggr>();
-                    if (loginUser.SysLoginUserMenus == null)
+                    if (!loginUser.SysLoginUserMenus.Any())
                     {
                         loginUser = await GetLoginUserAsync();
                         await _cacheRepository.SetStringAsync(cacheKey, loginUser.ToJson(), new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromMinutes(30) });
@@ -77,7 +77,7 @@ namespace Base.Domain
             }
             catch
             {
-                // redis error
+                // redis 未启动，直接读库
                 loginUser = await GetLoginUserAsync();
             }
             return loginUser.ValidatePermission(form.Controller, action);

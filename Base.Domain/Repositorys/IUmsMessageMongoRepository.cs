@@ -12,7 +12,7 @@ namespace Base.Domain.Repositorys
     /// <summary>
     /// 系统消息
     /// </summary>
-    public interface IUmsMessageRepository
+    public interface IUmsMessageMongoRepository
     {
         /// <summary>
         /// 查询用户前5条未读消息

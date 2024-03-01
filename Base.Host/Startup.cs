@@ -161,7 +161,7 @@ namespace Base.Host
             services.AddSingleton<IUploader, Uploader>();
             services.AddScoped<ITenantProvider, TenantProvider>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDbContext<OneForAll_BaseContext>(options =>
+            services.AddDbContext<BaseContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
 
             #endregion
@@ -216,10 +216,10 @@ namespace Base.Host
                 .Where(t => t.Name.EndsWith("Manager"))
                 .AsImplementedInterfaces();
 
-            builder.RegisterType(typeof(OneForAll_BaseContext)).Named<DbContext>("OneForAll_BaseContext");
+            builder.RegisterType(typeof(BaseContext)).Named<DbContext>("BaseContext");
             builder.RegisterAssemblyTypes(Assembly.Load(BASE_REPOSITORY))
                .Where(t => t.Name.EndsWith("Repository"))
-               .WithParameter(ResolvedParameter.ForNamed<DbContext>("OneForAll_BaseContext"))
+               .WithParameter(ResolvedParameter.ForNamed<DbContext>("BaseContext"))
                .AsImplementedInterfaces();
 
             var authConfig = new AuthConfig();
