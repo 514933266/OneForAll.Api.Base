@@ -54,6 +54,11 @@ namespace Base.Domain.Interfaces
         Task<BaseErrType> UpdateTenantAsync(Guid tenantId);
 
         /// <summary>
+        /// 修改手机号
+        /// </summary>
+        Task<BaseErrType> UpdateMobileAsync(SysPersonalUpdateMobileForm form);
+
+        /// <summary>
         /// 获取菜单
         /// </summary>
         /// <returns>结果</returns>

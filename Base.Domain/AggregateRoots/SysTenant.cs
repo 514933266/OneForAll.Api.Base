@@ -27,7 +27,6 @@ namespace Base.Domain.AggregateRoots
         [Column(TypeName = "varchar(50)")]
         public string Code { get; set; }
 
-
         /// <summary>
         /// 名称
         /// </summary>
@@ -74,6 +73,13 @@ namespace Base.Domain.AggregateRoots
         [Required]
         [StringLength(300)]
         public string Description { get; set; } = "";
+
+        /// <summary>
+        /// logo
+        /// </summary>
+        [Required]
+        [Column(TypeName = "varchar(1000)")]
+        public string LogoUrl { get; set; } = "";
 
         /// <summary>
         /// 注册时间

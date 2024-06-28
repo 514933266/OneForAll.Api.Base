@@ -55,26 +55,16 @@ namespace Base.Domain
         /// 添加
         /// </summary>
         /// <param name="roleId">角色id</param>
-        /// <param name="forms">权限id</param>
+        /// <param name="pids">权限id</param>
         /// <returns>权限列表</returns>
-        public async Task<BaseErrType> AddAsync(Guid roleId, IEnumerable<SysMenuPermissionForm> forms)
+        public async Task<BaseErrType> AddAsync(Guid roleId, IEnumerable<Guid> pids)
         {
             var data = await _roleRepository.FindAsync(roleId);
             if (data == null)
                 return BaseErrType.DataError;
 
-            // 查出所有上级菜单的EnterView权限加入到选择中
-            var menus = await _menuRepository.GetListAsync();
-            var permissions = _mapper.Map<IEnumerable<SysMenuPermissionForm>, IEnumerable<SysPermission>>(forms);
-            var ids = permissions.Select(s => new { s.Id, s.SysMenuId }).ToList();
-            var mids = ids.Select(s => s.SysMenuId).ToList();
-            var permMenus = FindAllMenus(mids, menus);
-            mids = permMenus.Select(s => s.Id).ToList();
-            var perms = await _permRepository.GetListByMenuAsync(mids);
-            perms = permissions.Union(perms).DistinctBy(w => w.Id).ToList();
-
             var rolePerms = await _rolePermRepository.GetListAsync(roleId);
-            var addList = perms.Select(s => new SysRolePermContact() { SysRoleId = roleId, SysPermissionId = s.Id }).ToList();
+            var addList = pids.Select(s => new SysRolePermContact() { SysRoleId = roleId, SysPermissionId = s }).ToList();
 
             using (var tran = new UnitOfWork().BeginTransaction())
             {

@@ -6,6 +6,7 @@ using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace Base.Repository
 
 
         /// <summary>
-        /// 查询用户前5条未读消息
+        /// 查询用户前x条未读消息
         /// </summary>
         /// <param name="userId">用户id</param>
         /// <param name="top">数量</param>
@@ -33,8 +34,22 @@ namespace Base.Repository
         public async Task<IEnumerable<UmsMessage>> GetListAsync(Guid userId, int top)
         {
             var option = new FindOptions<UmsMessage>() { Limit = top, Sort = new SortDefinitionBuilder<UmsMessage>().Descending(o => o.CreateTime) };
-            var predicate = Builders<UmsMessage>.Filter.Where(w => w.ToAccountId == userId && !w.IsRead);
+
             return (await _dbSet.GetCollection<UmsMessage>(_name).FindAsync(w => w.ToAccountId == userId && !w.IsRead, option)).ToList();
+        }
+
+        /// <summary>
+        /// 查询用户近x天未读消息
+        /// </summary>
+        /// <param name="userId">用户id</param>
+        /// <param name="day">近几天</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<UmsMessage>> GetListByDayAsync(Guid userId, int day)
+        {
+            var beginDate = DateTime.Now.AddDays(-day).Date;
+            var option = new FindOptions<UmsMessage>() { Sort = new SortDefinitionBuilder<UmsMessage>().Descending(o => o.CreateTime) };
+
+            return (await _dbSet.GetCollection<UmsMessage>(_name).FindAsync(w => w.ToAccountId == userId && !w.IsRead && w.CreateTime >= beginDate && w.CreateTime <= DateTime.Now, option)).ToList();
         }
 
         /// <summary>

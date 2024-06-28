@@ -75,7 +75,7 @@ namespace Base.Application
         /// </summary>
         /// <param name="form">用户</param>
         /// <returns>结果</returns>
-        public async Task<BaseErrType> AddAsync(SysUserForm form)
+        public async Task<BaseMessage> AddAsync(SysUserForm form)
         {
             return await _userManager.AddAsync(form);
         }
@@ -85,7 +85,7 @@ namespace Base.Application
         /// </summary>
         /// <param name="form">用户</param>
         /// <returns>结果</returns>
-        public async Task<BaseErrType> UpdateAsync(SysUserUpdateForm form)
+        public async Task<BaseMessage> UpdateAsync(SysUserUpdateForm form)
         {
             return await _userManager.UpdateAsync(form);
         }

@@ -25,6 +25,8 @@ namespace Base.Repository
 
         }
 
+        #region 全局
+
         /// <summary>
         /// 查询指定用户
         /// </summary>
@@ -34,6 +36,36 @@ namespace Base.Repository
         {
             return await DbSet.IgnoreQueryFilters().FirstOrDefaultAsync(w => w.Id == id);
         }
+
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="username">用户名</param>
+        /// <returns>实体</returns>
+        public async Task<SysUser> GetIQFAsync(string username)
+        {
+            return await DbSet
+                .Where(w => w.UserName == username)
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="mobile">手机号</param>
+        /// <returns>实体</returns>
+        public async Task<SysUser> GetByMobileIQFAsync(string mobile)
+        {
+            return await DbSet
+                .Where(w => w.Mobile == mobile)
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync();
+        }
+
+        #endregion
+
+        #region 当前机构
 
         /// <summary>
         /// 查询机构用户
@@ -53,30 +85,20 @@ namespace Base.Repository
                              Status = user.Status,
                              UserName = user.UserName,
                              Password = user.Password,
+                             Mobile = user.Mobile,
                              Signature = user.Signature,
                              PwdErrCount = user.PwdErrCount,
                              IconUrl = user.IconUrl,
                              IsDefault = user.IsDefault,
                              UpdateTime = user.UpdateTime,
                              SysTenantId = user.SysTenantId,
+                             CreateTime = user.CreateTime,
                              LastLoginIp = user.LastLoginIp,
                              LastLoginTime = user.LastLoginTime,
                              SysTenant = tenant
                          });
 
             return await query.IgnoreQueryFilters().FirstOrDefaultAsync();
-        }
-
-        /// <summary>
-        /// 查询实体
-        /// </summary>
-        /// <param name="username">用户名</param>
-        /// <returns>实体</returns>
-        public async Task<SysUser> GetAsync(string username)
-        {
-            return await DbSet
-                .Where(w => w.UserName == username)
-                .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -128,5 +150,7 @@ namespace Base.Repository
         {
             return await DbSet.Where(w => ids.Contains(w.Id)).ToListAsync();
         }
+
+        #endregion
     }
 }

@@ -14,12 +14,30 @@ namespace Base.Domain.Repositorys
     /// </summary>
     public interface ISysUserRepository : IEFCoreRepository<SysUser>
     {
+        #region 全局
+
         /// <summary>
         /// 查询指定用户
         /// </summary>
         /// <param name="id">用户id</param>
         /// <returns>实体</returns>
         Task<SysUser> GetIQFAsync(Guid id);
+
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="username">用户名</param>
+        /// <returns>实体</returns>
+        Task<SysUser> GetIQFAsync(string username);
+
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="mobile">手机号</param>
+        /// <returns>实体</returns>
+        Task<SysUser> GetByMobileIQFAsync(string mobile);
+
+        #endregion
 
         #region 当前机构
 
@@ -29,13 +47,6 @@ namespace Base.Domain.Repositorys
         /// <param name="id">用户id</param>
         /// <returns>实体</returns>
         Task<SysTenantUserAggr> GetAsync(Guid id);
-
-        /// <summary>
-        /// 查询实体
-        /// </summary>
-        /// <param name="username">用户名</param>
-        /// <returns>实体</returns>
-        Task<SysUser> GetAsync(string username);
 
         /// <summary>
         /// 查询分页

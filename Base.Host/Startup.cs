@@ -115,7 +115,7 @@ namespace Base.Host
             });
             #endregion
 
-            #region Http
+            #region Http请求服务
 
             var serviceConfig = new HttpServiceConfig();
             Configuration.GetSection(HTTP_SERVICE_KEY).Bind(serviceConfig);
@@ -144,10 +144,6 @@ namespace Base.Host
 
             #endregion
 
-            #region SingleR
-            services.AddSignalR();
-            #endregion
-
             #region AutoMapper
             services.AddAutoMapper(config =>
             {
@@ -161,17 +157,7 @@ namespace Base.Host
             services.AddSingleton<IUploader, Uploader>();
             services.AddScoped<ITenantProvider, TenantProvider>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDbContext<BaseContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
-
-            #endregion
-
-            #region Redis
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = Configuration["Redis:ConnectionString"];
-                options.InstanceName = Configuration["Redis:InstanceName"];
-            });
+            services.AddSingleton(authConfig);
             #endregion
 
             #region Mvc
@@ -188,6 +174,14 @@ namespace Base.Host
             });
             #endregion
 
+            #region Redis
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["Redis:ConnectionString"];
+                options.InstanceName = Configuration["Redis:InstanceName"];
+            });
+            #endregion
+
             #region MongoDb
 
             var mongoDbClient = new MongoClient(Configuration["MongoDb:ConnectionString"]);
@@ -199,32 +193,34 @@ namespace Base.Host
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            // Http
+            // Http数据服务
             builder.RegisterAssemblyTypes(Assembly.Load(HTTP_SERVICE))
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces();
 
-            // 基础
-            builder.RegisterGeneric(typeof(Repository<>))
-                .As(typeof(IEFCoreRepository<>));
-
+            // 应用层
             builder.RegisterAssemblyTypes(Assembly.Load(BASE_APPLICATION))
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces();
 
+            // 领域层
             builder.RegisterAssemblyTypes(Assembly.Load(BASE_DOMAIN))
                 .Where(t => t.Name.EndsWith("Manager"))
                 .AsImplementedInterfaces();
 
-            builder.RegisterType(typeof(BaseContext)).Named<DbContext>("BaseContext");
+            // 仓储层
+            builder.Register(p =>
+            {
+                var optionBuilder = new DbContextOptionsBuilder<BaseContext>();
+                optionBuilder.UseSqlServer(Configuration["ConnectionStrings:Default"]);
+                return optionBuilder.Options;
+            }).AsSelf();
+
+            builder.RegisterType<BaseContext>().Named<DbContext>("BaseContext");
             builder.RegisterAssemblyTypes(Assembly.Load(BASE_REPOSITORY))
                .Where(t => t.Name.EndsWith("Repository"))
                .WithParameter(ResolvedParameter.ForNamed<DbContext>("BaseContext"))
                .AsImplementedInterfaces();
-
-            var authConfig = new AuthConfig();
-            Configuration.GetSection(AUTH).Bind(authConfig);
-            builder.Register(s => authConfig).SingleInstance();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -250,7 +246,7 @@ namespace Base.Host
                 RequestPath = new PathString("/resources"),
                 OnPrepareResponse = (c) =>
                 {
-                    c.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    c.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
                 }
             });
 
@@ -266,7 +262,6 @@ namespace Base.Host
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<SysArticleHub>("/SysArticleHub");
                 endpoints.MapControllers();
             });
         }

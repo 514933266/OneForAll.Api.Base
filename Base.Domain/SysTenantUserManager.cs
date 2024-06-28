@@ -107,28 +107,48 @@ namespace Base.Domain
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns>结果</returns>
-        public async Task<BaseErrType> AddAsync(SysUserForm form)
+        public async Task<BaseMessage> AddAsync(SysUserForm form)
         {
-            var data = await _userRepository.GetAsync(form.UserName);
+            var msg = new BaseMessage();
+            #region 校验
+
+            if (form.Password != form.RePassword)
+                return msg.Fail(BaseErrType.DataNotMatch, "两次密码输入不一致");
+            var data = await _userRepository.GetIQFAsync(form.UserName);
             if (data != null)
             {
-                form.Id = data.Id;// 返回id以便部分业务场景使用
-                return BaseErrType.DataExist;
+                msg.Data = data.Id;// 返回id以便部分业务场景使用
+                return msg.Fail(BaseErrType.DataExist, "账号已被使用");
             }
-            if (form.Password != form.RePassword)
-                return BaseErrType.DataNotMatch;
+            #endregion
 
             data = _mapper.Map<SysUserForm, SysUser>(form);
-            data.SysTenantId = LoginUser.SysTenantId;
+
+            // 默认密码
             if (data.Password.IsNullOrEmpty())
                 data.Password = data.UserName.ToMd5();
-            if (form.UserName.IsMobile() && form.Mobile.IsNullOrEmpty())
-                form.Mobile = form.UserName;
+
+            // 默认手机
+            if (data.UserName.IsMobile() && data.Mobile.IsNullOrEmpty())
+                data.Mobile = data.UserName;
+
+            data.SysTenantId = LoginUser.SysTenantId;
+
+            // 检测手机号是否被使用
+            if (!form.Mobile.IsNullOrEmpty())
+            {
+                var exists = await _userRepository.GetByMobileIQFAsync(data.Mobile);
+                if (exists != null)
+                {
+                    msg.Data = exists.Id;
+                    return msg.Fail(BaseErrType.DataExist, "手机号码已被使用");
+                }
+            }
 
             var effected = await _userRepository.AddAsync(data);
-            form.Id = data.Id;// 返回id以便部分业务场景使用
+            msg.Data = data.Id;
 
-            return effected > 0 ? BaseErrType.Success : BaseErrType.Fail;
+            return effected > 0 ? msg.Success("添加账号成功") : msg.Fail("添加账号失败");
         }
 
         /// <summary>
@@ -136,14 +156,24 @@ namespace Base.Domain
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns>结果</returns>
-        public async Task<BaseErrType> UpdateAsync(SysUserUpdateForm form)
+        public async Task<BaseMessage> UpdateAsync(SysUserUpdateForm form)
         {
+            var msg = new BaseMessage();
             var data = await _userRepository.FindAsync(form.Id);
             if (data == null)
-                return BaseErrType.DataNotFound;
+                return msg.Fail(BaseErrType.DataError, "账号不存在");
+
+            // 检测手机号是否被使用
+            if (!form.Mobile.IsNullOrEmpty())
+            {
+                var exists = await _userRepository.GetAsync(w => w.Mobile == form.Mobile);
+                if (exists != null && exists.Id != data.Id)
+                    return msg.Fail(BaseErrType.DataExist, "手机号码已被使用");
+            }
 
             _mapper.Map(form, data);
-            return await ResultAsync(() => _userRepository.UpdateAsync(data));
+            var effected = await _userRepository.SaveChangesAsync();
+            return effected > 0 ? msg.Success("修改账号成功") : msg.Fail("修改账号失败");
         }
 
         /// <summary>

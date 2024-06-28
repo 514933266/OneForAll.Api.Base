@@ -8,29 +8,22 @@ using System.Threading.Tasks;
 namespace Base.Domain.Models
 {
     /// <summary>
-    /// 修改用户
+    /// 修改个人手机号
     /// </summary>
-    public class SysUserUpdateForm
+    public class SysPersonalUpdateMobileForm
     {
-        public Guid Id { get; set; }
-
         /// <summary>
-        /// 昵称
+        /// 手机号
         /// </summary>
         [Required]
         [StringLength(20)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 手机号码
-        /// </summary>
-        [StringLength(20)]
-        [RegularExpression("^1[0-9]{10}$", ErrorMessage = "手机号码格式错误")]
+        [RegularExpression(@"^1[0-9]{10}$", ErrorMessage = "手机号格式不正确")]
         public string Mobile { get; set; }
 
         /// <summary>
-        /// 用户状态
+        /// 验证码
         /// </summary>
-        public int Status { get; set; }
+        [StringLength(20)]
+        public string Code { get; set; }
     }
 }

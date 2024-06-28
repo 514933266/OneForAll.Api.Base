@@ -10,6 +10,7 @@ using Base.Public.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
+using OneForAll.Core.Extension;
 using static Base.Host.Filters.AuthorizationFilter;
 
 namespace Base.Host.Controllers
@@ -61,19 +62,7 @@ namespace Base.Host.Controllers
         [CheckPermission]
         public async Task<BaseMessage> AddAsync([FromBody] SysUserForm form)
         {
-            var msg = new BaseMessage();
-            msg.ErrType = await _userService.AddAsync(form);
-
-            switch (msg.ErrType)
-            {
-                case BaseErrType.Success:
-                    msg.Data = form.Id.ToString();
-                    return msg.Success("添加成功");
-                case BaseErrType.DataExist:
-                    msg.Data = form.Id.ToString();
-                    return msg.Fail("用户名已被使用");
-                default: return msg.Fail("添加失败");
-            }
+            return await _userService.AddAsync(form);
         }
 
         /// <summary>
@@ -85,16 +74,7 @@ namespace Base.Host.Controllers
         [CheckPermission]
         public async Task<BaseMessage> UpdateAsync([FromBody] SysUserUpdateForm form)
         {
-            var msg = new BaseMessage();
-            msg.ErrType = await _userService.UpdateAsync(form);
-
-            switch (msg.ErrType)
-            {
-                case BaseErrType.Success: return msg.Success("修改成功");
-                case BaseErrType.DataExist: return msg.Fail("用户名已被使用");
-                case BaseErrType.DataNotMatch: return msg.Fail("两次输入的密码不一致");
-                default: return msg.Fail("修改失败");
-            }
+            return await _userService.UpdateAsync(form);
         }
 
         /// <summary>

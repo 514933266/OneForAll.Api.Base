@@ -34,5 +34,10 @@ namespace Base.HttpService.Models
         /// 登录日志
         /// </summary>
         public string SysLoginLog { get; set; } = "SysLoginLog";
+
+        /// <summary>
+        /// 腾讯云短信
+        /// </summary>
+        public string TxCloudSms { get; set; } = "TxCloudSms";
     }
 }

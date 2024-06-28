@@ -42,14 +42,14 @@ namespace Base.Domain.Interfaces
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns>结果</returns>
-        Task<BaseErrType> AddAsync(SysUserForm form);
+        Task<BaseMessage> AddAsync(SysUserForm form);
 
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="form">实体</param>
         /// <returns>结果</returns>
-        Task<BaseErrType> UpdateAsync(SysUserUpdateForm form);
+        Task<BaseMessage> UpdateAsync(SysUserUpdateForm form);
 
         /// <summary>
         /// 删除

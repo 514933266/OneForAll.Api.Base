@@ -26,6 +26,8 @@ using OneForAll.Core.Security;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
 using OneForAll.EFCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Base.Domain
 {
@@ -35,44 +37,54 @@ namespace Base.Domain
     public class SysPersonalManager : SysBaseManager, ISysPersonalManager
     {
         private readonly string CACHE_KEY = "LoginInfo:{0}";
+        private readonly string CACHE_KEY_CODE = "UpdMobileCode:{0}";
         private readonly string UPLOAD_PATH = "/upload/tenants/{0}/headers/";// 文件存储路径
         private readonly string VIRTUAL_PATH = "/resources/tenants/{0}/headers/";// 虚拟路径：根据Startup配置设置,返回给前端访问资源
 
         private readonly IUploader _uploader;
+        private readonly IConfiguration _config;
         private readonly ISysUserRepository _userRepository;
         private readonly ISysMenuRepository _menuRepository;
         private readonly IDistributedCache _cacheRepository;
         private readonly ISysTenantRepository _tenantRepository;
         private readonly ISysPermissionRepository _permRepository;
+        private readonly ISysTenantPermContactRepository _tenantPermRepository;
         private readonly ISysRoleUserContactRepository _roleUserRepository;
         private readonly ISysUserPermContactRepository _userPermRepository;
         private readonly ISysTenantUserContactRepository _tenantUserRepository;
 
+        private readonly ITxCloudSmsHttpService _smsHttpService;
         private readonly ISysGlobalExceptionLogHttpService _exceptionHttpService;
         public SysPersonalManager(
             IMapper mapper,
             IUploader uploader,
+            IConfiguration config,
             IHttpContextAccessor httpContextAccessor,
             ISysUserRepository userRepository,
             ISysMenuRepository menuRepository,
             IDistributedCache cacheRepository,
             ISysTenantRepository tenantRepository,
             ISysPermissionRepository permRepository,
+            ISysTenantPermContactRepository tenantPermRepository,
             ISysRoleUserContactRepository roleUserRepository,
             ISysUserPermContactRepository userPermRepository,
             ISysTenantUserContactRepository tenantUserRepository,
+            ITxCloudSmsHttpService smsHttpService,
             ISysGlobalExceptionLogHttpService exceptionHttpService) : base(mapper, httpContextAccessor)
         {
             _uploader = uploader;
+            _config = config;
             _userRepository = userRepository;
             _menuRepository = menuRepository;
             _cacheRepository = cacheRepository;
             _tenantRepository = tenantRepository;
             _permRepository = permRepository;
+            _tenantPermRepository = tenantPermRepository;
             _roleUserRepository = roleUserRepository;
             _userPermRepository = userPermRepository;
             _tenantUserRepository = tenantUserRepository;
 
+            _smsHttpService = smsHttpService;
             _exceptionHttpService = exceptionHttpService;
         }
 
@@ -83,9 +95,10 @@ namespace Base.Domain
         public async Task<SysLoginUserAggr> GetAsync()
         {
             var user = await _userRepository.GetAsync(LoginUser.Id);
+            var tpids = await _tenantPermRepository.GetListPermissionIdAsync(LoginUser.SysTenantId);
             var pids = await _roleUserRepository.GetListPermIdByUserAsync(LoginUser.Id);
             var pids2 = await _userPermRepository.GetListPermIdByUserAsync(LoginUser.Id);
-            pids = pids.Concat(pids2);
+            pids = pids.Concat(pids2).Intersect(tpids);
 
             var permissions = await _permRepository.GetListAsync(pids);
             var loginUser = _mapper.Map<SysTenantUserAggr, SysLoginUserAggr>(user);
@@ -203,6 +216,79 @@ namespace Base.Domain
             {
                 data.SysTenantId = tenantId;
                 return await ResultAsync(_userRepository.SaveChangesAsync);
+            }
+            return BaseErrType.Fail;
+        }
+
+        /// <summary>
+        /// 修改手机号
+        /// </summary>
+        public async Task<BaseErrType> UpdateMobileAsync([FromBody] SysPersonalUpdateMobileForm form)
+        {
+            string cacheKey = CACHE_KEY_CODE.Fmt(LoginUser.Id);
+            var cache = await _cacheRepository.GetStringAsync(cacheKey);
+            if (form.Code.IsNullOrEmpty())
+            {
+                if (cache != null)
+                {
+                    // 验证码已存在，但参数未提供验证码
+                    return BaseErrType.NotAllow;
+                }
+                else
+                {
+                    // 发送验证码
+                    var code = StringHelper.GetRandomNumber(4);
+                    var templateId = _config["TxCloudSms:TemplateId"];
+                    var signName = _config["TxCloudSms:SignName"];
+                    var msg = await _smsHttpService.SendAsync(signName, code, templateId, form.Mobile);
+                    if (msg.Status)
+                    {
+                        // 记录验证码
+                        var cacheVal = "{0}|{1}".Fmt(code, form.Mobile);
+                        await _cacheRepository.SetStringAsync(cacheKey, cacheVal, new DistributedCacheEntryOptions()
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(60)
+                        });
+                        return BaseErrType.Success;
+                    }
+                    return BaseErrType.Fail;
+                }
+            }
+            else
+            {
+                if (cache != null)
+                {
+                    // 1.校验验证码
+                    var code = cache.Split('|')[0];
+                    if (code != form.Code)
+                        return BaseErrType.AuthCodeInvalid;
+
+                    // 2.删除验证码缓存
+                    await _cacheRepository.RemoveAsync(cacheKey);
+
+                    // 3.校验手机号
+                    var mobile = cache.Split('|')[1];
+                    if (mobile != form.Mobile)
+                        return BaseErrType.DataNotMatch;
+
+                    // 4.校验手机号是否已存在
+                    var exists = await _userRepository.GetByMobileIQFAsync(form.Mobile);
+                    if (exists != null)
+                        return BaseErrType.DataExist;
+
+                    var user = await _userRepository.GetIQFAsync(LoginUser.Id);
+                    if (user != null)
+                    {
+                        user.Mobile = form.Mobile;
+                        user.UpdateTime = DateTime.Now;
+                        return await ResultAsync(() => _userRepository.SaveChangesAsync());
+                    }
+                }
+                else
+                {
+                    // 验证码不存在
+                    return BaseErrType.AuthCodeInvalid;
+                }
             }
             return BaseErrType.Fail;
         }

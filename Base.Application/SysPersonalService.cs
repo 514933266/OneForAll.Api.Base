@@ -10,6 +10,7 @@ using Base.Domain.Repositorys;
 using Base.Domain.ValueObjects;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
+using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Upload;
@@ -95,6 +96,14 @@ namespace Base.Application
         public async Task<BaseErrType> UpdateTenantAsync(Guid tenantId)
         {
             return await _manager.UpdateTenantAsync(tenantId);
+        }
+
+        /// <summary>
+        /// 修改手机号
+        /// </summary>
+        public async Task<BaseErrType> UpdateMobileAsync(SysPersonalUpdateMobileForm form)
+        {
+            return await _manager.UpdateMobileAsync(form);
         }
 
         /// <summary>

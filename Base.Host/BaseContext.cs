@@ -3,6 +3,7 @@ using Base.Domain;
 using Base.Domain.AggregateRoots;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using OneForAll.Core.DDD;
 
 namespace Base.Host
 {
@@ -70,121 +71,122 @@ namespace Base.Host
         {
             #region 菜单权限
 
-            modelBuilder.Entity<SysMenu>(form =>
+            modelBuilder.Entity<SysMenu>(entity =>
             {
-                form.ToTable("Sys_Menu");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_Menu");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<SysPermission>(form =>
+            modelBuilder.Entity<SysPermission>(entity =>
             {
-                form.ToTable("Sys_Permission");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_Permission");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<SysTenantPermContact>(form =>
+            modelBuilder.Entity<SysTenantPermContact>(entity =>
             {
-                form.ToTable("Sys_TenantPermContact");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_TenantPermContact");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<SysRolePermContact>(form =>
+            modelBuilder.Entity<SysRolePermContact>(entity =>
             {
-                form.ToTable("Sys_RolePermContact");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_RolePermContact");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<SysRoleUserContact>(form =>
+            modelBuilder.Entity<SysRoleUserContact>(entity =>
             {
-                form.ToTable("Sys_RoleUserContact");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_RoleUserContact");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<SysUserPermContact>(form =>
+            modelBuilder.Entity<SysUserPermContact>(entity =>
             {
-                form.ToTable("Sys_UserPermContact");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_UserPermContact");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             #endregion
 
             #region 系统用户
 
-            modelBuilder.Entity<SysTenant>(form =>
+            modelBuilder.Entity<SysTenant>(entity =>
             {
-                form.ToTable("Sys_Tenant");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
-                form.HasQueryFilter(e => (e.Id == _tenantId || e.ParentId == _tenantId));
+                entity.ToTable("Sys_Tenant");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasQueryFilter(e => (e.Id == _tenantId || e.ParentId == _tenantId));
             });
 
-            modelBuilder.Entity<SysRole>(form =>
+            modelBuilder.Entity<SysRole>(entity =>
             {
-                form.ToTable("Sys_Role");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
-                form.HasQueryFilter(e => e.SysTenantId == _tenantId);
+                entity.ToTable("Sys_Role");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
             });
 
-            modelBuilder.Entity<SysUser>(form =>
+            modelBuilder.Entity<SysUser>(entity =>
             {
-                form.ToTable("Sys_User");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
-                form.HasQueryFilter(e => e.SysTenantId == _tenantId);
+                entity.ToTable("Sys_User");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasIndex(b => b.UserName).IsUnique();
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
             });
 
-            modelBuilder.Entity<SysTenantUserContact>(form =>
+            modelBuilder.Entity<SysTenantUserContact>(entity =>
             {
-                form.ToTable("Sys_TenantUserContact");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_TenantUserContact");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             #endregion
 
             #region 公共数据
 
-            modelBuilder.Entity<SysArea>(form =>
+            modelBuilder.Entity<SysArea>(entity =>
             {
-                form.ToTable("Sys_Area");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_Area");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             #endregion
 
             #region 系统通知
 
-            modelBuilder.Entity<SysArticleType>(form =>
+            modelBuilder.Entity<SysArticleType>(entity =>
             {
-                form.ToTable("Sys_ArticleType");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
-                form.HasQueryFilter(e => e.SysTenantId == _tenantId);
+                entity.ToTable("Sys_ArticleType");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
             });
 
-            modelBuilder.Entity<SysArticle>(form =>
+            modelBuilder.Entity<SysArticle>(entity =>
             {
-                form.ToTable("Sys_Article");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
-                form.HasQueryFilter(e => e.SysTenantId == _tenantId);
+                entity.ToTable("Sys_Article");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
             });
 
-            modelBuilder.Entity<SysArticleRecord>(form =>
+            modelBuilder.Entity<SysArticleRecord>(entity =>
             {
-                form.ToTable("Sys_ArticleRecord");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_ArticleRecord");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             #endregion
 
             #region 微信用户
 
-            modelBuilder.Entity<SysWechatUser>(form =>
+            modelBuilder.Entity<SysWechatUser>(entity =>
             {
-                form.ToTable("Sys_WechatUser");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_WechatUser");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<SysWxgzhSubscribeUser>(form =>
+            modelBuilder.Entity<SysWxgzhSubscribeUser>(entity =>
             {
-                form.ToTable("Sys_WxgzhSubscribeUser");
-                form.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.ToTable("Sys_WxgzhSubscribeUser");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             #endregion

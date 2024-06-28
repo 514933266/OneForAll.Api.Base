@@ -22,6 +22,13 @@ namespace Base.Domain.Interfaces
         Task<IEnumerable<UmsMessage>> GetListAsync(int top);
 
         /// <summary>
+        /// 查询未读消息
+        /// </summary>
+        /// <param name="day">近几天</param>
+        /// <returns>列表</returns>
+        Task<IEnumerable<UmsMessage>> GetListByDayAsync(int day);
+
+        /// <summary>
         /// 获取消息分页列表
         /// </summary>
         /// <param name="pageIndex">页码</param>

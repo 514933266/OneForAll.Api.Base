@@ -101,11 +101,11 @@ namespace Base.Application
         /// 设置权限
         /// </summary>
         /// <param name="id">角色id</param>
-        /// <param name="forms">权限id</param>
+        /// <param name="pids">权限id</param>
         /// <returns>权限列表</returns>
-        public async Task<BaseErrType> AddPermissionAsync(Guid id, IEnumerable<SysMenuPermissionForm> forms)
+        public async Task<BaseErrType> AddPermissionAsync(Guid id, IEnumerable<Guid> pids)
         {
-            return await _rolePermManager.AddAsync(id, forms);
+            return await _rolePermManager.AddAsync(id, pids);
         }
         #endregion
 

@@ -125,21 +125,21 @@ namespace Base.Host.Controllers.Core
         /// 添加权限
         /// </summary>
         /// <param name="id">角色id</param>
-        /// <param name="forms">权限id</param>
+        /// <param name="pids">权限id</param>
         /// <returns>结果</returns>
         [HttpPost]
         [Route("{id}/Permissions")]
         [CheckPermission(Action = "Update")]
-        public async Task<BaseMessage> AddPermissionAsync(Guid id, [FromBody] IEnumerable<SysMenuPermissionForm> forms)
+        public async Task<BaseMessage> AddPermissionAsync(Guid id, [FromBody] IEnumerable<Guid> pids)
         {
             var msg = new BaseMessage();
-            msg.ErrType = await _service.AddPermissionAsync(id, forms);
+            msg.ErrType = await _service.AddPermissionAsync(id, pids);
 
             switch (msg.ErrType)
             {
-                case BaseErrType.Success: return msg.Success("添加成功");
+                case BaseErrType.Success: return msg.Success("添加权限成功");
                 case BaseErrType.DataNotFound: return msg.Fail("角色不存在");
-                default: return msg.Fail("添加失败");
+                default: return msg.Fail("添加权限失败");
             }
         }
 
@@ -167,7 +167,6 @@ namespace Base.Host.Controllers.Core
         /// <returns>用户</returns>
         [HttpGet]
         [Route("{id}/Users")]
-        [CheckPermission(Action = "Update")]
         public async Task<IEnumerable<SysRoleSelectionMemberDto>> GetListUnJoinedUserAsync(
             Guid id,
             [FromQuery] string key = default)

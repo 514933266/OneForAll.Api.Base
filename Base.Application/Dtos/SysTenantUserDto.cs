@@ -28,7 +28,7 @@ namespace Base.Application.Dtos
         /// </summary>
         [Required]
         [StringLength(20)]
-        public string Mobile { get; set; } = "";
+        public string Mobile { get; set; }
 
         /// <summary>
         /// 头像路径

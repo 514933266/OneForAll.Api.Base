@@ -28,6 +28,11 @@ namespace Base.Application.Dtos
         public string TenantName { get; set; }
 
         /// <summary>
+        /// 所属机构logo
+        /// </summary>
+        public string TenantLogoUrl { get; set; }
+
+        /// <summary>
         /// 账号
         /// </summary>
         public string UserName { get; set; }

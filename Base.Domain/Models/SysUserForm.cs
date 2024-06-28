@@ -43,6 +43,7 @@ namespace Base.Domain.Models
         /// 手机号码
         /// </summary>
         [StringLength(20)]
+        [RegularExpression("^1[0-9]{10}$", ErrorMessage = "手机号码格式错误")]
         public string Mobile { get; set; }
 
         /// <summary>

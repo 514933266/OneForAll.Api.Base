@@ -8,6 +8,7 @@ using Base.Domain.Repositorys;
 using Base.Domain.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
+using NPOI.XWPF.UserModel;
 using OneForAll.Core;
 using OneForAll.Core.DDD;
 using OneForAll.Core.Extension;
@@ -26,26 +27,46 @@ namespace Base.Domain
     /// </summary>
     public class SysPersonalMessageManager : SysBaseManager, ISysPersonalMessageManager
     {
-        private readonly IUmsMessageMongoRepository _messageRepository;
+        private readonly IUmsMessageMongoRepository _repository;
 
         public SysPersonalMessageManager(
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
-            IUmsMessageMongoRepository messageRepository) : base(mapper, httpContextAccessor)
+            IUmsMessageMongoRepository repository) : base(mapper, httpContextAccessor)
         {
-            _messageRepository = messageRepository;
+            _repository = repository;
         }
 
         /// <summary>
         /// 获取未读消息
         /// </summary>
+        /// <param name="top">前几条</param>
         /// <returns>分页列表</returns>
         public async Task<IEnumerable<UmsMessage>> GetListAsync(int top)
         {
             if (top > 100) top = 100;
             try
             {
-                return await _messageRepository.GetListAsync(LoginUser.Id, top);
+                return await _repository.GetListAsync(LoginUser.Id, top);
+            }
+            catch
+            {
+                // 没有安装Mongodb
+                return new List<UmsMessage>();
+            }
+        }
+
+        /// <summary>
+        /// 查询未读消息
+        /// </summary>
+        /// <param name="day">近几天</param>
+        /// <returns>列表</returns>
+        public async Task<IEnumerable<UmsMessage>> GetListByDayAsync(int day)
+        {
+            if (day > 30) day = 30;
+            try
+            {
+                return await _repository.GetListByDayAsync(LoginUser.Id, day);
             }
             catch
             {
@@ -67,7 +88,7 @@ namespace Base.Domain
             if (pageIndex < 1) pageIndex = 1;
             if (pageSize < 1) pageSize = 10;
             if (pageSize > 100) pageSize = 100;
-            return await _messageRepository.GetPageAsync(LoginUser.Id, pageIndex, pageSize, key, status);
+            return await _repository.GetPageAsync(LoginUser.Id, pageIndex, pageSize, key, status);
         }
 
         /// <summary>
@@ -76,7 +97,7 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<int> GetUnReadCountAsync()
         {
-            return await _messageRepository.GetUnReadCountAsync(LoginUser.Id);
+            return await _repository.GetUnReadCountAsync(LoginUser.Id);
         }
 
         /// <summary>
@@ -86,7 +107,7 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> ReadAsync(IEnumerable<Guid> ids)
         {
-            var effect = await _messageRepository.UpdateIsReadAsync(LoginUser.Id, ids);
+            var effect = await _repository.UpdateIsReadAsync(LoginUser.Id, ids);
             return effect > 0 ? BaseErrType.Success : BaseErrType.Fail;
         }
 
@@ -96,7 +117,7 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> ReadAllAsync()
         {
-            var effect = await _messageRepository.UpdateIsReadAsync(LoginUser.Id);
+            var effect = await _repository.UpdateIsReadAsync(LoginUser.Id);
             return effect > 0 ? BaseErrType.Success : BaseErrType.Fail;
         }
 
@@ -107,7 +128,7 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> DeleteAsync(IEnumerable<Guid> ids)
         {
-            var effect = await _messageRepository.DeleteAsync(LoginUser.Id, ids);
+            var effect = await _repository.DeleteAsync(LoginUser.Id, ids);
             return effect > 0 ? BaseErrType.Success : BaseErrType.Fail;
         }
 
@@ -117,7 +138,7 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> DeleteAsync()
         {
-            var effect = await _messageRepository.DeleteAsync(LoginUser.Id);
+            var effect = await _repository.DeleteAsync(LoginUser.Id);
             return effect > 0 ? BaseErrType.Success : BaseErrType.Fail;
         }
     }

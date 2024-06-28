@@ -2,6 +2,7 @@
 using Base.Domain.Enums;
 using Base.Domain.Models;
 using Base.Domain.ValueObjects;
+using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
 using OneForAll.Core.Upload;
 using System;
@@ -51,6 +52,11 @@ namespace Base.Application.Interfaces
         /// <param name="tenantId">要新绑定的租户id</param>
         /// <returns>结果</returns>
         Task<BaseErrType> UpdateTenantAsync(Guid tenantId);
+
+        /// <summary>
+        /// 修改手机号
+        /// </summary>
+        Task<BaseErrType> UpdateMobileAsync([FromBody] SysPersonalUpdateMobileForm form);
 
         /// <summary>
         /// 获取菜单

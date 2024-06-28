@@ -61,9 +61,9 @@ namespace Base.Application.Interfaces
         /// 设置权限
         /// </summary>
         /// <param name="id">角色id</param>
-        /// <param name="forms">权限id</param>
+        /// <param name="ids">权限id</param>
         /// <returns>权限列表</returns>
-        Task<BaseErrType> AddPermissionAsync(Guid id, IEnumerable<SysMenuPermissionForm> forms);
+        Task<BaseErrType> AddPermissionAsync(Guid id, IEnumerable<Guid> ids);
 
         #endregion
 

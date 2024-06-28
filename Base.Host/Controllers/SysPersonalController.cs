@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
+using OneForAll.Core.Extension;
 using OneForAll.Core.Upload;
 
 namespace Base.Host.Controllers
@@ -144,6 +145,27 @@ namespace Base.Host.Controllers
                 case BaseErrType.Success: return msg.Success("修改成功");
                 case BaseErrType.DataNotFound: return msg.Fail("用户不存在");
                 default: return msg.Fail("修改失败");
+            }
+        }
+
+        /// <summary>
+        /// 修改手机号
+        /// </summary>
+        [HttpPatch, HttpPost]
+        [Route("Mobile")]
+        public async Task<BaseMessage> UpdateMobileAsync([FromBody] SysPersonalUpdateMobileForm form)
+        {
+            var msg = new BaseMessage();
+            msg.ErrType = await _service.UpdateMobileAsync(form);
+
+            switch (msg.ErrType)
+            {
+                case BaseErrType.Success: return msg.Success(form.Code.IsNullOrEmpty() ? "验证码发送成功" : "修改成功");
+                case BaseErrType.AuthCodeInvalid: return msg.Fail("验证码错误");
+                case BaseErrType.NotAllow: return msg.Fail("短信已发送，请稍后再重新获取");
+                case BaseErrType.DataNotMatch: return msg.Fail("手机号不匹配");
+                case BaseErrType.DataExist: return msg.Fail("手机号已存在其他绑定账号");
+                default: return msg.Fail(form.Code.IsNullOrEmpty() ? "验证码发送失败" : "修改失败");
             }
         }
 

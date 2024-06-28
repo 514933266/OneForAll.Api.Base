@@ -22,7 +22,14 @@ namespace Base.Application.Interfaces
         /// </summary>
         /// <param name="top">数量</param>
         /// <returns>列表</returns>
-        Task<IEnumerable<SysPersonalMessageDto>> GetListMessageAsync(int top);
+        Task<IEnumerable<SysPersonalMessageDto>> GetListAsync(int top);
+
+        /// <summary>
+        /// 查询未读消息
+        /// </summary>
+        /// <param name="day">近几天</param>
+        /// <returns>列表</returns>
+        Task<IEnumerable<SysPersonalMessageDto>> GetListByDayAsync(int day);
 
         /// <summary>
         /// 获取消息分页列表
@@ -32,7 +39,7 @@ namespace Base.Application.Interfaces
         /// <param name="key">关键字</param>
         /// <param name="status">状态</param>
         /// <returns>分页列表</returns>
-        Task<PageList<SysPersonalMessageDto>> GetPageMessageAsync(int pageIndex, int pageSize, string key, UmsMessageStatusEnum status);
+        Task<PageList<SysPersonalMessageDto>> GetPageAsync(int pageIndex, int pageSize, string key, UmsMessageStatusEnum status);
 
         /// <summary>
         /// 获取未读消息

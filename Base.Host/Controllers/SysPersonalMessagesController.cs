@@ -36,12 +36,25 @@ namespace Base.Host.Controllers
         /// <summary>
         /// 查询未读消息
         /// </summary>
+        /// <param name="top">前几条</param>
         /// <returns>列表</returns>
         [HttpGet]
         [Route("{top}")]
-        public async Task<IEnumerable<SysPersonalMessageDto>> GetListMessageAsync(int top)
+        public async Task<IEnumerable<SysPersonalMessageDto>> GetListAsync(int top)
         {
-            return await _service.GetListMessageAsync(top);
+            return await _service.GetListAsync(top);
+        }
+
+        /// <summary>
+        /// 查询未读消息
+        /// </summary>
+        /// <param name="day">近几天</param>
+        /// <returns>列表</returns>
+        [HttpGet]
+        [Route("{day}/UnReads")]
+        public async Task<IEnumerable<SysPersonalMessageDto>> GetListByDayAsync(int day)
+        {
+            return await _service.GetListByDayAsync(day);
         }
 
         /// <summary>
@@ -54,9 +67,9 @@ namespace Base.Host.Controllers
         /// <returns>列表</returns>
         [HttpGet]
         [Route("{pageIndex}/{pageSize}")]
-        public async Task<PageList<SysPersonalMessageDto>> GetPageMessageAsync(int pageIndex, int pageSize, [FromQuery] string key, [FromQuery] UmsMessageStatusEnum status)
+        public async Task<PageList<SysPersonalMessageDto>> GetPageAsync(int pageIndex, int pageSize, [FromQuery] string key, [FromQuery] UmsMessageStatusEnum status)
         {
-            return await _service.GetPageMessageAsync(pageIndex, pageSize, key, status);
+            return await _service.GetPageAsync(pageIndex, pageSize, key, status);
         }
 
         /// <summary>
@@ -82,17 +95,10 @@ namespace Base.Host.Controllers
         {
             var msg = new BaseMessage();
             msg.ErrType = await _service.ReadAsync(ids);
-            if (isQuiet)
+            switch (msg.ErrType)
             {
-                return msg.ErrType;
-            }
-            else
-            {
-                switch (msg.ErrType)
-                {
-                    case BaseErrType.Success: return msg.Success("操作成功");
-                    default: return msg.Fail("操作失败");
-                }
+                case BaseErrType.Success: return msg.Success(isQuiet ? "操作成功" : "");
+                default: return msg.Fail(isQuiet ? "操作失败" : "");
             }
         }
 

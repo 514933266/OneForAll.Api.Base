@@ -15,12 +15,20 @@ namespace Base.Domain.Repositorys
     public interface IUmsMessageMongoRepository
     {
         /// <summary>
-        /// 查询用户前5条未读消息
+        /// 查询用户前x条未读消息
         /// </summary>
         /// <param name="userId">用户id</param>
         /// <param name="top">数量</param>
         /// <returns></returns>
         Task<IEnumerable<UmsMessage>> GetListAsync(Guid userId, int top);
+
+        /// <summary>
+        /// 查询用户近x天未读消息
+        /// </summary>
+        /// <param name="userId">用户id</param>
+        /// <param name="day">近几天</param>
+        /// <returns></returns>
+        Task<IEnumerable<UmsMessage>> GetListByDayAsync(Guid userId, int day);
 
         /// <summary>
         /// 查询用户消息分页列表

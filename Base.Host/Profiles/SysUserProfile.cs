@@ -23,6 +23,7 @@ namespace Base.Host.Profiles
             CreateMap<SysLoginUserAggr, SysPersonalDto>()
                 .ForMember(t => t.TenantId, a => a.MapFrom(s => s.SysTenant.Id))
                 .ForMember(t => t.TenantName, a => a.MapFrom(s => s.SysTenant.Name))
+                .ForMember(t => t.TenantLogoUrl, a => a.MapFrom(s => s.SysTenant.LogoUrl))
                 .ForMember(t => t.Menus, a => a.MapFrom(s => s.SysLoginUserMenus));
             CreateMap<SysLoginUserAggr, SysTenantUserDto>()
                 .ForMember(t => t.Menus, a => a.MapFrom(s => s.SysLoginUserMenus));

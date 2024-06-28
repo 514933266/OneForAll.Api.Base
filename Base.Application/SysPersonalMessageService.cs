@@ -7,6 +7,7 @@ using Base.Domain.Enums;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
 using Base.Domain.ValueObjects;
+using Microsoft.AspNetCore.Mvc;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Upload;
@@ -41,9 +42,20 @@ namespace Base.Application
         /// </summary>
         /// <param name="top">数量</param>
         /// <returns>列表</returns>
-        public async Task<IEnumerable<SysPersonalMessageDto>> GetListMessageAsync(int top)
+        public async Task<IEnumerable<SysPersonalMessageDto>> GetListAsync(int top)
         {
             var data = await _manager.GetListAsync(top);
+            return _mapper.Map<IEnumerable<UmsMessage>, IEnumerable<SysPersonalMessageDto>>(data);
+        }
+
+        /// <summary>
+        /// 查询未读消息
+        /// </summary>
+        /// <param name="day">近几天</param>
+        /// <returns>列表</returns>
+        public async Task<IEnumerable<SysPersonalMessageDto>> GetListByDayAsync(int day)
+        {
+            var data = await _manager.GetListByDayAsync(day);
             return _mapper.Map<IEnumerable<UmsMessage>, IEnumerable<SysPersonalMessageDto>>(data);
         }
 
@@ -55,7 +67,7 @@ namespace Base.Application
         /// <param name="key">关键字</param>
         /// <param name="status">状态</param>
         /// <returns>分页列表</returns>
-        public async Task<PageList<SysPersonalMessageDto>> GetPageMessageAsync(int pageIndex, int pageSize, string key, UmsMessageStatusEnum status)
+        public async Task<PageList<SysPersonalMessageDto>> GetPageAsync(int pageIndex, int pageSize, string key, UmsMessageStatusEnum status)
         {
             var data = await _manager.GetPageAsync(pageIndex, pageSize, key, status);
             var items = _mapper.Map<IEnumerable<UmsMessage>, IEnumerable<SysPersonalMessageDto>>(data.Items);

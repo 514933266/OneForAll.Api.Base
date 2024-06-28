@@ -24,8 +24,8 @@ namespace Base.Domain.Interfaces
         /// 添加
         /// </summary>
         /// <param name="roleId">角色id</param>
-        /// <param name="forms">权限id</param>
+        /// <param name="pids">权限id</param>
         /// <returns>权限列表</returns>
-        Task<BaseErrType> AddAsync(Guid roleId, IEnumerable<SysMenuPermissionForm> forms);
+        Task<BaseErrType> AddAsync(Guid roleId, IEnumerable<Guid> pids);
     }
 }
