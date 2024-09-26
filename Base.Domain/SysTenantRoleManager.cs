@@ -61,6 +61,28 @@ namespace Base.Domain
         }
 
         /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>角色列表</returns>
+        public async Task<IEnumerable<SysRoleAggr>> GetListAsync(string key)
+        {
+            var data = await _roleRepository.GetListAsync(key);
+            var result = _mapper.Map<IEnumerable<SysRole>, IEnumerable<SysRoleAggr>>(data);
+            var rids = data.Select(s => s.Id).ToList();
+            var counts = await _roleUserRepository.GetListRoleUserCountAsync(rids);
+            result.ForEach(e =>
+            {
+                var item = counts.FirstOrDefault(w => w.SysRoleId == e.Id);
+                if (item != null)
+                {
+                    e.MemberCount = item.MemberCount;
+                }
+            });
+            return result;
+        }
+
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="tenantId">租户id</param>

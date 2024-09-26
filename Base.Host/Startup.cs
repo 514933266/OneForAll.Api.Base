@@ -211,15 +211,15 @@ namespace Base.Host
             // 仓储层
             builder.Register(p =>
             {
-                var optionBuilder = new DbContextOptionsBuilder<BaseContext>();
+                var optionBuilder = new DbContextOptionsBuilder<BaseDbContext>();
                 optionBuilder.UseSqlServer(Configuration["ConnectionStrings:Default"]);
                 return optionBuilder.Options;
             }).AsSelf();
 
-            builder.RegisterType<BaseContext>().Named<DbContext>("BaseContext");
+            builder.RegisterType<BaseDbContext>().Named<DbContext>("BaseDbContext");
             builder.RegisterAssemblyTypes(Assembly.Load(BASE_REPOSITORY))
                .Where(t => t.Name.EndsWith("Repository"))
-               .WithParameter(ResolvedParameter.ForNamed<DbContext>("BaseContext"))
+               .WithParameter(ResolvedParameter.ForNamed<DbContext>("BaseDbContext"))
                .AsImplementedInterfaces();
         }
 

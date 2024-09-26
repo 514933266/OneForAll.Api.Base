@@ -14,23 +14,24 @@ using OneForAll.EFCore;
 using OneForAll.Core.Utility;
 using OneForAll.Core.Extension;
 using OneForAll.Core.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace Base.Domain
 {
     /// <summary>
     /// 领域服务：机构（租户）
     /// </summary>
-    public class SysTenantManager: BaseManager, ISysTenantManager
+    public class SysTenantManager: SysBaseManager, ISysTenantManager
     {
-        private readonly IMapper _mapper;
-        private readonly ISysTenantRepository _tenantRepository;
+        private readonly ISysTenantRepository _repository;
         public SysTenantManager(
             IMapper mapper,
-            ISysTenantRepository tenantRepository)
+            IHttpContextAccessor httpContextAccessor,
+            ISysTenantRepository repository) : base(mapper, httpContextAccessor)
         {
-            _mapper = mapper;
-            _tenantRepository = tenantRepository;
+            _repository = repository;
         }
+
         /// <summary>
         /// 获取机构
         /// </summary>
@@ -38,7 +39,11 @@ namespace Base.Domain
         /// <returns>机构</returns>
         public async Task<SysTenant> GetAsync(Guid id)
         {
-            return await _tenantRepository.FindAsync(id);
+            if (id == Guid.Empty)
+            {
+                return await _repository.FindAsync(LoginUser.SysTenantId);
+            }
+            return await _repository.FindAsync(id);
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace Base.Domain
             if (pageIndex < 1)  pageIndex = 1;
             if (pageSize < 1)   pageSize = 10;
             if (pageSize > 100) pageSize = 100;
-            return await _tenantRepository.GetPageAsync(pageIndex, pageSize, key, isEnabled, startDate, endDate);
+            return await _repository.GetPageAsync(pageIndex, pageSize, key, isEnabled, startDate, endDate);
         }
 
         /// <summary>
@@ -73,7 +78,7 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> AddAsync(Guid tenantId, SysTenantForm form)
         {
-            var data = await _tenantRepository.GetByNameAsync(form.Name);
+            var data = await _repository.GetByNameAsync(form.Name);
             if (data != null)
                 return BaseErrType.DataExist;
 
@@ -84,7 +89,7 @@ namespace Base.Domain
             {
                 data.Code = StringHelper.GetRandomString(18);
             }
-            return await ResultAsync(() => _tenantRepository.AddAsync(data));
+            return await ResultAsync(() => _repository.AddAsync(data));
         }
 
         /// <summary>
@@ -94,13 +99,13 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> UpdateAsync(SysTenantForm form)
         {
-            var data = await _tenantRepository.GetByNameAsync(form.Name);
+            var data = await _repository.GetByNameAsync(form.Name);
             if (data != null && data.Id != form.Id)
                 return BaseErrType.DataExist;
-            data = await _tenantRepository.GetByCodeAsync(form.Code);
+            data = await _repository.GetByCodeAsync(form.Code);
             if (data != null && data.Id != form.Id)
                 return BaseErrType.DataExist;
-            data = await _tenantRepository.FindAsync(form.Id);
+            data = await _repository.FindAsync(form.Id);
             if (data == null)
                 return BaseErrType.DataNotFound;
 
@@ -109,7 +114,7 @@ namespace Base.Domain
             {
                 data.Code = StringHelper.GetRandomString(18);
             }
-            return await ResultAsync(() => _tenantRepository.UpdateAsync(data));
+            return await ResultAsync(() => _repository.UpdateAsync(data));
         }
 
         /// <summary>
@@ -119,10 +124,10 @@ namespace Base.Domain
         /// <returns>结果</returns>
         public async Task<BaseErrType> DeleteAsync(IEnumerable<Guid> ids)
         {
-            var data = await _tenantRepository.GetListAsync(ids);
+            var data = await _repository.GetListAsync(ids);
             if (!data.Any()) return BaseErrType.DataEmpty;
 
-            return await ResultAsync(() => _tenantRepository.DeleteRangeAsync(data));
+            return await ResultAsync(() => _repository.DeleteRangeAsync(data));
         }
     }
 }

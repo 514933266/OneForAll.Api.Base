@@ -3,15 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using Base.Application;
 using Base.Application.Dtos;
-using Base.Domain.AggregateRoots;
 using System.Threading.Tasks;
-using Base.Host.Models;
 using Base.Domain.Models;
 using Base.Application.Interfaces;
 using Base.Public.Models;
-using static Base.Host.Filters.AuthorizationFilter;
 using Base.Host.Filters;
 
 namespace Base.Host.Controllers.Core
@@ -47,6 +43,17 @@ namespace Base.Host.Controllers.Core
             [FromQuery] string key = default)
         {
             return await _service.GetPageAsync(pageIndex, pageSize, key);
+        }
+
+        /// <summary>
+        /// 获取分页
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>角色列表</returns>
+        [HttpGet]
+        public async Task<IEnumerable<SysRoleDto>> GetListAsync([FromQuery] string key = default)
+        {
+            return await _service.GetListAsync(key);
         }
 
         /// <summary>

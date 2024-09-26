@@ -94,7 +94,8 @@ namespace Base.Host.Filters
             var methods = new string[] { "POST", "PUT", "PATCH", "DELETED" };
             if (methods.Contains(method))
             {
-                if (context.Request.HasJsonContentType())
+                var isUpload = (context.Request.ContentType?.StartsWith("multipart/form-data")).TryBoolean() && context.Request.HasFormContentType;
+                if (!isUpload)
                 {
                     context.Request.EnableBuffering();
 

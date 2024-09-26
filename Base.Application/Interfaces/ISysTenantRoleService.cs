@@ -25,6 +25,13 @@ namespace Base.Application.Interfaces
         Task<PageList<SysRoleDto>> GetPageAsync(int pageIndex, int pageSize, string key);
 
         /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>角色列表</returns>
+        Task<IEnumerable<SysRoleDto>> GetListAsync(string key);
+
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="tenantId">租户id</param>

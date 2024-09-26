@@ -5,6 +5,7 @@ using OneForAll.Core;
 using OneForAll.Core.Extension;
 using OneForAll.Core.ORM;
 using OneForAll.EFCore;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,21 +48,6 @@ namespace Base.Repository
         }
 
         /// <summary>
-        /// 查询实体（含成员）
-        /// </summary>
-        /// <param name="id">实体id</param>
-        /// <returns>实体</returns>
-        public async Task<SysRole> GetWithMembersAsync(Guid id)
-        {
-            return null;
-            //return await DbSet
-            //    .Where(w => w.Id.Equals(id))
-            //    .Include(e => e.SysRoleUserContacts)
-            //        .ThenInclude(e => e.SysUser)
-            //    .FirstOrDefaultAsync();
-        }
-
-        /// <summary>
         /// 查询实体
         /// </summary>
         /// <param name="name">名称</param>
@@ -74,30 +60,25 @@ namespace Base.Repository
         }
 
         /// <summary>
-        /// 查询实体（含权限）
-        /// </summary>
-        /// <param name="id">实体id</param>
-        /// <returns>结果</returns>
-        public async Task<SysRole> GetWithPermsAsync(Guid id)
-        {
-            return null;
-            //return await DbSet
-            //    .Where(w => w.Id.Equals(id))
-            //    .Include(e => e.SysRolePermContacts)
-            //        .ThenInclude(e => e.SysPermission)
-            //    .FirstOrDefaultAsync();
-        }
-
-        /// <summary>
         /// 查询列表
         /// </summary>
         /// <param name="ids">角色id</param>
         /// <returns>列表</returns>
         public async Task<IEnumerable<SysRole>> GetListAsync(IEnumerable<Guid> ids)
         {
-            return await DbSet
-                .Where(w => ids.Contains(w.Id))
-                .ToListAsync();
+            return await DbSet.Where(w => ids.Contains(w.Id)).ToListAsync();
+        }
+
+        /// <summary>
+        /// 查询列表
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>列表</returns>
+        public async Task<IEnumerable<SysRole>> GetListAsync(string key)
+        {
+            var predicate = PredicateBuilder.Create<SysRole>(w => true);
+            if (!key.IsNullOrEmpty()) predicate = predicate.And(w => w.Name.Contains(key));
+            return await DbSet.Where(predicate).ToListAsync();
         }
     }
 }

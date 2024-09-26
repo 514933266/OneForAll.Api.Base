@@ -24,13 +24,6 @@ namespace Base.Domain.Repositorys
         Task<PageList<SysRole>> GetPageAsync(int pageIndex, int pageSize, string key);
 
         /// <summary>
-        /// 查询实体（含成员）
-        /// </summary>
-        /// <param name="id">实体id</param>
-        /// <returns>实体</returns>
-        Task<SysRole> GetWithMembersAsync(Guid id);
-
-        /// <summary>
         /// 查询实体
         /// </summary>
         /// <param name="name">名称</param>
@@ -38,17 +31,17 @@ namespace Base.Domain.Repositorys
         Task<SysRole> GetByNameAsync(string name);
 
         /// <summary>
-        /// 查询实体（含权限）
-        /// </summary>
-        /// <param name="id">实体id</param>
-        /// <returns>结果</returns>
-        Task<SysRole> GetWithPermsAsync(Guid id);
-
-        /// <summary>
         /// 查询列表
         /// </summary>
         /// <param name="ids">角色id</param>
         /// <returns>列表</returns>
         Task<IEnumerable<SysRole>> GetListAsync(IEnumerable<Guid> ids);
+
+        /// <summary>
+        /// 查询列表
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>列表</returns>
+        Task<IEnumerable<SysRole>> GetListAsync(string key);
     }
 }

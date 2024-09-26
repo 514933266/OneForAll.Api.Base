@@ -103,5 +103,28 @@ namespace Base.Repository
 
             return await data.ToListAsync();
         }
+
+        /// <summary>
+        /// 查询用户角色列表
+        /// </summary>
+        /// <param name="userIds">用户id</param>
+        /// <returns>列表</returns>
+        public async Task<IEnumerable<SysUserRoleAggr>> GetListUserRoleAsync(IEnumerable<Guid> userIds)
+        {
+            var roleDbSet = Context.Set<SysRole>();
+            var data = (from roleUser in DbSet
+                        join role in roleDbSet on roleUser.SysRoleId equals role.Id
+                        where userIds.Contains(roleUser.SysUserId)
+                        select new SysUserRoleAggr
+                        {
+                            Id = role.Id,
+                            Name = role.Name,
+                            SysTenantId = role.SysTenantId,
+                            Remark = role.Remark,
+                            SysUserId = roleUser.SysUserId
+                        });
+
+            return await data.ToListAsync();
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Base.Domain.Aggregates;
 
 namespace Base.Domain.Repositorys
 {
@@ -48,5 +49,12 @@ namespace Base.Domain.Repositorys
         /// <param name="roleIds">角色id</param>
         /// <returns>列表</returns>
         Task<IEnumerable<SysRoleMemberCountVo>> GetListRoleUserCountAsync(IEnumerable<Guid> roleIds);
+
+        /// <summary>
+        /// 查询用户角色列表
+        /// </summary>
+        /// <param name="userIds">用户id</param>
+        /// <returns>列表</returns>
+        Task<IEnumerable<SysUserRoleAggr>> GetListUserRoleAsync(IEnumerable<Guid> userIds);
     }
 }

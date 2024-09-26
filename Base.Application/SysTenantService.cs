@@ -21,30 +21,33 @@ namespace Base.Application
     public class SysTenantService : ISysTenantService
     {
         private readonly IMapper _mapper;
+        private readonly ISysTenantManager _manager;
         private readonly ISysTenantMenuManager _menuManager;
         private readonly ISysTenantUserManager _tenantUserManager;
         public SysTenantService(
             IMapper mapper,
+            ISysTenantManager manager,
             ISysTenantMenuManager menuManager,
             ISysTenantUserManager tenantUserManager)
         {
             _mapper = mapper;
+            _manager = manager;
             _menuManager = menuManager;
             _tenantUserManager = tenantUserManager;
         }
 
-        //#region 子机构
+        /// <summary>
+        /// 获取机构
+        /// </summary>
+        /// <param name="id">机构id</param>
+        /// <returns>机构</returns>
+        public async Task<SysTenantDto> GetAsync(Guid id)
+        {
+            var data = await _manager.GetAsync(id);
+            return _mapper.Map<SysTenant, SysTenantDto>(data);
+        }
 
-        ///// <summary>
-        ///// 获取机构
-        ///// </summary>
-        ///// <param name="id">机构id</param>
-        ///// <returns>机构</returns>
-        //public async Task<SysTenantDto> GetAsync(Guid id)
-        //{
-        //    var data = await _manager.GetAsync(id);
-        //    return _mapper.Map<SysTenant, SysTenantDto>(data);
-        //}
+        //#region 子机构
 
         ///// <summary>
         ///// 获取分页

@@ -17,6 +17,8 @@ namespace Base.Host.Profiles
             CreateMap<SysRole, SysRoleDto>();
             CreateMap<SysRole, SysRoleAggr>();
             CreateMap<SysRoleAggr, SysRoleDto>();
+            CreateMap<SysUserRoleAggr, SysUserRoleDto>()
+                .ForMember(t => t.UserId, a => a.MapFrom(e => e.SysUserId));
 
             CreateMap<SysRoleForm, SysRole>();
         }

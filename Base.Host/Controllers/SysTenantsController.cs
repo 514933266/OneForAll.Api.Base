@@ -26,19 +26,19 @@ namespace Base.Host.Controllers
             _service = service;
         }
 
-        //#region 子机构
+        /// <summary>
+        /// 获取机构
+        /// </summary>
+        /// <param name="id">机构id</param>
+        /// <returns>机构</returns>
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<SysTenantDto> GetAsync(Guid id)
+        {
+            return await _service.GetAsync(id);
+        }
 
-        ///// <summary>
-        ///// 获取机构
-        ///// </summary>
-        ///// <param name="id">机构id</param>
-        ///// <returns>机构</returns>
-        //[HttpGet]
-        //[Route("{id}")]
-        //public async Task<SysTenantDto> GetAsync(Guid id)
-        //{
-        //    return await _service.GetAsync(id);
-        //}
+        //#region 子机构
 
         ///// <summary>
         ///// 获取分页

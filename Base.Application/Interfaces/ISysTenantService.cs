@@ -13,14 +13,14 @@ namespace Base.Application.Interfaces
     /// </summary>
     public interface ISysTenantService
     {
-        //#region 子机构
+        /// <summary>
+        /// 获取机构
+        /// </summary>
+        /// <param name="id">机构id</param>
+        /// <returns>机构</returns>
+        Task<SysTenantDto> GetAsync(Guid id);
 
-        ///// <summary>
-        ///// 获取机构
-        ///// </summary>
-        ///// <param name="id">机构id</param>
-        ///// <returns>机构</returns>
-        //Task<SysTenantDto> GetAsync(Guid id);
+        //#region 子机构
 
         ///// <summary>
         ///// 获取分页

@@ -7,18 +7,18 @@ using OneForAll.Core.DDD;
 
 namespace Base.Host
 {
-    public partial class BaseContext : DbContext
+    public partial class BaseDbContext : DbContext
     {
         private Guid _tenantId;
 
-        public BaseContext(DbContextOptions<BaseContext> options)
+        public BaseDbContext(DbContextOptions<BaseDbContext> options)
             : base(options)
         {
 
         }
 
-        public BaseContext(
-            DbContextOptions<BaseContext> options,
+        public BaseDbContext(
+            DbContextOptions<BaseDbContext> options,
             ITenantProvider tenantProvider)
             : base(options)
         {

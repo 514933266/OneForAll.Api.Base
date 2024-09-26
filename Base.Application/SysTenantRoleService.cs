@@ -52,6 +52,17 @@ namespace Base.Application
         }
 
         /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>角色列表</returns>
+        public async Task<IEnumerable<SysRoleDto>> GetListAsync(string key)
+        {
+            var data = await _roleManager.GetListAsync(key);
+            return _mapper.Map<IEnumerable<SysRoleAggr>, IEnumerable<SysRoleDto>>(data);
+        }
+
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="tenantId">租户id</param>

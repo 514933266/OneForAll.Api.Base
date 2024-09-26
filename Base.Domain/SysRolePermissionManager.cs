@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Base.Domain.AggregateRoots;
 using Base.Domain.Interfaces;
-using Base.Domain.Models;
 using Base.Domain.Repositorys;
 using OneForAll.Core;
-using OneForAll.Core.DDD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +11,6 @@ using System.Threading.Tasks;
 using OneForAll.Core.Extension;
 using OneForAll.EFCore;
 using Microsoft.AspNetCore.Http;
-using NPOI.SS.Formula.Functions;
-using OneForAll.Core.Upload;
 
 namespace Base.Domain
 {
@@ -23,21 +19,15 @@ namespace Base.Domain
     /// </summary>
     public class SysRolePermissionManager : SysBaseManager, ISysRolePermissionManager
     {
-        private readonly ISysMenuRepository _menuRepository;
         private readonly ISysRoleRepository _roleRepository;
-        private readonly ISysPermissionRepository _permRepository;
         private readonly ISysRolePermContactRepository _rolePermRepository;
         public SysRolePermissionManager(
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
-            ISysMenuRepository menuRepository,
             ISysRoleRepository roleRepository,
-            ISysPermissionRepository permRepository,
             ISysRolePermContactRepository rolePermRepository) : base(mapper, httpContextAccessor)
         {
-            _menuRepository = menuRepository;
             _roleRepository = roleRepository;
-            _permRepository = permRepository;
             _rolePermRepository = rolePermRepository;
         }
 
