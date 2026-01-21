@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Base.Domain.Entities
+{
+    /// <summary>
+    /// 基础表：权限
+    /// </summary>
+    public partial class SysPermission
+    {
+        /// <summary>
+        /// id
+        /// </summary>
+        [Key]
+        [Required]
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// 菜单Id
+        /// </summary>
+        [Required]
+        public Guid SysMenuId { get; set; }
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required]
+        [StringLength(20)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 代码（由后端开发人员填写，规则为Action的名称）
+        /// </summary>
+        [Required]
+        [Column(TypeName = "varchar(50)")]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 排序代码
+        /// </summary>
+        [Required]
+        public string SortCode { get; set; } = "";
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        [Required]
+        [StringLength(100)]
+        public string Remark { get; set; } = "";
+
+    }
+}

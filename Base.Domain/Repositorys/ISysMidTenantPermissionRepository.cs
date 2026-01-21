@@ -1,0 +1,23 @@
+﻿using OneForAll.EFCore;
+using Base.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Base.Domain.Repositorys
+{
+    /// <summary>
+    /// 机构权限
+    /// </summary>
+    public interface ISysMidTenantPermissionRepository : IEFCoreRepository<SysMidTenantPermission>
+    {
+        /// <summary>
+        /// 查询机构权限id
+        /// </summary>
+        /// <param name="tenantId">机构id</param>
+        /// <returns>列表</returns>
+        Task<IEnumerable<Guid>> GetListPermissionIdAsync(Guid tenantId);
+    }
+}

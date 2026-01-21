@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\SysAreaGroup.cs" />
+    <Compile Remove="Entities\SysAreaGroupContact.cs" />
+    <Compile Remove="Entities\SysAreaGroupUserContact.cs" />
+    <Compile Remove="Entities\SysJob.cs" />
+    <Compile Remove="Entities\SysJobRoleContact.cs" />
+    <Compile Remove="Entities\SysJobUserContact.cs" />
+    <Compile Remove="BaseAreaGroupManager.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupManager.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupMemberManager.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupPermissionManager.cs" />
+    <Compile Remove="Interfaces\ISysJobManager.cs" />
+    <Compile Remove="Repositorys\ISysAreaGroupRepository.cs" />
+    <Compile Remove="Repositorys\ISysJobRepository.cs" />
+    <Compile Remove="Repositorys\ISysJobRoleContactRepository.cs" />
+    <Compile Remove="Repositorys\ISysJobUserContactRepository.cs" />
+    <Compile Remove="SysAreaGroupManager.cs" />
+    <Compile Remove="SysAreaGroupMemberManager.cs" />
+    <Compile Remove="SysAreaGroupPermissionManager.cs" />
+    <Compile Remove="SysJobManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.0.0" />
+    <PackageReference Include="MongoDB.Bson" Version="3.5.2" />
+    <PackageReference Include="MongoDB.Driver" Version="3.5.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="OneForAll.Core" Version="2.1.1" />
+    <PackageReference Include="OneForAll.EFCore" Version="2.1.1" />
+    <PackageReference Include="OneForAll.File" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Base.HttpSevice\Base.HttpService.csproj" />
+    <ProjectReference Include="..\Base.Public\Base.Public.csproj" />
+  </ItemGroup>
+
+</Project>

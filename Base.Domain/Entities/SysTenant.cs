@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+
+namespace Base.Domain.Entities
+{
+    /// <summary>
+    /// 基础表：租户（租户）
+    /// </summary>
+    public partial class SysTenant
+    {
+        /// <summary>
+        /// id
+        /// </summary>
+        [Key]
+        [Required]
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// 上级id
+        /// </summary>
+        [Required]
+
+        public Guid ParentId { get; set; }
+
+        /// <summary>
+        /// 租户代码
+        /// </summary>
+        [Required]
+        [Column(TypeName = "varchar(50)")]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 负责人
+        /// </summary>
+        [Required]
+        [StringLength(50)]
+        public string Manager { get; set; } = "";
+
+        /// <summary>
+        /// 电话
+        /// </summary>
+        [Required]
+        [Column(TypeName = "varchar(50)")]
+        public string Phone { get; set; } = "";
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        [Required]
+        [StringLength(300)]
+        public string Address { get; set; } = "";
+
+        /// <summary>
+        /// 是否默认（默认租户禁止删除）
+        /// </summary>
+        [Required]
+        public bool IsDefault { get; set; }
+
+        /// <summary>
+        /// 是否启用（未启用租户用户禁止登录）
+        /// </summary>
+        [Required]
+        public bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [Required]
+        [StringLength(300)]
+        public string Description { get; set; } = "";
+
+        /// <summary>
+        /// logo
+        /// </summary>
+        [Required]
+        [Column(TypeName = "varchar(1000)")]
+        public string LogoUrl { get; set; } = "";
+
+        /// <summary>
+        /// 注册时间
+        /// </summary>
+        [Required]
+        [Column(TypeName = "datetime")]
+        public DateTime CreateTime { get; set; } = DateTime.UtcNow;
+    }
+}

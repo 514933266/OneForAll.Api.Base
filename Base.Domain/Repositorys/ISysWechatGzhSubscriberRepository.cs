@@ -1,0 +1,17 @@
+﻿using Base.Domain.Entities;
+using OneForAll.EFCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Base.Domain.Repositorys
+{
+    /// <summary>
+    /// 微信公众号关注用户
+    /// </summary>
+    public interface ISysWechatGzhSubscriberRepository : IEFCoreRepository<SysWechatGzhSubscriber>
+    {
+    }
+}

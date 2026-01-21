@@ -1,0 +1,26 @@
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using Base.Domain.Entities;
+using Base.Application.Dtos;
+using Base.Domain.Models;
+using Base.Domain.Aggregates;
+
+namespace Base.Host.Profiles
+{
+    public class SysRoleProfile : Profile
+    {
+        public SysRoleProfile()
+        {
+            CreateMap<SysRole, SysRoleDto>();
+            CreateMap<SysRole, SysRoleAggr>();
+            CreateMap<SysRoleAggr, SysRoleDto>();
+            CreateMap<SysUserRoleAggr, SysUserRoleDto>()
+                .ForMember(t => t.UserId, a => a.MapFrom(e => e.SysUserId));
+
+            CreateMap<SysRoleForm, SysRole>();
+        }
+    }
+}

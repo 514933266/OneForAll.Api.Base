@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BaseAreaGroupService.cs" />
+    <Compile Remove="Interfaces\ISysAreaGroupService.cs" />
+    <Compile Remove="SysAreaGroupService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.0.0" />
+    <PackageReference Include="OneForAll.Core" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Base.Domain\Base.Domain.csproj" />
+    <ProjectReference Include="..\Base.HttpSevice\Base.HttpService.csproj" />
+    <ProjectReference Include="..\Base.Public\Base.Public.csproj" />
+    <ProjectReference Include="..\Base.Repository\Base.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
