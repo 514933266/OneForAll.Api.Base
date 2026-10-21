@@ -6,10 +6,20 @@ namespace Base.Host
 {
     public partial class SysDbContext : DbContext
     {
+        private Guid _tenantId;
+
         public SysDbContext(DbContextOptions<SysDbContext> options)
             : base(options)
         {
 
+        }
+
+        public SysDbContext(
+            DbContextOptions<SysDbContext> options,
+            ITenantProvider tenantProvider)
+            : base(options)
+        {
+            _tenantId = tenantProvider.GetTenantId();
         }
 
         #region 菜单权限
@@ -70,6 +80,7 @@ namespace Base.Host
             modelBuilder.Entity<SysMidTenantPermission>(entity =>
             {
                 entity.ToTable("sys_mid_tenant_permission");
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
@@ -98,18 +109,23 @@ namespace Base.Host
             modelBuilder.Entity<SysTenant>(entity =>
             {
                 entity.ToTable("sys_tenant");
+                // 租户表为全局数据，不加租户过滤
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<SysRole>(entity =>
             {
                 entity.ToTable("sys_role");
+                entity.HasIndex(e => e.SysTenantId);
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<SysUser>(entity =>
             {
                 entity.ToTable("sys_user");
+                entity.HasIndex(e => e.SysTenantId);
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.HasIndex(b => b.UserName).IsUnique();
             });
@@ -117,6 +133,7 @@ namespace Base.Host
             modelBuilder.Entity<SysMidTenantUser>(entity =>
             {
                 entity.ToTable("sys_mid_tenant_user");
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
@@ -137,12 +154,16 @@ namespace Base.Host
             modelBuilder.Entity<SysArticleType>(entity =>
             {
                 entity.ToTable("sys_article_type");
+                entity.HasIndex(e => e.SysTenantId);
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<SysArticle>(entity =>
             {
                 entity.ToTable("sys_article");
+                entity.HasIndex(e => e.SysTenantId);
+                entity.HasQueryFilter(e => e.SysTenantId == _tenantId);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 

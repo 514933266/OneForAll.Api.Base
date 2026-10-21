@@ -55,5 +55,17 @@ namespace Base.Repository
                          select perm);
             return await query.ToListAsync();
         }
+
+        /// <summary>
+        /// 批量查询多个角色的权限关联
+        /// </summary>
+        /// <param name="roleIds">角色id集合</param>
+        /// <returns>角色权限关联列表</returns>
+        public async Task<IEnumerable<SysMidRolePermission>> GetListByRolesAsync(IEnumerable<Guid> roleIds)
+        {
+            if (roleIds == null || !roleIds.Any())
+                return new List<SysMidRolePermission>();
+            return await DbSet.Where(w => roleIds.Contains(w.SysRoleId)).ToListAsync();
+        }
     }
 }

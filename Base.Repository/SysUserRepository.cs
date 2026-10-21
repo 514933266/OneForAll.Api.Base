@@ -32,7 +32,7 @@ namespace Base.Repository
         /// </summary>
         /// <param name="id">用户id</param>
         /// <returns>实体</returns>
-        public async Task<SysUser> GetIQFAsync(Guid id)
+        public async Task<SysUser> GetByIdIQFAsync(Guid id)
         {
             return await DbSet.IgnoreQueryFilters().FirstOrDefaultAsync(w => w.Id == id);
         }
@@ -42,7 +42,7 @@ namespace Base.Repository
         /// </summary>
         /// <param name="username">用户名</param>
         /// <returns>实体</returns>
-        public async Task<SysUser> GetIQFAsync(string username)
+        public async Task<SysUser> GetByNameIQFAsync(string username)
         {
             return await DbSet
                 .Where(w => w.UserName == username)
@@ -68,40 +68,6 @@ namespace Base.Repository
         #region 当前机构
 
         /// <summary>
-        /// 查询机构用户
-        /// </summary>
-        /// <param name="id">用户id</param>
-        /// <returns>实体</returns>
-        public async Task<SysTenantUserAggr> GetAsync(Guid id)
-        {
-            var tenantDbSet = Context.Set<SysTenant>();
-            var query = (from user in DbSet
-                         join tenant in tenantDbSet on user.SysTenantId equals tenant.Id
-                         where user.Id == id
-                         select new SysTenantUserAggr()
-                         {
-                             Id = user.Id,
-                             Name = user.Name,
-                             Status = user.Status,
-                             UserName = user.UserName,
-                             Password = user.Password,
-                             Mobile = user.Mobile,
-                             Signature = user.Signature,
-                             PwdErrCount = user.PwdErrCount,
-                             IconUrl = user.IconUrl,
-                             IsDefault = user.IsDefault,
-                             UpdateTime = user.UpdateTime,
-                             SysTenantId = user.SysTenantId,
-                             CreateTime = user.CreateTime,
-                             LastLoginIp = user.LastLoginIp,
-                             LastLoginTime = user.LastLoginTime,
-                             SysTenant = tenant
-                         });
-
-            return await query.IgnoreQueryFilters().FirstOrDefaultAsync();
-        }
-
-        /// <summary>
         /// 查询分页
         /// </summary>
         /// <param name="pageIndex">页码</param>
@@ -122,7 +88,7 @@ namespace Base.Repository
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PageList<SysUser>(total, pageSize, pageIndex, items);
+            return new PageList<SysUser>(total, pageIndex, pageSize, items);
         }
 
         /// <summary>

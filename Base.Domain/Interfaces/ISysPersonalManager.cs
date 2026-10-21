@@ -18,12 +18,6 @@ namespace Base.Domain.Interfaces
     public interface ISysPersonalManager
     {
         /// <summary>
-        /// 获取个人信息
-        /// </summary>
-        /// <returns>实体</returns>
-        Task<SysLoginUserAggr> GetAsync();
-
-        /// <summary>
         /// 修改个人信息
         /// </summary>
         /// <param name="form">实体</param>
@@ -53,21 +47,28 @@ namespace Base.Domain.Interfaces
         Task<BaseErrType> UpdateTenantAsync(Guid tenantId);
 
         /// <summary>
-        /// 修改手机号
+        /// 发起修改手机号：校验可否发送验证码并生成验证码（短信发送归 Application 编排）
         /// </summary>
-        Task<BaseErrType> UpdateMobileAsync(SysPersonalUpdateMobileForm form);
+        /// <param name="mobile">目标手机号</param>
+        Task<(BaseErrType Err, string Code)> BeginSendMobileUpdateCodeAsync(string mobile);
 
         /// <summary>
-        /// 获取菜单
+        /// 确认验证码短信已发出并记录验证码（仅发送成功后调用）
         /// </summary>
-        /// <returns>结果</returns>
-        Task<IEnumerable<SysMenu>> GetListMenuAsync();
+        /// <param name="mobile">目标手机号</param>
+        /// <param name="code">验证码</param>
+        Task ConfirmMobileUpdateCodeSentAsync(string mobile, string code);
 
         /// <summary>
-        /// 退出登录
+        /// 提交修改手机号：校验验证码/手机号一致性/占用
         /// </summary>
-        /// <returns>结果</returns>
-        Task<BaseErrType> LoginoutAsync();
+        /// <param name="form">表单</param>
+        Task<BaseErrType> CommitMobileUpdateCodeAsync(SysPersonalUpdateMobileForm form);
 
+        /// <summary>
+        /// 变更手机号（领域写操作）
+        /// </summary>
+        /// <param name="mobile">新手机号</param>
+        Task<BaseErrType> ChangeMobileAsync(string mobile);
     }
 }

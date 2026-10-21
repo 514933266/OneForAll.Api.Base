@@ -1,9 +1,8 @@
-﻿using Autofac.Core;
-using Base.Host.Models;
+﻿using Base.Host.Models;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
+using Base.Public.Models;
 using Microsoft.Extensions.Hosting;
-using OneForAll.Core.Extension;
 using Quartz;
 using Quartz.Spi;
 using System;
@@ -61,7 +60,7 @@ namespace Base.Host.Providers
                 try
                 {
                     // 尝试向调度中心注册
-                    await _jobHttpService.RegisterAsync(new HttpService.Models.JobRegisterRequest()
+                    await _jobHttpService.RegisterAsync(new JobRegisterRequest()
                     {
                         AppId = _config.AppId,
                         AppSecret = _config.AppSecret,

@@ -13,7 +13,7 @@ using OneForAll.Core.Utility;
 using OneForAll.Core.Extension;
 using Microsoft.AspNetCore.Http;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：机构（租户）

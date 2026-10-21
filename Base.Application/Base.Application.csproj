@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.0.0" />
-    <PackageReference Include="OneForAll.Core" Version="2.1.1" />
+    <PackageReference Include="OneForAll.Core" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>

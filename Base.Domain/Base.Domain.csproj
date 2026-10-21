@@ -37,10 +37,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.0.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="MongoDB.Bson" Version="3.5.2" />
     <PackageReference Include="MongoDB.Driver" Version="3.5.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="OneForAll.Core" Version="2.1.1" />
+    <PackageReference Include="OneForAll.Core" Version="2.1.2" />
     <PackageReference Include="OneForAll.EFCore" Version="2.1.1" />
     <PackageReference Include="OneForAll.File" Version="2.1.1" />
   </ItemGroup>

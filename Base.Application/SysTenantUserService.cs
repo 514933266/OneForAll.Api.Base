@@ -4,14 +4,12 @@ using Base.Application.Interfaces;
 using Base.Domain;
 using Base.Domain.Entities;
 using Base.Domain.Interfaces;
+using Base.Domain.Querys;
 using Base.Domain.Models;
-using Base.Domain.Repositorys;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Base.Domain.Aggregates;
 
@@ -24,17 +22,17 @@ namespace Base.Application
     {
         private readonly IMapper _mapper;
         private readonly ISysTenantUserManager _userManager;
-        private readonly ISysUserRepository _userRepository;
+        private readonly ISysUserQueryService _queryService;
 
         public SysTenantUserService(
             IMapper mapper,
             ISysTenantUserManager userManager,
-            ISysUserRepository userRepository
+            ISysUserQueryService queryService
             )
         {
             _mapper = mapper;
             _userManager = userManager;
-            _userRepository = userRepository;
+            _queryService = queryService;
         }
 
         /// <summary>
@@ -46,9 +44,10 @@ namespace Base.Application
         /// <returns>分页</returns>
         public async Task<PageList<SysTenantUserDto>> GetPageAsync(int pageIndex, int pageSize, string key)
         {
-            var data = await _userManager.GetPageAsync(pageIndex, pageSize, key);
+            // 读编排归 Application：分页直接调 Domain 读服务
+            var data = await _queryService.GetPagedLoginUsersAsync(pageIndex, pageSize, key);
             var items = _mapper.Map<IEnumerable<SysLoginUserAggr>, IEnumerable<SysTenantUserDto>>(data.Items);
-            return new PageList<SysTenantUserDto>(data.Total, data.PageSize, data.PageIndex, items);
+            return new PageList<SysTenantUserDto>(data.Total, data.PageIndex, data.PageSize, items);
         }
 
         /// <summary>
@@ -58,15 +57,7 @@ namespace Base.Application
         /// <returns>结果</returns>
         public async Task<IEnumerable<SysTenantUserDto>> GetListAsync(IEnumerable<Guid> ids)
         {
-            var data = new List<SysUser>();
-            if (ids != null && ids.Any())
-            {
-                data = await _userRepository.GetListAsync(w => ids.Contains(w.Id)) as List<SysUser>;
-            }
-            else
-            {
-                data = await _userRepository.GetListAsync() as List<SysUser>;
-            }
+            var data = await _userManager.GetListAsync(ids);
             return _mapper.Map<IEnumerable<SysUser>, IEnumerable<SysTenantUserDto>>(data);
         }
 

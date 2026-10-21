@@ -9,6 +9,7 @@ using System.Linq;
 using Base.Domain;
 using Base.Host.Models;
 using Base.Domain.Interfaces;
+using Base.Domain.Querys;
 using Base.Domain.ValueObjects;
 using OneForAll.Core.Security;
 using OneForAll.Core.Extension;
@@ -21,13 +22,13 @@ namespace Base.Host.Filters
     public class AuthorizationFilter : IAuthorizationFilter
     {
         private readonly AuthConfig _config;
-        private readonly ISysPermissionCheckManager _permCheckManager;
+        private readonly ISysUserQueryService _queryService;
         public AuthorizationFilter(
             AuthConfig config,
-            ISysPermissionCheckManager permCheckManager)
+            ISysUserQueryService queryService)
         {
             _config = config;
-            _permCheckManager = permCheckManager;
+            _queryService = queryService;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -78,7 +79,7 @@ namespace Base.Host.Filters
             {
                 controller = attr.Controller.IsNullOrEmpty() ? controller : attr.Controller;
                 action = attr.Action.IsNullOrEmpty() ? action : attr.Action;
-                msg.ErrType = _permCheckManager.ValidateAsync(new SysPermissionCheck()
+                msg.ErrType = _queryService.ValidateAsync(new SysPermissionCheck()
                 {
                     Controller = controller,
                     Action = action,

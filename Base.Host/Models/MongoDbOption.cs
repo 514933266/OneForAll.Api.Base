@@ -13,7 +13,7 @@
         /// <summary>
         /// MongoDB 连接字符串
         /// </summary>
-        public string ConnectionString { get; set; } = "mongodb://127.0.0.1";
+        public string ConnectionString { get; set; } = "mongodb://localhost";
 
         /// <summary>
         /// 默认数据库名称

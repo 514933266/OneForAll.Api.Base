@@ -30,5 +30,17 @@ namespace Base.Repository
         {
             return await DbSet.Where(w => w.SysUserId == userId).Select(s => s.SysPermissionId).ToListAsync();
         }
+
+        /// <summary>
+        /// 批量查询多个用户的直授权限关联
+        /// </summary>
+        /// <param name="userIds">用户id集合</param>
+        /// <returns>用户权限关联列表</returns>
+        public async Task<IEnumerable<SysMidUserPermission>> GetListByUsersAsync(IEnumerable<Guid> userIds)
+        {
+            if (userIds == null || !userIds.Any())
+                return new List<SysMidUserPermission>();
+            return await DbSet.Where(w => userIds.Contains(w.SysUserId)).ToListAsync();
+        }
     }
 }

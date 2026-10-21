@@ -1,5 +1,6 @@
 ﻿using OneForAll.Core;
 using OneForAll.Core.Security;
+using OneForAll.Core.Extension;
 using Base.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -147,6 +148,43 @@ namespace Base.Domain.Entities
         public void ResetPassword()
         {
             Password = UserName.ToMd5();
+        }
+
+        /// <summary>
+        /// 注册初始化（聚合行为）：默认密码（账号 MD5）、默认手机号（账号为手机号时回填）、绑定所属租户
+        /// </summary>
+        /// <param name="tenantId">所属租户id</param>
+        public void ApplyForRegister(Guid tenantId)
+        {
+            // 默认密码
+            if (Password.IsNullOrEmpty())
+                Password = UserName.ToMd5();
+
+            // 默认手机
+            if (UserName.IsMobile() && Mobile.IsNullOrEmpty())
+                Mobile = UserName;
+
+            // 绑定租户
+            SysTenantId = tenantId;
+        }
+
+        /// <summary>
+        /// 更换手机号（聚合行为）
+        /// </summary>
+        /// <param name="mobile">新手机号</param>
+        public void ChangeMobile(string mobile)
+        {
+            Mobile = mobile;
+            UpdateTime = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// 变更所属租户（聚合行为）
+        /// </summary>
+        /// <param name="tenantId">目标租户id</param>
+        public void AssignTenant(Guid tenantId)
+        {
+            SysTenantId = tenantId;
         }
     }
 }

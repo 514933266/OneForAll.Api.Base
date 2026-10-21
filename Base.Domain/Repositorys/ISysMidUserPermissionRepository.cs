@@ -19,5 +19,12 @@ namespace Base.Domain.Repositorys
         /// <param name="userId">用户id</param>
         /// <returns>列表</returns>
         Task<IEnumerable<Guid>> GetListPermIdByUserAsync(Guid userId);
+
+        /// <summary>
+        /// 批量查询多个用户的直授权限关联（用于分页装配消除 N+1）
+        /// </summary>
+        /// <param name="userIds">用户id集合</param>
+        /// <returns>用户权限关联列表</returns>
+        Task<IEnumerable<SysMidUserPermission>> GetListByUsersAsync(IEnumerable<Guid> userIds);
     }
 }

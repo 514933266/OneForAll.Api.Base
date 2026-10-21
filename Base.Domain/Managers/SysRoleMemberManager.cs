@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：角色成员

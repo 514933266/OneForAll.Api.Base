@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Base.Domain.Entities;
+using Base.Domain.Events;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
 using Base.Domain.Repositorys;
 using OneForAll.Core;
+using OneForAll.Core.Events;
 using OneForAll.Core.Extension;
 using System;
 using System.Collections.Generic;
@@ -12,58 +14,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Base.Domain.Aggregates;
 using OneForAll.Core.OAuth;
-using Microsoft.AspNetCore.Http;
-using OneForAll.Core.Security;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：子机构用户
     /// </summary>
-    public class SysTenantUserManager : BaseManager, ISysTenantUserManager
+    public class SysTenantUserManager : BaseDomainManager, ISysTenantUserManager
     {
         private readonly IMapper _mapper;
         private readonly ISysUserRepository _userRepository;
-        private readonly ISysPermissionRepository _permRepository;
-        private readonly ISysMidRoleUserRepository _roleUserRepository;
-        private readonly ISysMidUserPermissionRepository _userPermRepository;
+        private readonly IEventDispatcher _eventDispatcher;
         public SysTenantUserManager(
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor,
+            ICurrentUser currentUser,
             ISysUserRepository userRepository,
-            ISysPermissionRepository permRepository,
-            ISysMidRoleUserRepository roleUserRepository,
-            ISysMidUserPermissionRepository userPermRepository) : base(httpContextAccessor)
+            IEventDispatcher eventDispatcher) : base(currentUser)
         {
             _mapper = mapper;
             _userRepository = userRepository;
-            _permRepository = permRepository;
-            _roleUserRepository = roleUserRepository;
-            _userPermRepository = userPermRepository;
-        }
-
-        /// <summary>
-        /// 获取分页
-        /// </summary>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页数</param>
-        /// <param name="key">关键字</param>
-        /// <returns>用户分页</returns>
-        public async Task<PageList<SysLoginUserAggr>> GetPageAsync(int pageIndex, int pageSize, string key)
-        {
-            if (pageIndex < 1) pageIndex = 1;
-            if (pageSize < 1) pageSize = 10;
-            if (pageSize > 100) pageSize = 100;
-            var result = new List<SysLoginUserAggr>();
-            var data = await _userRepository.GetPageAsync(pageIndex, pageSize, key);
-            var userIds = data.Items.Select(s => s.Id).ToList();
-            userIds.ForEach(id =>
-            {
-                // 后续优化
-                var user = GetLoginAsync(id).Result;
-                result.Add(user);
-            });
-            return new PageList<SysLoginUserAggr>(data.Total, data.PageIndex, data.PageSize, result);
+            _eventDispatcher = eventDispatcher;
         }
 
         /// <summary>
@@ -76,6 +46,18 @@ namespace Base.Domain
             return await _userRepository.GetListAsync(key);
         }
 
+        /// <summary>
+        /// 获取列表（按id集合；ids 为空时返回全部）
+        /// </summary>
+        /// <param name="ids">用户id集合</param>
+        /// <returns>用户列表</returns>
+        public async Task<IEnumerable<SysUser>> GetListAsync(IEnumerable<Guid> ids)
+        {
+            if (ids != null && ids.Any())
+                return await _userRepository.GetListAsync(ids);
+            return await _userRepository.GetListAsync();
+        }
+
 
         /// <summary>
         /// 获取实体
@@ -84,23 +66,7 @@ namespace Base.Domain
         /// <returns>用户列表</returns>
         public async Task<SysUser> GetAsync(Guid id)
         {
-            return await _userRepository.GetAsync(id);
-        }
-
-        // 获取登录个人信息(含菜单、权限)
-        private async Task<SysLoginUserAggr> GetLoginAsync(Guid id)
-        {
-            var user = await _userRepository.GetAsync(id);
-            var pids = await _roleUserRepository.GetListPermIdByUserAsync(id);
-            var pids2 = await _userPermRepository.GetListPermIdByUserAsync(id);
-            pids = pids.Concat(pids2);
-
-            var permissions = await _permRepository.GetListAsync(pids);
-            var loginUser = _mapper.Map<SysTenantUserAggr, SysLoginUserAggr>(user);
-            loginUser.SetPermissons(permissions);
-            loginUser.SysLoginUserMenus = loginUser.SysLoginUserMenus.OrderBy(w => w.Code).ToList();
-            loginUser.SysLoginUserMenus.ForEach(e => { e.SysLoginUserPermissions = e.SysLoginUserPermissions.OrderBy(o => o.SortCode).ToList(); });
-            return loginUser;
+            return await _userRepository.GetByIdIQFAsync(id);
         }
 
         /// <summary>
@@ -115,7 +81,7 @@ namespace Base.Domain
 
             if (form.Password != form.RePassword)
                 return msg.Fail(BaseErrType.DataNotMatch, "两次密码输入不一致");
-            var data = await _userRepository.GetIQFAsync(form.UserName);
+            var data = await _userRepository.GetByNameIQFAsync(form.UserName);
             if (data != null)
             {
                 msg.Data = data.Id;// 返回id以便部分业务场景使用
@@ -125,15 +91,8 @@ namespace Base.Domain
 
             data = _mapper.Map<SysUserForm, SysUser>(form);
 
-            // 默认密码
-            if (data.Password.IsNullOrEmpty())
-                data.Password = data.UserName.ToMd5();
-
-            // 默认手机
-            if (data.UserName.IsMobile() && data.Mobile.IsNullOrEmpty())
-                data.Mobile = data.UserName;
-
-            data.SysTenantId = LoginUser.TenantId.TryGuid();
+            // 默认密码/默认手机/绑定租户下沉至聚合根行为
+            data.ApplyForRegister(LoginUser.TenantId.TryGuid());
 
             // 检测手机号是否被使用
             if (!form.Mobile.IsNullOrEmpty())
@@ -185,7 +144,10 @@ namespace Base.Domain
         public async Task<BaseErrType> DeleteAsync(IEnumerable<Guid> ids)
         {
             var data = await _userRepository.GetListAsync(ids);
-            return await ResultAsync(() => _userRepository.DeleteRangeAsync(data));
+            var result = await ResultAsync(() => _userRepository.DeleteRangeAsync(data));
+            if (result == BaseErrType.Success)
+                await _eventDispatcher.PublishAsync(new UserDeletedEvent(ids));
+            return result;
         }
 
 
@@ -198,7 +160,10 @@ namespace Base.Domain
         {
             var data = await _userRepository.GetListAsync(ids);
             data.ForEach(e => { e.ResetPassword(); });
-            return await ResultAsync(() => _userRepository.UpdateRangeAsync(data));
+            var result = await ResultAsync(() => _userRepository.UpdateRangeAsync(data));
+            if (result == BaseErrType.Success)
+                await _eventDispatcher.PublishAsync(new UserPasswordResetEvent(data.Select(u => u.Id)));
+            return result;
         }
     }
 }

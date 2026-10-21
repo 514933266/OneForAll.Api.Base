@@ -15,20 +15,18 @@ namespace Base.Domain.Interfaces
     public interface ISysTenantUserManager
     {
         /// <summary>
-        /// 获取分页
-        /// </summary>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页数</param>
-        /// <param name="key">关键字</param>
-        /// <returns>分页</returns>
-        Task<PageList<SysLoginUserAggr>> GetPageAsync(int pageIndex, int pageSize, string key);
-
-        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="key">关键字</param>
         /// <returns>用户列表</returns>
         Task<IEnumerable<SysUser>> GetListAsync(string key);
+
+        /// <summary>
+        /// 获取列表（按id集合；ids 为空时返回全部）
+        /// </summary>
+        /// <param name="ids">用户id集合</param>
+        /// <returns>用户列表</returns>
+        Task<IEnumerable<SysUser>> GetListAsync(IEnumerable<Guid> ids);
 
         /// <summary>
         /// 获取实体

@@ -42,3 +42,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 
+# Log files
+*.log
+

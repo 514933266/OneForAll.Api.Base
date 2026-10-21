@@ -1,14 +1,14 @@
-﻿using Base.HttpService.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
-using Microsoft.AspNetCore.Http;
+using OneForAll.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Formatting;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
-using OneForAll.Core;
 
 namespace Base.HttpService
 {
@@ -18,13 +18,16 @@ namespace Base.HttpService
     public class SysLoginLogHttpService : BaseHttpService, ISysLoginLogHttpService
     {
         private readonly HttpServiceConfig _config;
+        private readonly HttpServiceLogConfig _logConfig;
 
         public SysLoginLogHttpService(
             HttpServiceConfig config,
+            HttpServiceLogConfig logConfig,
             IHttpContextAccessor httpContext,
             IHttpClientFactory httpClientFactory) : base(httpContext, httpClientFactory)
         {
             _config = config;
+            _logConfig = logConfig;
         }
 
         /// <summary>
@@ -34,17 +37,23 @@ namespace Base.HttpService
         /// <returns></returns>
         public async Task AddAsync(SysLoginLogRequest form)
         {
-            form.UserName = LoginUser.UserName;
-            form.CreatorId = LoginUser.Id;
-            form.CreatorName = LoginUser.DisplayName;
-            form.TenantId = LoginUser.TenantId;
-            form.CreateTime = DateTime.UtcNow;
-            form.IPAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+            // 检查是否启用日志
+            if (!_logConfig.LoginLog)
+                return;
 
-            var client = GetHttpClient(_config.SysLog);
-            if (client != null && client.BaseAddress != null)
+            try
             {
-                await client.PostAsync("api/SysLoginLogs", form, new JsonMediaTypeFormatter());
+                form.CreateTime = DateTime.UtcNow;
+
+                var client = GetHttpClient(_config.SysLog);
+                if (client != null && client.BaseAddress != null)
+                {
+                    await client.PostAsync("api/SysLoginLogs", form, new JsonMediaTypeFormatter());
+                }
+            }
+            catch
+            {
+                // 忽略异常
             }
         }
     }

@@ -18,7 +18,7 @@
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public string ConnectionString { get; set; } = "127.0.0.1:6379";
+        public string ConnectionString { get; set; } = "localhost:6379";
 
         /// <summary>
         /// 密码

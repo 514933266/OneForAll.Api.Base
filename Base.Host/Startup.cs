@@ -1,5 +1,9 @@
 ﻿using Autofac;
 using Autofac.Core;
+using MediatR;
+using OneForAll.Core.Events;
+using Base.Domain.Interfaces;
+using Base.Host.Events;
 using Base.Host.Filters;
 using Base.Host.Model;
 using Base.Host.Models;
@@ -40,6 +44,7 @@ namespace Base.Host
         const string CORS = "Cors";
         const string AUTH = "Auth";
         const string QUARTZ = "Quartz";
+        const string JOB_LOCK = "JobLock";
         const string BASE_HOST = "Base.Host";
         const string BASE_APPLICATION = "Base.Application";
         const string BASE_DOMAIN = "Base.Domain";
@@ -133,6 +138,8 @@ namespace Base.Host
 
             // 将 HttpServiceConfig 作为单例注入，供后续使用
             services.AddSingleton<HttpServiceConfig>();
+            // 将 HttpServiceLogConfig 作为单例注入
+            services.AddSingleton<HttpServiceLogConfig>();
 
             #endregion
 
@@ -143,18 +150,27 @@ namespace Base.Host
             }, Assembly.Load(BASE_HOST));
             #endregion
 
+            #region 领域事件（MediatR）
+
+            // 注册 MediatR 核心（IPublisher/ISender 等）。领域事件即 INotification，
+            // 订阅者在 ConfigureContainer 里以 Autofac *Handler 扫描注册为 INotificationHandler<T>；
+            // 此处扫描 Domain 程序集（无 MediatR 处理器，仅确保核心注册，避免与 *Handler 扫描重复注册订阅者）。
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Load(BASE_DOMAIN)));
+
+            #endregion
+
             #region DI
 
-            services.AddSingleton<HttpServiceConfig>();
             services.AddScoped<IUploader, Uploader>();
             services.AddScoped<ITenantProvider, TenantProvider>();
+            // 当前登录用户端口：领域层通过 ICurrentUser 获取登录态，不直接依赖 HttpContext
+            services.AddScoped<ICurrentUser, CurrentUser>();
+            // 注入 HttpContextAccessor，便于在服务中访问当前 HTTP 上下文
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #endregion
 
             #region Mvc
-
-            // 注入 HttpContextAccessor，便于在服务中访问当前 HTTP 上下文
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // 添加 MVC 控制器支持，并禁用端点路由（兼容旧版 MVC 路由）
             services.AddControllers(options =>
@@ -199,6 +215,11 @@ namespace Base.Host
             // 读取 Quartz 定时任务配置
             var quartzConfig = Configuration.GetSection(QUARTZ).Get<QuartzScheduleJobConfig>();
             services.AddSingleton(quartzConfig); // 注册配置为单例
+
+            // 定时任务运行锁配置（调度中心并发检查异常时是否放行执行）
+            var jobLockConfig = new JobLockConfig();
+            Configuration.GetSection(JOB_LOCK).Bind(jobLockConfig);
+            services.AddSingleton(jobLockConfig);
 
             // 注册自定义 Job 工厂和调度器工厂
             services.AddSingleton<IJobFactory, ScheduleJobFactory>();
@@ -259,9 +280,14 @@ namespace Base.Host
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces();
 
-            // 领域层
+            // 领域层（排除抽象基类 BaseDomainManager）
             builder.RegisterAssemblyTypes(Assembly.Load(BASE_DOMAIN))
-                .Where(t => t.Name.EndsWith("Manager"))
+                .Where(t => t.Name.EndsWith("Manager") && !t.IsAbstract)
+                .AsImplementedInterfaces();
+
+            // 领域读路径服务（Querys：*QueryService）
+            builder.RegisterAssemblyTypes(Assembly.Load(BASE_DOMAIN))
+                .Where(t => t.Name.EndsWith("QueryService") && !t.IsAbstract)
                 .AsImplementedInterfaces();
 
             // 仓储层
@@ -277,6 +303,15 @@ namespace Base.Host
                .Where(t => t.Name.EndsWith("Repository"))
                .WithParameter(ResolvedParameter.ForNamed<DbContext>("SysDbContext"))
                .AsImplementedInterfaces();
+
+            // 领域事件（进程内，MediatR 实现）：
+            // - IDomainEvent/IEventDispatcher 为上收 OneForAll.Core 的纯抽象；领域事件在 Base.Domain 中兼实现 INotification，订阅者直接实现 INotificationHandler<T>；
+            // - 派发端口 IEventDispatcher 由基于 MediatR IPublisher 的 DomainEventDispatcher 实现；
+            // - 订阅者（*Handler）经 AsImplementedInterfaces 注册为其 INotificationHandler<T>，供 IPublisher 按类型解析。
+            builder.RegisterType<DomainEventDispatcher>().As<IEventDispatcher>();
+            builder.RegisterAssemblyTypes(Assembly.Load(BASE_HOST))
+                .Where(t => t.Name.EndsWith("Handler") && !t.IsAbstract)
+                .AsImplementedInterfaces();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

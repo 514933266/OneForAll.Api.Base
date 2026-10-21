@@ -12,7 +12,7 @@ using OneForAll.Core.Extension;
 using OneForAll.EFCore;
 using Microsoft.AspNetCore.Http;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：角色权限

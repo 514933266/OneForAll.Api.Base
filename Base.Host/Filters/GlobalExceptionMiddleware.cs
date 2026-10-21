@@ -4,6 +4,7 @@ using System;
 using Base.Host.Models;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
+using Base.Public.Models;
 
 namespace Base.Host.Filters
 {

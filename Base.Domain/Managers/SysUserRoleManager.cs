@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     /// <summary>
     /// 用户角色

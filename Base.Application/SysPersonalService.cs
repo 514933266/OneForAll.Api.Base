@@ -4,11 +4,13 @@ using Base.Application.Interfaces;
 using Base.Domain.Entities;
 using Base.Domain.Aggregates;
 using Base.Domain.Interfaces;
+using Base.Domain.Querys;
 using Base.Domain.Models;
 using Base.Domain.Repositorys;
 using Base.Domain.ValueObjects;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
+using Microsoft.Extensions.Configuration;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using System;
@@ -27,20 +29,29 @@ namespace Base.Application
     public class SysPersonalService : ISysPersonalService
     {
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
         private readonly ISysLoginLogHttpService _logHttpService;
         private readonly ISysPersonalManager _manager;
+        private readonly ISysUserQueryService _queryService;
+        private readonly ITxCloudSmsHttpService _smsHttpService;
         private readonly ISysWechatUserRepository _wxUserRepository;
         private readonly ISysWechatGzhSubscriberRepository _wxgzhUserRepository;
         public SysPersonalService(
             IMapper mapper,
+            IConfiguration config,
             ISysLoginLogHttpService logHttpService,
             ISysPersonalManager manager,
+            ISysUserQueryService queryService,
+            ITxCloudSmsHttpService smsHttpService,
             ISysWechatUserRepository wxUserRepository,
             ISysWechatGzhSubscriberRepository wxgzhUserRepository)
         {
             _mapper = mapper;
+            _config = config;
             _logHttpService = logHttpService;
             _manager = manager;
+            _queryService = queryService;
+            _smsHttpService = smsHttpService;
             _wxUserRepository = wxUserRepository;
             _wxgzhUserRepository = wxgzhUserRepository;
         }
@@ -51,7 +62,8 @@ namespace Base.Application
         /// <returns>实体</returns>
         public async Task<SysPersonalDto> GetAsync()
         {
-            var data = await _manager.GetAsync();
+            // 读编排归 Application：登录态组装走 Domain 读服务（含 LoginInfo 缓存回填）
+            var data = await _queryService.GetPersonalAsync();
             return _mapper.Map<SysLoginUserAggr, SysPersonalDto>(data);
         }
 
@@ -97,11 +109,35 @@ namespace Base.Application
         }
 
         /// <summary>
-        /// 修改手机号
+        /// 修改手机号（两段式协议编排：短信发送/模板配置属基础设施，不下沉领域 Manager）
         /// </summary>
         public async Task<BaseErrType> UpdateMobileAsync(SysPersonalUpdateMobileForm form)
         {
-            return await _manager.UpdateMobileAsync(form);
+            if (form.Code.IsNullOrEmpty())
+            {
+                // 第一段：申请并发送验证码
+                var (err, code) = await _manager.BeginSendMobileUpdateCodeAsync(form.Mobile);
+                if (err != BaseErrType.Success)
+                    return err; // NotAllow：验证码仍在有效期内
+
+                var templateId = _config["TxCloudSms:TemplateId"];
+                var signName = _config["TxCloudSms:SignName"];
+                var msg = await _smsHttpService.SendAsync(signName, code, templateId, form.Mobile);
+                if (!msg.Status)
+                    return BaseErrType.Fail; // 发送失败：不记录验证码，用户可立即重试
+
+                await _manager.ConfirmMobileUpdateCodeSentAsync(form.Mobile, code);
+                return BaseErrType.Success;
+            }
+            else
+            {
+                // 第二段：校验验证码并变更手机号
+                var err = await _manager.CommitMobileUpdateCodeAsync(form);
+                if (err != BaseErrType.Success)
+                    return err;
+
+                return await _manager.ChangeMobileAsync(form.Mobile);
+            }
         }
 
         /// <summary>
@@ -110,7 +146,7 @@ namespace Base.Application
         /// <returns>结果</returns>
         public async Task<IEnumerable<SysMenuTreeDto>> GetListMenuTreeAsync()
         {
-            var data = await _manager.GetListMenuAsync();
+            var data = await _queryService.GetPersonalMenusAsync();
             var menus = _mapper.Map<IEnumerable<SysMenu>, IEnumerable<SysMenuTreeDto>>(data);
             return menus.ToTree<SysMenuTreeDto, Guid>();
         }
@@ -121,7 +157,7 @@ namespace Base.Application
         /// <returns>结果</returns>
         public async Task<IEnumerable<SysMenuDto>> GetListMenuAsync()
         {
-            var data = await _manager.GetListMenuAsync();
+            var data = await _queryService.GetPersonalMenusAsync();
             return _mapper.Map<IEnumerable<SysMenu>, IEnumerable<SysMenuDto>>(data);
         }
 
@@ -143,7 +179,7 @@ namespace Base.Application
         /// <returns>结果</returns>
         public async Task<BaseErrType> LoginoutAsync()
         {
-            return await _manager.LoginoutAsync();
+            return await _queryService.LoginoutAsync();
         }
 
         #region 微信相关

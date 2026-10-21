@@ -12,7 +12,7 @@ using Base.Domain.Aggregates;
 using Microsoft.AspNetCore.Http;
 using OneForAll.Core;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：机构菜单

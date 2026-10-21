@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Domain
+namespace Base.Domain.Managers
 {
     public class SysArticleManager : BaseManager, ISysArticleManager
     {

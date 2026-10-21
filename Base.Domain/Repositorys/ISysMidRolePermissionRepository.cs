@@ -33,5 +33,12 @@ namespace Base.Domain.Repositorys
         /// <param name="roleId">角色id</param>
         /// <returns>列表</returns>
         Task<IEnumerable<SysPermission>> GetListPermissionAsync(Guid roleId);
+
+        /// <summary>
+        /// 批量查询多个角色的权限关联（用于分页装配消除 N+1）
+        /// </summary>
+        /// <param name="roleIds">角色id集合</param>
+        /// <returns>角色权限关联列表</returns>
+        Task<IEnumerable<SysMidRolePermission>> GetListByRolesAsync(IEnumerable<Guid> roleIds);
     }
 }

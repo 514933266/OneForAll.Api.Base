@@ -10,6 +10,7 @@ using OneForAll.Core.Extension;
 using Base.Host.Models;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
+using Base.Public.Models;
 
 namespace Base.Host.Filters
 {

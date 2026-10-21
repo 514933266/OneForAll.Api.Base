@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Base.Domain.Interfaces;
+using Base.Domain.Querys;
 using Base.Domain.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,10 @@ namespace Base.Host.Controllers
     [Authorize(Roles = UserRoleType.Admin)]
     public class SysPermissionCheckController : BaseController
     {
-        private readonly ISysPermissionCheckManager _permManager;
-        public SysPermissionCheckController(ISysPermissionCheckManager permManager)
+        private readonly ISysUserQueryService _queryService;
+        public SysPermissionCheckController(ISysUserQueryService queryService)
         {
-            _permManager = permManager;
+            _queryService = queryService;
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Base.Host.Controllers
         public async Task<BaseMessage> ValidateAsync([FromBody] SysPermissionCheck form)
         {
             var msg = new BaseMessage();
-            msg.ErrType = await _permManager.ValidateAsync(form);
+            msg.ErrType = await _queryService.ValidateAsync(form);
             switch (msg.ErrType)
             {
                 case BaseErrType.Success: return msg.Success("验证通过");
