@@ -4,7 +4,6 @@ using Base.Application.Interfaces;
 using Base.Domain.Entities;
 using Base.Domain.Aggregates;
 using Base.Domain.Interfaces;
-using Base.Domain.Querys;
 using Base.Domain.Models;
 using Base.Domain.Repositorys;
 using Base.Domain.ValueObjects;

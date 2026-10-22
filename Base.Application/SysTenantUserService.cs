@@ -4,7 +4,6 @@ using Base.Application.Interfaces;
 using Base.Domain;
 using Base.Domain.Entities;
 using Base.Domain.Interfaces;
-using Base.Domain.Querys;
 using Base.Domain.Models;
 using OneForAll.Core;
 using System;
