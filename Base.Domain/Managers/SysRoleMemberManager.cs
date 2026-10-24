@@ -2,7 +2,6 @@
 using Base.Domain.Entities;
 using Base.Domain.Interfaces;
 using Base.Domain.Repositorys;
-using Microsoft.AspNetCore.Http;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using System;
@@ -16,17 +15,17 @@ namespace Base.Domain.Managers
     /// <summary>
     /// 领域服务：角色成员
     /// </summary>
-    public class SysRoleMemberManager : BaseManager, ISysRoleMemberManager
+    public class SysRoleMemberManager : BaseDomainManager, ISysRoleMemberManager
     {
         private readonly ISysRoleRepository _roleRepository;
         private readonly ISysUserRepository _userRepository;
         private readonly ISysMidRoleUserRepository _roleUserRepository;
         public SysRoleMemberManager(
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor,
+            ICurrentUser currentUser,
             ISysRoleRepository roleRepository,
             ISysUserRepository userRepository,
-            ISysMidRoleUserRepository roleUserRepository) : base(httpContextAccessor)
+            ISysMidRoleUserRepository roleUserRepository) : base(currentUser)
         {
             _roleRepository = roleRepository;
             _userRepository = userRepository;

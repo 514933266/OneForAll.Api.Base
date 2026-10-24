@@ -3,7 +3,6 @@ using Base.Domain.Entities;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
 using Base.Domain.Repositorys;
-using Microsoft.AspNetCore.Http;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Base.Domain.Managers
 {
-    public class SysArticleTypeManager :BaseManager, ISysArticleTypeManager
+    public class SysArticleTypeManager :BaseDomainManager, ISysArticleTypeManager
     {
         private readonly IMapper _mapper;
         private readonly ISysArticleTypeRepository _typeRepository;
         public SysArticleTypeManager(
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor,
-            ISysArticleTypeRepository typeRepository) : base(httpContextAccessor)
+            ICurrentUser currentUser,
+            ISysArticleTypeRepository typeRepository) : base(currentUser)
         {
             _mapper = mapper;
             _typeRepository = typeRepository;

@@ -1,7 +1,6 @@
 ﻿using Base.Domain.Entities;
 using Base.Domain.Interfaces;
 using Base.Domain.Repositorys;
-using Microsoft.AspNetCore.Http;
 using OneForAll.Core;
 using System;
 using System.Collections.Generic;
@@ -14,12 +13,12 @@ namespace Base.Domain.Managers
     /// <summary>
     /// 领域服务：地区
     /// </summary>
-    public class SysAreaManager : BaseManager, ISysAreaManager
+    public class SysAreaManager : BaseDomainManager, ISysAreaManager
     {
         private readonly ISysAreaRepository _areaRepository;
         public SysAreaManager(
-            IHttpContextAccessor httpContextAccessor,
-            ISysAreaRepository areaRepository) : base(httpContextAccessor)
+            ICurrentUser currentUser,
+            ISysAreaRepository areaRepository) : base(currentUser)
         {
             _areaRepository = areaRepository;
         }

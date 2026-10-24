@@ -5,7 +5,6 @@ using Base.Domain.Entities;
 using Base.Domain.Aggregates;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
-using Base.Domain.Repositorys;
 using Base.Domain.ValueObjects;
 using Base.HttpService.Interfaces;
 using Base.HttpService.Models;
@@ -33,8 +32,7 @@ namespace Base.Application
         private readonly ISysPersonalManager _manager;
         private readonly ISysUserQueryService _queryService;
         private readonly ITxCloudSmsHttpService _smsHttpService;
-        private readonly ISysWechatUserRepository _wxUserRepository;
-        private readonly ISysWechatGzhSubscriberRepository _wxgzhUserRepository;
+        private readonly ISysWechatQueryService _wechatQueryService;
         public SysPersonalService(
             IMapper mapper,
             IConfiguration config,
@@ -42,8 +40,7 @@ namespace Base.Application
             ISysPersonalManager manager,
             ISysUserQueryService queryService,
             ITxCloudSmsHttpService smsHttpService,
-            ISysWechatUserRepository wxUserRepository,
-            ISysWechatGzhSubscriberRepository wxgzhUserRepository)
+            ISysWechatQueryService wechatQueryService)
         {
             _mapper = mapper;
             _config = config;
@@ -51,8 +48,7 @@ namespace Base.Application
             _manager = manager;
             _queryService = queryService;
             _smsHttpService = smsHttpService;
-            _wxUserRepository = wxUserRepository;
-            _wxgzhUserRepository = wxgzhUserRepository;
+            _wechatQueryService = wechatQueryService;
         }
 
         /// <summary>
@@ -190,7 +186,10 @@ namespace Base.Application
         /// <returns></returns>
         public async Task<SysWechatUserAccessTokenDto> GetWxAccessTokenAsync(Guid userId)
         {
-            var data = await _wxUserRepository.GetAsync(w => w.SysUserId == userId);
+            var data = await _wechatQueryService.GetUserAsync(userId);
+            if (data == null)
+                return new SysWechatUserAccessTokenDto();
+
             return new SysWechatUserAccessTokenDto()
             {
                 AccessToken = data.AccessToken,
@@ -205,7 +204,7 @@ namespace Base.Application
         /// <returns></returns>
         public async Task<SysWxgzhSubscribeUserDto> GetWxgzhSubscribeUserAsync(Guid userId)
         {
-            var data = await _wxgzhUserRepository.GetAsync(w => w.SysUserId == userId);
+            var data = await _wechatQueryService.GetGzhSubscriberAsync(userId);
             var item = _mapper.Map<SysWxgzhSubscribeUserDto>(data);
             if (data == null)
                 item.IsUnSubscribed = true;

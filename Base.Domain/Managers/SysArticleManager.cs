@@ -3,7 +3,6 @@ using Base.Domain.Entities;
 using Base.Domain.Interfaces;
 using Base.Domain.Models;
 using Base.Domain.Repositorys;
-using Microsoft.AspNetCore.Http;
 using OneForAll.Core;
 using OneForAll.Core.Extension;
 using OneForAll.Core.OAuth;
@@ -18,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Base.Domain.Managers
 {
-    public class SysArticleManager : BaseManager, ISysArticleManager
+    public class SysArticleManager : BaseDomainManager, ISysArticleManager
     {
         // 文件存储路径
         private readonly string UPLOAD_PATH = "upload/tenants/{0}/articles/{1}";
@@ -33,10 +32,10 @@ namespace Base.Domain.Managers
         public SysArticleManager(
             IMapper mapper,
             IUploader uploader,
-            IHttpContextAccessor httpContextAccessor,
+            ICurrentUser currentUser,
             ISysArticleRepository articleRepository,
             ISysArticleTypeRepository typeRepository,
-            ISysArticleRecordRepository recordRepository) : base(httpContextAccessor)
+            ISysArticleRecordRepository recordRepository) : base(currentUser)
         {
             _mapper = mapper;
             _uploader = uploader;

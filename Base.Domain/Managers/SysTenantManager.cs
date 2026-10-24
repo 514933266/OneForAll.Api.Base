@@ -11,21 +11,20 @@ using System.Text;
 using System.Threading.Tasks;
 using OneForAll.Core.Utility;
 using OneForAll.Core.Extension;
-using Microsoft.AspNetCore.Http;
 
 namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：机构（租户）
     /// </summary>
-    public class SysTenantManager: BaseManager, ISysTenantManager
+    public class SysTenantManager: BaseDomainManager, ISysTenantManager
     {
         private readonly IMapper _mapper;
         private readonly ISysTenantRepository _repository;
         public SysTenantManager(
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor,
-            ISysTenantRepository repository) : base(httpContextAccessor)
+            ICurrentUser currentUser,
+            ISysTenantRepository repository) : base(currentUser)
         {
             _repository = repository;
         }

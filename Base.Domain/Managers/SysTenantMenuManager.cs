@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Base.Domain.Aggregates;
-using Microsoft.AspNetCore.Http;
 using OneForAll.Core;
 
 namespace Base.Domain.Managers
@@ -17,7 +16,7 @@ namespace Base.Domain.Managers
     /// <summary>
     /// 领域服务：机构菜单
     /// </summary>
-    public class SysTenantMenuManager: BaseManager, ISysTenantMenuManager
+    public class SysTenantMenuManager: BaseDomainManager, ISysTenantMenuManager
     {
         private readonly IMapper _mapper;
         private readonly ISysMenuRepository _menuRepository;
@@ -25,10 +24,10 @@ namespace Base.Domain.Managers
         private readonly ISysMidTenantPermissionRepository _tenantPermRepository;
         public SysTenantMenuManager(
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor,
+            ICurrentUser currentUser,
             ISysMenuRepository menuRepository,
             ISysPermissionRepository permRepository,
-            ISysMidTenantPermissionRepository tenantPermRepository) : base(httpContextAccessor)
+            ISysMidTenantPermissionRepository tenantPermRepository) : base(currentUser)
         {
             _mapper = mapper;
             _menuRepository = menuRepository;

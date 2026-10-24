@@ -10,22 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using OneForAll.Core.Extension;
 using OneForAll.EFCore;
-using Microsoft.AspNetCore.Http;
 
 namespace Base.Domain.Managers
 {
     /// <summary>
     /// 领域服务：角色权限
     /// </summary>
-    public class SysRolePermissionManager : BaseManager, ISysRolePermissionManager
+    public class SysRolePermissionManager : BaseDomainManager, ISysRolePermissionManager
     {
         private readonly ISysRoleRepository _roleRepository;
         private readonly ISysMidRolePermissionRepository _rolePermRepository;
         public SysRolePermissionManager(
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor,
+            ICurrentUser currentUser,
             ISysRoleRepository roleRepository,
-            ISysMidRolePermissionRepository rolePermRepository) : base(httpContextAccessor)
+            ISysMidRolePermissionRepository rolePermRepository) : base(currentUser)
         {
             _roleRepository = roleRepository;
             _rolePermRepository = rolePermRepository;
